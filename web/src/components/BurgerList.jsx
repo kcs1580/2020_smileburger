@@ -77,8 +77,6 @@ const BurgerList = () => {
                 </Typography>
               </CardContent>
             </Card>
-
-            {/* <BurgerModal burger={burger} /> */}
           </Grid>
         ))}
       </Grid>
