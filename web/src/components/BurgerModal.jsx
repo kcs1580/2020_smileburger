@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
   dialogTitle1: {
     backgroundColor: "red",
     width: "840px",
+    height: 69,
     color: "white",
     padding: 0
   },
@@ -45,6 +46,7 @@ const useStyles = makeStyles(theme => ({
   dialogTitle2: {
     backgroundColor: "red",
     width: "900px",
+    height: 69,
     color: "white",
     padding: 0
   },
@@ -81,10 +83,22 @@ const useStyles = makeStyles(theme => ({
   btnPosition: {
     textAlign: "center",
     paddingTop: 50
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    color: "white"
+  },
+  titleCss: {
+    position: "absolute",
+    left: theme.spacing(2),
+    margin: 0,
+    fontSize: 35,
+    padding: 5
   }
 }));
 
-const BurgerMoal = ({ burger }) => {
+const BurgerMoal = ({ burger, setTemp }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -152,10 +166,14 @@ const BurgerMoal = ({ burger }) => {
         aria-describedby="alert-dialog-description"
         maxWidth="xl"
       >
-        <DialogTitle id="alert-dialog-title" className={classes.dialogTitle1}>
-          <Typography variant="h4" style={{ paddingLeft: 25 }}>
-            {burger.title}
-            <IconButton style={{ color: "white", paddingLeft: 625 }}>
+        <DialogTitle
+          id="alert-dialog-title"
+          className={classes.dialogTitle1}
+          onClose={handleClose}
+        >
+          <Typography>
+            <p className={classes.titleCss}>{burger.title}</p>
+            <IconButton className={classes.closeButton}>
               <CancelOutlined onClick={handleClose} style={{ fontSize: 45 }} />
             </IconButton>
           </Typography>
@@ -202,9 +220,9 @@ const BurgerMoal = ({ burger }) => {
           onClose={handleClose}
           className={classes.dialogTitle2}
         >
-          <Typography variant="h4" style={{ paddingLeft: 25 }}>
-            단품선택
-            <IconButton style={{ color: "white", paddingLeft: 675 }}>
+          <Typography>
+            <p className={classes.titleCss}>단품선택</p>
+            <IconButton className={classes.closeButton}>
               <CancelOutlined
                 onClick={handleCloseSingle}
                 style={{ fontSize: 45 }}
@@ -233,12 +251,15 @@ const BurgerMoal = ({ burger }) => {
           </Grid>
           <Grid item xs={5}>
             <Paper elevation={0} style={{ textAlign: "Right" }}>
-              {total}
+              <Typography variant="h5">{total}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={1} />
         </Grid>
-        <BurgerModalSingleRequests />
+        <BurgerModalSingleRequests
+          burger={burger}
+          handleCloseSingle={handleCloseSingle}
+        />
       </Dialog>
 
       {/* 세트선택 모달 ----------------------------------------------------------------------------*/}
@@ -254,9 +275,9 @@ const BurgerMoal = ({ burger }) => {
           onClose={handleClose}
           className={classes.dialogTitle2}
         >
-          <Typography variant="h4" style={{ paddingLeft: 25 }}>
-            세트선택
-            <IconButton style={{ color: "white", paddingLeft: 675 }}>
+          <Typography>
+            <p className={classes.titleCss}>세트선택</p>
+            <IconButton className={classes.closeButton}>
               <CancelOutlined
                 onClick={handleCloseSet}
                 style={{ fontSize: 45 }}
@@ -285,14 +306,16 @@ const BurgerMoal = ({ burger }) => {
           </Grid>
           <Grid item xs={5}>
             <Paper elevation={0} style={{ textAlign: "Right" }}>
-              {total}
+              <Typography variant="h5">{total}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={1} />
         </Grid>
         <BurgerModalSetRequests
-          defaultPrice={burger.price_set}
+          burger={burger}
           priceChanger={setPrice}
+          handleCloseSet={handleCloseSet}
+          setTemp={setTemp}
         />
       </Dialog>
     </div>

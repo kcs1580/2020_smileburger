@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 // import BodyOrderHedaer from "./BodyOrderHedaer";
 import BodyOrderChoiceList from "./BodyOrderChoiceList";
 import BurgerListt from "../components/BurgerList";
@@ -35,10 +35,20 @@ const BodyOrder = () => {
     { id: 1, text: "사이드" },
     { id: 2, text: "음료" }
   ];
+
+  const [temp, setTemp] = useState({
+    burger: "",
+    side: "",
+    beverage: "",
+    request: ""
+  });
+
+  useEffect(() => console.log(temp), [temp]);
+
   const BodyControl = () => {
     switch (list) {
       case 0:
-        return <BurgerListt />;
+        return <BurgerListt setTemp={setTemp} />;
       case 1:
         return <SideList />;
       case 2:
