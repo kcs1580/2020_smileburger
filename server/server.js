@@ -1,3 +1,6 @@
+const mysql = require("mysql");
+const mybatisMapper = require("mybatis-mapper");
+
 const envJson = require(`${__dirname}/env/env.json`);
 const port = process.env.PORT ? envJson.port : 3001;
 
@@ -5,6 +8,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
+const base = require("./route/base/base");
+//mybatisMapper.createMapper(["./base/base.xml"]);
 
 var corsOptions = {
   origin: "*",
