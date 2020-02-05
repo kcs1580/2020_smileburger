@@ -20,6 +20,8 @@ import "./index.css";
 
 import ManagerMain from "./pages/manager/ManagerMain";
 
+// test
+import Paperbase from "./components/Template/Paperbase"
 const theme = createMuiTheme({
   drawerWidth: 320,
   typography: {
@@ -58,6 +60,7 @@ const App = () => {
             <Route path="/not-found" component={NotFound} />
             <Route path="/Admin" component={Admin_order_list} />
             <Route path="/ManagerMain" component={ManagerMain} />
+            <Route path="/Template" component={Paperbase} />
             <Redirect to="/not-found" />
           </Switch>
         </BrowserRouter>

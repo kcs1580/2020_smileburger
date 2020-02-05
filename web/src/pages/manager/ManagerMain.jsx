@@ -22,10 +22,11 @@ const BtnLink = ({ idx, name, setState }) => {
         onClick={() => {
           setState(idx);
         }}
+        color="primary"
       >
         <h3>{name}</h3>
       </Button>
-    </div>
+    </div >
   );
 };
 
