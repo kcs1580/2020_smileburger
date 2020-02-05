@@ -17,7 +17,7 @@ import TestDB from "./pages/test/test1_db";
 import "./index.css";
 
 // manager
-import Headerlist from "./components/manager/Headerlist"
+import mMain from "./pages/manager/mMain"
 
 const theme = createMuiTheme({
   drawerWidth: 320,
@@ -61,7 +61,7 @@ const App = () => {
 
             <Route path="/Admin" component={Admin_order_list} />
 
-            <Route path="/manager" component={Headerlist} />
+            <Route path="/mMain" component={mMain} />
 
             <Redirect to="/not-found" />
           </Switch>
