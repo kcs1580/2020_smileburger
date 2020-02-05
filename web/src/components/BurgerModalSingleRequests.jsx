@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { red } from "@material-ui/core/colors";
 import {
+  makeStyles,
   Grid,
   Typography,
   Button,
@@ -9,7 +10,6 @@ import {
   CardMedia,
   CardContent
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import check from "../img/burgerModal/check.png";
 import checkNone from "../img/burgerModal/check-none.png";
 import nothing from "../img/burgerModal/nothing.png";

@@ -4,21 +4,13 @@ import {
   CardMedia,
   Dialog,
   Button,
-  DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Typography,
-  Card,
-  CardContent,
-  CardActions,
-  CardHeader,
   IconButton,
   Grid,
-  Paper,
-  Icon
+  Paper
 } from "@material-ui/core";
-import { red } from "@material-ui/core/colors";
 import {
   CancelOutlined,
   AddBox,

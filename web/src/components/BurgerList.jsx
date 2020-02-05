@@ -52,8 +52,14 @@ const BurgerList = ({ setTemp }) => {
   }, []);
 
   return (
-    <Container className={classes.cardGrid} maxWidth="md">
+    <Container
+      className={classes.cardGrid}
+      maxWidth="md"
+      id="thisismine"
+      style={{ height: "1060px", overflow: "auto" }}
+    >
       <Grid container spacing={4}>
+        {/* Server 에 저장된 버거 정보만큼 반복하며 생성 */}
         {burgers.map(burger => (
           <Grid item xs={12} sm={6} md={4} key={"burger" + burger.id}>
             <Card className={classes.card} key={burger.title}>

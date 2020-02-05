@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuContext: {
     marginTop: "240px",
-    height: "1020px"
+    height: "1060px"
   }
 }));
 
@@ -37,13 +37,14 @@ const BodyOrder = () => {
   ];
 
   const [temp, setTemp] = useState({
-    burger: "",
-    side: "",
-    beverage: "",
-    request: ""
+    contents: {},
+    cnt: 0,
+    price: 0
   });
 
-  useEffect(() => console.log(temp), [temp]);
+  useEffect(() => {
+    if (temp.burger) console.log(temp);
+  }, [temp]);
 
   const BodyControl = () => {
     switch (list) {
@@ -89,6 +90,7 @@ const BodyOrder = () => {
       <div className={classes.menuContext}>
         <BodyControl></BodyControl>
       </div>
+      {/* 결제 화면=================================================== */}
       <BodyOrderChoiceList />
     </Fragment>
   );
