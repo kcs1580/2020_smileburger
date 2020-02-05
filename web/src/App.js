@@ -19,7 +19,7 @@ import "./index.css";
 // manager
 
 import ManagerMain from "./pages/manager/ManagerMain";
-
+import sockettest from "./pages/sockettest";
 const theme = createMuiTheme({
   drawerWidth: 320,
   typography: {
@@ -58,6 +58,7 @@ const App = () => {
             <Route path="/not-found" component={NotFound} />
             <Route path="/Admin" component={Admin_order_list} />
             <Route path="/ManagerMain" component={ManagerMain} />
+            <Route path="/sockettest" component={sockettest} />
             <Redirect to="/not-found" />
           </Switch>
         </BrowserRouter>
