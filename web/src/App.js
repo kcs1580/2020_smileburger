@@ -16,6 +16,9 @@ import wBoard from "./pages/waitingboard/wMain";
 import TestDB from "./pages/test/test1_db";
 import "./index.css";
 
+// manager
+import Headerlist from "./components/manager/Headerlist"
+
 const theme = createMuiTheme({
   drawerWidth: 320,
   typography: {
@@ -57,6 +60,8 @@ const App = () => {
             <Route path="/not-found" component={NotFound} />
 
             <Route path="/Admin" component={Admin_order_list} />
+
+            <Route path="/manager" component={Headerlist} />
 
             <Redirect to="/not-found" />
           </Switch>
