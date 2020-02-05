@@ -8,12 +8,12 @@ import Container from '@material-ui/core/Container';
 const useBtnStyles = makeStyles(theme => ({
     Button: {
         height: 200,
-        width: 200,
+        width: 300,
     }
 }))
 
 const BtnLink = ({ idx, name, setState }) => {
-    const classes = useBtnStyles()
+    const classes = useBtnStyles(idx)
     return (
         <div>
             <Button variant="outlined" className={classes.Button} onClick={() => { setState(idx) }}>
@@ -36,7 +36,6 @@ const Headerlist = () => {
 
     return (
         <div>
-
             <br />
             <br />
             <Container>

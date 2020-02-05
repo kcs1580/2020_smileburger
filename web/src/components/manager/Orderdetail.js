@@ -9,8 +9,8 @@ import io from 'socket.io-client';
 
 const useStyles = makeStyles(theme => ({
     Card: {
-        height: 300,
-        width: 200,
+        height: 250,
+        width: 300,
     },
     numbering: {
         fontSize: 30,
@@ -21,7 +21,14 @@ const useStyles = makeStyles(theme => ({
 
 const Orderdetail = () => {
     const socket = io.connect('http://localhost:3001')
-    const [orders, setOrder] = useState([0, 0, 0, 0, 0, 0, 0, 0])
+    const [orders, setOrder] = useState([{
+        orderNum: 101,
+        itemList: {
+            menu: "hamberger",
+            ea: 2
+        }
+    },
+        0, 0, 0, 0, 0, 0, 0])
     const classes = useStyles();
 
     (() => {
