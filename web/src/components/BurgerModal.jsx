@@ -90,7 +90,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BurgerMoal = ({ burger, setOrder }) => {
+const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -309,6 +309,9 @@ const BurgerMoal = ({ burger, setOrder }) => {
           handleCloseSet={handleCloseSet}
           setOrder={setOrder}
           count={count}
+          total={total}
+          nextId={nextId}
+          setNextId={setNextId}
         />
       </Dialog>
     </div>

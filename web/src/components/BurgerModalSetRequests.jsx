@@ -346,7 +346,7 @@ const BurgerModalSetRequests = props => {
   };
   props.priceChanger(getTotalPrice());
 
-  const orderDetail = () => {
+  const orderDetail = e => {
     let pickSide = "";
     let pickBeverage = "";
     let pickRequest = "";
@@ -365,18 +365,15 @@ const BurgerModalSetRequests = props => {
         pickRequest = request.name;
       }
     });
-    // 최종적으로 넘겨줄 데이터 ===============================
+    // BodyOrder의 state 변경 ===============================
     props.setOrder({
-      contents: {
-        burger: props.burger.title,
-        side: pickSide,
-        beverage: pickBeverage,
-        request: pickRequest
-      },
+      id: "list" + props.nextId,
+      contents: [props.burger.title, pickSide, pickBeverage, pickRequest],
       cnt: props.count,
-      price: getTotalPrice()
+      price: props.total
     });
     // =====================================================
+    props.setNextId(props.nextId + 1);
     props.handleCloseSet();
   };
 

@@ -1,11 +1,9 @@
-import React, { useState, Fragment, useEffect } from "react";
-// import BodyOrderHedaer from "./BodyOrderHedaer";
+import React, { useState, Fragment, useEffect, useMemo } from "react";
 import BodyOrderChoiceList from "./BodyOrderChoiceList";
 import BurgerListt from "../components/BurgerList";
 import SideList from "../components/SideList";
 import BeverageList from "../components/BeverageList";
 import { makeStyles, AppBar, Toolbar, Grid, Paper } from "@material-ui/core";
-// import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -36,22 +34,32 @@ const BodyOrder = () => {
     { id: 2, text: "음료" }
   ];
 
-  const [order, setOrder] = useState({
-    contents: {},
-    cnt: 0,
-    price: 0
-  });
-
-  const [orderList, setOrderList] = useState([]); // order 담아서 결제 컴포넌트로 보내줄 변수
+  const [order, setOrder] = useState({});
+  const [orderList, setOrderList] = useState([]);
+  const [nextId, setNextId] = useState(0);
 
   useEffect(() => {
-    if (order.contents) console.log(order);
+    if (order.contents) {
+      const newOrderList = orderList.concat({
+        id: order.id,
+        contents: order.contents,
+        cnt: order.cnt,
+        price: order.price
+      });
+      setOrderList(newOrderList);
+    }
   }, [order]);
 
   const BodyControl = () => {
     switch (list) {
       case 0:
-        return <BurgerListt setOrder={setOrder} />;
+        return (
+          <BurgerListt
+            nextId={nextId}
+            setNextId={setNextId}
+            setOrder={setOrder}
+          />
+        );
       case 1:
         return <SideList />;
       case 2:
@@ -92,8 +100,12 @@ const BodyOrder = () => {
       <div className={classes.menuContext}>
         <BodyControl></BodyControl>
       </div>
-      {/* 결제 화면=================================================== */}
-      <BodyOrderChoiceList />
+      {/* 주문확인 및 결제 컴포넌트=================================================== */}
+      <BodyOrderChoiceList
+        // order={order}
+        orderList={orderList}
+        setOrderList={setOrderList}
+      />
     </Fragment>
   );
 };
