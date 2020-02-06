@@ -52,7 +52,7 @@ export default function FullWidthGrid() {
           <Paper className={classes.paper1}>준비완료</Paper>
           <Done />
         </Grid>
- 
+
         <Grid item xs={7} className={classes.waiting}>
           <Paper className={classes.paper2}>준비중</Paper>
           <Waiting />

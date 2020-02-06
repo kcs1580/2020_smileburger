@@ -5,6 +5,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
+const clientio = require('socket.io-client')
 
 var corsOptions = {
   //origin: "*",
@@ -14,46 +15,55 @@ var corsOptions = {
 };
 
 const server = http.createServer(app);
-const io = require("socket.io")(server, { path: "/socket.io" });
+const io = require("socket.io")(server, { path: '/socket.io' })
 
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const client = clientio.connect("http://localhost:3001")
 
-app.use(require(`${__dirname}/middleware/init`));
-app.use(require(`${__dirname}/middleware/db`));
 
-app.use("/base", require(`${__dirname}/route/base/base`));
-
-const serverHandler = (req, res) => {
-  console.log("socket server connected");
-};
-server.listen("3001", serverHandler);
-
-io.on("connection", function(socket) {
-  console.log(socket.id + "a user connected");
-
-  var instanceid = socket.id;
-
-  socket.on("joinRoom", function(data) {
-    console.log(instanceid + " : 접속");
-    socket.join(data.roomName);
-    roomName = data.roomName;
-  });
-
-  socket.on("reqMsg", function(data) {
+io.on("connection", function (socket) {
+  console.log("a user connected");
+  socket.on("init", function (data) {
+    data.isReady = false
+    client.emit("welcome", `${data}`)
+    socket.emit("welcome", `${data}`);
     console.log(data);
-    io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
   });
 });
 
-app.get("/", function(req, res) {
+// const s2cio = require("socket.io")
+app.use(cors(corsOptions));
+
+//app.use(cors({ origin: true, credentials: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(require(`${__dirname}/middleware/init`));
+app.use(require(`${__dirname}/middleware/db`));
+app.use("/base", require(`${__dirname}/route/base/base`));
+
+const serverHandler = (req, res) => {
+  console.log('socket server connected');
+}
+
+server.listen('3001', serverHandler);
+
+
+// io.on("connection", function (socket) {
+//   console.log("a user connected");
+//   socket.on("init", function (data) {
+//     data.isReady = false
+//     console.log(data);
+//     socket.emit("welcome", `${data}`);
+//   });
+// });
+
+
+app.get("/", function (req, res) {
   res.send("Hello Vote On~");
 });
 
 // -----------------------------------------------------------------------------------
 // 임시 데이터
-app.get("/test/", function(req, res) {
+app.get("/test/", function (req, res) {
   res.json([
     {
       id: 1,
@@ -168,9 +178,4 @@ app.get("/test/", function(req, res) {
   ]);
 });
 // -----------------------------------------------------------------------------------
-
-// app.listen(port, () => {
-//   console.log(`Backend start ${port}!`);
-// });
-
 module.exports = app;
