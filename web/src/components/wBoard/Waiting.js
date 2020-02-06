@@ -4,7 +4,7 @@ import socketio from "socket.io-client";
 let onum = [1077];
 // let num = 1;
 
-const socket = socketio.connect("http://13.124.177.255:3001");
+const socket = socketio.connect("http://localhost:3001");
 
 const data = [101, 102, 103, 104];
 
