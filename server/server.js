@@ -16,6 +16,9 @@ var corsOptions = {
   optionsSuccessStatus: 200
 };
 
+const server = http.createServer(app);
+const io = require("socket.io")(server, { path: "/socket.io" });
+
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,10 +28,30 @@ app.use(require(`${__dirname}/middleware/db`));
 
 app.use("/base", require(`${__dirname}/route/base/base`));
 
+const serverHandler = (req, res) => {
+  console.log("socket server connected");
+};
+server.listen("3001", serverHandler);
+
+io.on("connection", function(socket) {
+  console.log(socket.id + "a user connected");
+
+  var instanceid = socket.id;
+
+  socket.on("joinRoom", function(data) {
+    console.log(instanceid + " : 접속");
+    socket.join(data.roomName);
+    roomName = data.roomName;
+  });
+
+  socket.on("reqMsg", function(data) {
+    console.log(data);
+    io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
+  });
+});
+
 app.get("/", function(req, res) {
   res.send("Hello Vote On~");
 });
 
-app.listen(port, () => {
-  console.log(`Backend start ${port}!`);
-});
+module.exports = app;
