@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 const clientio = require('socket.io-client')
-
+import s from "./"
 var corsOptions = {
   //origin: "*",
   origin: true, // 추가된내용
