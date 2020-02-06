@@ -346,13 +346,6 @@ const BurgerModalSetRequests = props => {
   };
   props.priceChanger(getTotalPrice());
 
-  // const [temp, setTemp] = useState({
-  //   burger: props.burger.title,
-  //   side: sides[0].name,
-  //   beverage: beverages[0].name,
-  //   request: requests[0].name
-  // });
-
   const orderDetail = () => {
     let pickSide = "";
     let pickBeverage = "";
@@ -372,12 +365,18 @@ const BurgerModalSetRequests = props => {
         pickRequest = request.name;
       }
     });
-    props.setTemp({
-      burger: props.burger.title,
-      side: pickSide,
-      beverage: pickBeverage,
-      request: pickRequest
+    // 최종적으로 넘겨줄 데이터 ===============================
+    props.setOrder({
+      contents: {
+        burger: props.burger.title,
+        side: pickSide,
+        beverage: pickBeverage,
+        request: pickRequest
+      },
+      cnt: props.count,
+      price: getTotalPrice()
     });
+    // =====================================================
     props.handleCloseSet();
   };
 

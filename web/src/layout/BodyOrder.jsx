@@ -36,20 +36,22 @@ const BodyOrder = () => {
     { id: 2, text: "음료" }
   ];
 
-  const [temp, setTemp] = useState({
+  const [order, setOrder] = useState({
     contents: {},
     cnt: 0,
     price: 0
   });
 
+  const [orderList, setOrderList] = useState([]); // order 담아서 결제 컴포넌트로 보내줄 변수
+
   useEffect(() => {
-    if (temp.burger) console.log(temp);
-  }, [temp]);
+    if (order.contents) console.log(order);
+  }, [order]);
 
   const BodyControl = () => {
     switch (list) {
       case 0:
-        return <BurgerListt setTemp={setTemp} />;
+        return <BurgerListt setOrder={setOrder} />;
       case 1:
         return <SideList />;
       case 2:
