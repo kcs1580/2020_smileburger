@@ -26,7 +26,7 @@ const Waiting = () => {
   socket.on("recMsg", data => {
     console.log(data);
     console.log(data.isReady);
-    setLi(li.concat(data.orderNum));
+    setLi(li.concat(data.oid));
   });
 
   const getList = () =>

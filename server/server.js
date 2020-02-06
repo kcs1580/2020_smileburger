@@ -5,6 +5,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
+const axios = require('axios')
 var corsOptions = {
   //origin: "*",
   origin: true, // 추가된내용
@@ -33,10 +34,21 @@ io.on("connection", function (socket) {
     roomName = data.roomName;
   });
   socket.on('reqMsg', function (data) {
-    console.log(data);
-    io.sockets.in(roomName).emit('recMsg', { orderNum: data.orderNum, isReady: data.isReady });
+    axios.get('http://localhost:3001/base/getOrder')
+      .then(function (res) {
+        socket.on("joinRoom", function (data) {
+          roomName = data.roomName
+        })
+        io.sockets.in(roomName).emit('recMsg', res.data[0]);
+      });
+
   })
-});
+  // console.log(data);
+
+  // io.sockets.in(roomName).emit('recMsg', { orderNum: data.orderNum, itemList: { menu: "상스치콤", ea: 2 }, isReady: data.isReady });
+  // io.sockets.in(roomName).emit('recMsg', res);
+})
+  ;
 app.get("/", function (req, res) {
   res.send("Hello Vote On~");
 });

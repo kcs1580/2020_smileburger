@@ -73,17 +73,19 @@ app.get("/getOrder", function (req, res) {
   };
   //첫번째는 xml의 namespace, 두번째는 해당 xml id값, 세번째는 파라미터, 마지막은 포맷.
   let query = mybatisMapper.getStatement("BASE", "getOrder", param, format);
-  console.log(query); // 쿼리 출력
+  // console.log(query); // 쿼리 출력
   connection.query(query, function (error, results, fields) {
     if (error) {
       console.log(error);
     }
-    console.log(results);
+    res.send(results)
+    // console.log(results);
   });
   // connection.execute(query, [], function(err, result) {   if (err) {
   // console.error(err.message);     doRelease(connection);     return;   }
   // console.log(result.rows);  데이터   doRelease(res, connection, result.rows);
   // Connection 해제 }); connection.end();
-  res.json({ success: query + " load succeed!", url: req.url });
+  // res.json({ success: query + " load succeed!", url: req.url });
+  // res.send(results);
 });
 module.exports = app;

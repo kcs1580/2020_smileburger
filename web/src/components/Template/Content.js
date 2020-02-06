@@ -10,6 +10,14 @@ import Button from '@material-ui/core/Button';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import Pagination from "material-ui-flat-pagination";
+import socketio from "socket.io-client";
+
+const socket = socketio.connect("http://localhost:3001");
+
+(() => {
+  socket.emit("joinRoom", { roomName: "myroom" });
+  console.log("h2");
+})();
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -43,6 +51,18 @@ const Content = () => {
   const classes = useStyles();
   const [pageidx, setPageidx] = useState(0)
   const [orders, setOrder] = useState([])
+
+  socket.on("recMsg", data => {
+    console.log(data);
+    const or = {
+      orderNum: data.oid,
+      itemList: {
+        menu: data.oproducts,
+        ea: data.ostore
+      }
+    }
+    setOrder(orders.concat(or))
+  });
 
   let temporder = [0, 0, 0, 0, 0, 0, 0, 0]
   const arrmake = () => {
