@@ -16,7 +16,23 @@
 		VOTEON.TB_USER
 		WHERE user_id = #{user_id}
 		LIMIT 1
-	</select>q
+	</select>
+
+		<select id="getorder">
+		/* 사용자, 유저 정보 조회 */
+		SELECT
+		user_no
+		, user_id
+		, user_nm
+		, user_pwd
+		, user_img_url
+		, join_dt
+		, updt_dt
+		FROM
+		VOTEON.TB_USER
+		WHERE user_id = #{user_id}
+		LIMIT 1
+	</select>
 	<insert id="AUTH.INSERT.TB_USER.001">
 		/* 사용자, 유저 정보 삽입 */
 		INSERT INTO VOTEON.TB_USER

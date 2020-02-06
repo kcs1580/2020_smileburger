@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import BodyControl from "../../components/manager/BodyControl";
-
 const useBtnStyles = makeStyles(theme => ({
   Button: {
     height: 200,
@@ -26,7 +25,7 @@ const BtnLink = ({ idx, name, setState }) => {
       >
         <h3>{name}</h3>
       </Button>
-    </div >
+    </div>
   );
 };
 

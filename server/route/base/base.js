@@ -1,9 +1,7 @@
 var express = require("express");
 var app = express.Router();
 
-app.get("/", async function(req, res) {
-  res.redirect("https://www.google.com");
-});
+app.get("/", async function(req, res) {});
 
 app.post("/", function(req, res) {
   res.json({ success: "post call succeed!", url: req.url, body: req.body });
