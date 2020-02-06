@@ -52,6 +52,8 @@ function Content() {
     }
   },
     0, 0, 0, 0, 0, 0, 0])
+
+  // 데이터 전부를 받아 전부 card로 만듬
   const orderCard = orders.map((order, idx) => {
     if (order === 0) {
       return (
@@ -73,6 +75,8 @@ function Content() {
       )
     }
   })
+
+  // orderCard 중 8개를 받아 하나의 페이지에 출력할 데이터만 뽑음
   const orderList = (orderCard) => {
     return (
       <>
