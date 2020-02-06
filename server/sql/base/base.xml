@@ -48,4 +48,8 @@
 		)
 		
 	</insert>
+
+	<select id="getOrder">
+		SELECT * FROM order_pro
+	</select>
 </mapper>
