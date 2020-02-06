@@ -76,11 +76,7 @@ const BodyOrder = () => {
 
   return (
     <Fragment>
-      <AppBar
-        position="fixed"
-        className={classes.appBar}
-        style={{ backgroundColor: "yellow" }}
-      >
+      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "yellow" }}>
         <Toolbar style={{ height: "120px" }}>
           <Grid container spacing={4} justify="center">
             {menuList}
