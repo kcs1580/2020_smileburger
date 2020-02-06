@@ -1,10 +1,6 @@
-import React from 'react';
-import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Hidden from '@material-ui/core/Hidden';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-// import Navigator from './Navigator';
 import Content from './Content';
 import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
@@ -147,24 +143,33 @@ const useStyles = makeStyles(theme => ({
     background: '#eaeff1',
   },
 }))
+const SelectPage = ({ tapidx }) => {
+  switch (tapidx) {
+    case 0:
+      return <Content />
+    case 1:
+      return <h1>ddd</h1>
+    case 2:
+      return <Content />
+    case 3:
+      return <Content />
+    default:
+      return <Content />
+  }
+}
 
-
-function Paperbase(props) {
+const Paperbase = () => {
   const classes = useStyles();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const [tapidx, setTapidx] = useState(0)
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline />
         <div className={classes.app}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+          <Header tapidx={tapidx} setTapidx={setTapidx} />
           <main className={classes.main}>
-            <Content />
+            <SelectPage tapidx={tapidx} />
           </main>
 
         </div>

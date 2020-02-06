@@ -1,25 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import HelpIcon from '@material-ui/icons/Help';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   secondaryBar: {
     zIndex: 0,
   },
@@ -44,10 +35,10 @@ const styles = theme => ({
   button: {
     borderColor: lightColor,
   },
-});
+}))
 
-function Header(props) {
-  const { classes, onDrawerToggle } = props;
+const Header = ({ tapidx, setTapidx }) => {
+  const classes = useStyles();
 
   return (
     <React.Fragment>
@@ -63,7 +54,7 @@ function Header(props) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs >
               <Typography color="inherit" variant="h5" component="h1">
-                Authentication
+                POS
               </Typography>
             </Grid>
           </Grid>
@@ -76,20 +67,15 @@ function Header(props) {
         position="static"
         elevation={0}
       >
-        <Tabs value={0} textColor="inherit">
-          <Tab textColor="inherit" label="Users" value={0} />
-          <Tab textColor="inherit" label="Sign-in method" value={1} />
-          <Tab textColor="inherit" label="Templates" value={2} />
-          <Tab textColor="inherit" label="Usage" value={3} />
+        <Tabs value={tapidx} textColor="inherit">
+          <Tab textColor="inherit" label="주문현황" onClick={() => { setTapidx(0) }} />
+          <Tab textColor="inherit" label="판매목록" onClick={() => { setTapidx(1) }} />
+          <Tab textColor="inherit" label="뭘넣지" onClick={() => { setTapidx(2) }} />
+          <Tab textColor="inherit" label="뭘 넣을까" onClick={() => { setTapidx(3) }} />
         </Tabs>
       </AppBar>
     </React.Fragment>
   );
 }
 
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onDrawerToggle: PropTypes.func.isRequired,
-};
-
-export default withStyles(styles)(Header);
+export default Header
