@@ -2,50 +2,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BASE">
-	<select id="AUTH.SELECT.TB_USER.001">
-		/* 사용자, 유저 정보 조회 */
-		SELECT
-		user_no
-		, user_id
-		, user_nm
-		, user_pwd
-		, user_img_url
-		, join_dt
-		, updt_dt
-		FROM
-		VOTEON.TB_USER
-		WHERE user_id = #{user_id}
-		LIMIT 1
-	</select>
-
-		<select id="getorder">
-		/* 사용자, 유저 정보 조회 */
-		SELECT
-		user_no
-		, user_id
-		, user_nm
-		, user_pwd
-		, user_img_url
-		, join_dt
-		, updt_dt
-		FROM
-		VOTEON.TB_USER
-		WHERE user_id = #{user_id}
-		LIMIT 1
-	</select>
-	<insert id="AUTH.INSERT.TB_USER.001">
-		/* 사용자, 유저 정보 삽입 */
-		INSERT INTO VOTEON.TB_USER
-		(
-		user_id
-		, user_nm
-		, user_pwd
-		)
-		VALUES
-		(
-		#{id},
-		#{name},
-		#{pwd}
-		);
-	</insert>
+    <select id="AUTH.SELECT.TB_USER.001">
+        /* 사용자, 유저 정보 조회 */
+        SELECT
+        user_no
+        , user_id
+        , user_nm
+        , user_pwd
+        , user_img_url
+        , join_dt
+        , updt_dt
+        FROM
+        VOTEON.TB_USER
+        WHERE user_id = #{user_id}
+        LIMIT 1
+    </select>
+    <insert id="AUTH.INSERT.TB_USER.001">
+        /* 사용자, 유저 정보 삽입 */
+        INSERT INTO VOTEON.TB_USER
+        (
+        user_id
+        , user_nm
+        , user_pwd
+        )
+        VALUES
+        (
+        #{id},
+        #{name},
+        #{pwd}
+        );
+    </insert>
+    <insert id= "insertTest">
+        insert into product(
+            pid,
+            pname,
+            pprice,
+            pqty
+        )
+        values(
+            #{pid},
+            #{pname},
+            #{pprice},
+            #{pqty}
+        )
+        
+    </insert>
+    <select id="getOrder">
+        SELECT
+        *
+        FROM
+        order_pro
+    </select>
 </mapper>
