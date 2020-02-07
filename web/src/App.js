@@ -18,12 +18,9 @@ import TestDB from "./pages/test/test1_db";
 import "./index.css";
 
 // manager
-
 import ManagerMain from "./pages/manager/ManagerMain";
 import sockettest from "./pages/sockettest";
 
-// test
-import Paperbase from "./components/Template/Paperbase";
 const theme = createMuiTheme({
   drawerWidth: 320,
   typography: {
@@ -62,9 +59,8 @@ const App = () => {
 
             <Route path="/not-found" component={NotFound} />
             <Route path="/Admin" component={Admin_order_list} />
-            <Route path="/ManagerMain" component={ManagerMain} />
             <Route path="/sockettest" component={sockettest} />
-            <Route path="/Template" component={Paperbase} />
+            <Route path="/ManagerMain" component={ManagerMain} />
             <Redirect to="/not-found" />
           </Switch>
         </BrowserRouter>
