@@ -13,7 +13,6 @@ import Admin_order_list from "./pages/admin/Admin_order_list";
 
 // import BugerList from "./components/BugerList";
 import wBoard from "./pages/waitingboard/wMain";
-import sockettest from "./pages/sockettest";
 
 import TestDB from "./pages/test/test1_db";
 import "./index.css";
