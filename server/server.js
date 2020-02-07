@@ -1,9 +1,9 @@
-const mysql = require("mysql");
+// const mysql = require("mysql");
 const mybatisMapper = require("mybatis-mapper");
 
 const envJson = require(`${__dirname}/env/env.json`);
 const port = process.env.PORT ? envJson.port : 3001;
-
+const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
