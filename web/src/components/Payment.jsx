@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { makeStyles, Grid, Paper, Typography, Button } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
+import PaymentModal from "./PaymentModal";
 
 const useStyles = makeStyles(theme => ({
   // container: {
@@ -73,9 +74,12 @@ const Payment = ({ orderList, setOrderList }) => {
           전체취소
         </Button>
       </div>
-      <div>
-        <Button className={classes.btnPayment}>결제하기</Button>
-      </div>
+      <PaymentModal
+        className={classes.btnPayment}
+        orderList={orderList}
+        totalCnt={totalCnt}
+        totalPrice={totalPrice}
+      />
     </Grid>
   );
 };
