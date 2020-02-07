@@ -13,9 +13,7 @@ const connection = mysql.createConnection({
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 ////////////////////////////////////////////////////////////////////
 
-app.get("/", async function(req, res) {
-  res.redirect("https://www.google.com");
-});
+app.get("/", async function(req, res) {});
 
 app.get("/test/", function(req, res) {
   var data = req.query.data;

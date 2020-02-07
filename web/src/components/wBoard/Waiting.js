@@ -1,20 +1,51 @@
-import React, {useEffect} from 'react';
 
-const data = [10,11,12,13,14];
-const Waiting = ({ orderlist }) => {
+import React, { useState, useMemo } from "react";
 
-    const list = data.map((num) => {
-        return(<div>{num}</div>)
-    })
+import socketio from "socket.io-client";
 
-    console.log(list)
+let onum = [1077];
+// let num = 1;
+const socket = socketio.connect("http://13.124.177.255:3001");
 
-    return (
-        <div>
-            {list}
-        </div>
-    );
-        
+const data = [101, 102, 103, 104];
+
+(() => {
+  socket.emit("joinRoom", { roomName: "myroom" });
+  console.log("hi");
+})();
+
+const Waiting = () => {
+  const [li, setLi] = useState([]);
+  const [num, setNum] = useState(0);
+  // const list = li.map(nu2 => <div>{nu2}</div>)
+  // ---------------
+
+  // useEffect(() => {   const list = li.map(nu2 => <div>{nu2}</div>)}, [li])
+  // ----------------
+  // const list = li.map(nu2 => {   return <div>{nu2}</div>; });
+
+  socket.on("recMsg", data => {
+    console.log(data);
+    console.log(data.isReady);
+    setLi(li.concat(data.orderNum));
+  });
+
+  const getList = () =>
+    li.map(nu2 => {
+      return <div>{nu2}</div>;
+    });
+
+  const list = useMemo(() => getList(), [li]);
+  socket.emit();
+
+  return (
+    <div>
+      {/*<div>{num}</div>*/}
+      <div>{list}</div>
+      <br />
+    </div>
+  );
+
 };
 
 export default Waiting;

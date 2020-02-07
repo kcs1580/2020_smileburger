@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 // import BodyOrderHedaer from "./BodyOrderHedaer";
 import BodyOrderChoiceList from "./BodyOrderChoiceList";
 import BurgerListt from "../components/BurgerList";
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuContext: {
     marginTop: "240px",
-    height: "1020px"
+    height: "1060px"
   }
 }));
 
@@ -35,10 +35,21 @@ const BodyOrder = () => {
     { id: 1, text: "사이드" },
     { id: 2, text: "음료" }
   ];
+
+  const [temp, setTemp] = useState({
+    contents: {},
+    cnt: 0,
+    price: 0
+  });
+
+  useEffect(() => {
+    if (temp.burger) console.log(temp);
+  }, [temp]);
+
   const BodyControl = () => {
     switch (list) {
       case 0:
-        return <BurgerListt />;
+        return <BurgerListt setTemp={setTemp} />;
       case 1:
         return <SideList />;
       case 2:
@@ -65,11 +76,7 @@ const BodyOrder = () => {
 
   return (
     <Fragment>
-      <AppBar
-        position="fixed"
-        className={classes.appBar}
-        style={{ backgroundColor: "yellow" }}
-      >
+      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "yellow" }}>
         <Toolbar style={{ height: "120px" }}>
           <Grid container spacing={4} justify="center">
             {menuList}
@@ -79,6 +86,7 @@ const BodyOrder = () => {
       <div className={classes.menuContext}>
         <BodyControl></BodyControl>
       </div>
+      {/* 결제 화면=================================================== */}
       <BodyOrderChoiceList />
     </Fragment>
   );
