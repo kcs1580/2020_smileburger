@@ -41,6 +41,7 @@ const Sockettest = () => {
       <div>{num}</div>
 
       <br />
+>>>>>>> feature/manager
     </div>
   );
 };
