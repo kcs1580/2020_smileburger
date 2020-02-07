@@ -21,24 +21,12 @@ const socket = socketio.connect("http://localhost:3001");
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    maxWidth: 1800,
+    maxWidth: '100%',
     margin: 'auto',
     overflow: 'hidden',
   },
-  searchBar: {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-  },
-  searchInput: {
-    fontSize: theme.typography.fontSize,
-  },
   block: {
     display: 'block',
-  },
-  addUser: {
-    marginRight: theme.spacing(1),
-  },
-  contentWrapper: {
-    margin: '40px 16px',
   },
   Card: {
     height: 250,
@@ -53,15 +41,28 @@ const Content = () => {
   const [orders, setOrder] = useState([])
 
   socket.on("recMsg", data => {
-    console.log(data);
-    const or = {
-      orderNum: data.oid,
-      itemList: {
-        menu: data.oproducts,
-        ea: data.ostore
-      }
-    }
+    // console.log(data);
+    const or = data.map((burger) => {
+      return ({
+        orderNum: burger.oid,
+        itemList: {
+          menu: burger.oproducts,
+          ea: burger.ea
+        },
+        isReady: false
+      })
+    })
+    console.log(or)
+    // const or = {
+    //   orderNum: data.oid,
+    //   itemList: {
+    //     menu: data.oproducts,
+    //     ea: data.ostore
+    //   },
+    //   isReady: data.isReady
+    // }
     setOrder(orders.concat(or))
+    console.log(orders)
   });
 
   let temporder = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -142,26 +143,29 @@ const Content = () => {
 
   return (
     <Paper className={classes.paper}>
-      <Grid container>
-        <Grid item xs={1} container justify="center" alignItems="center">
-          <Button variant="contained" onClick={() => { pageClick(false) }}><ArrowBackIcon /></Button>
+      <>
+        <Grid container>
+          <Grid item xs={1} container justify="center" alignItems="center">
+            <Button variant="contained" onClick={() => { pageClick(false) }}><ArrowBackIcon /></Button>
+          </Grid>
+          <Grid item xs={10}>
+            {orderList(pageidx + 1)}
+          </Grid>
+          <Grid item xs={1} container justify="center" alignItems="center">
+            <Button variant="contained" onClick={() => { pageClick(true) }}><ArrowForwardIcon /></Button>
+          </Grid>
         </Grid>
-        <Grid item xs={10}>
-          {orderList(pageidx + 1)}
+        <Grid container justify="center">
+          {/* <Button variant="contained" onClick={() => { testinput() }}> 데이터 삽입</Button> */}
+          <Pagination
+            limit={1}
+            offset={pageidx}
+            total={orderCard.length / 8}
+            onClick={(e, offset) => setPageidx(offset)}
+          />
         </Grid>
-        <Grid item xs={1} container justify="center" alignItems="center">
-          <Button variant="contained" onClick={() => { pageClick(true) }}><ArrowForwardIcon /></Button>
-        </Grid>
-      </Grid>
-      <Grid container justify="center">
-        <Button variant="contained" onClick={() => { testinput() }}> 데이터 삽입</Button>
-        <Pagination
-          limit={1}
-          offset={pageidx}
-          total={orderCard.length / 8}
-          onClick={(e, offset) => setPageidx(offset)}
-        />
-      </Grid>
+      </>
+
     </Paper >
   );
 }
