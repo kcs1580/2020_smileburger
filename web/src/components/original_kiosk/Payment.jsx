@@ -4,17 +4,6 @@ import { grey } from "@material-ui/core/colors";
 import PaymentModal from "./PaymentModal";
 
 const useStyles = makeStyles(theme => ({
-  // container: {
-  //   flexGrow: 1,
-  //   height: "620px",
-  //   textAlign: "center",
-  //   background: grey[400]
-  // },
-  // text: {
-  //   color: "white",
-  //   padding: "0 auto",
-  //   margin: "0"
-  // },
   paper: {
     padding: theme.spacing(1),
     textAlign: "center"
@@ -31,11 +20,6 @@ const useStyles = makeStyles(theme => ({
     height: 100,
     width: "100%"
   }
-  // listPaper: {
-  //   height: 600,
-  //   paddingTop: 20,
-  //   paddingLeft: 20
-  // }
 }));
 
 const Payment = ({ orderList, setOrderList }) => {
