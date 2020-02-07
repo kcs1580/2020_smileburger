@@ -9,7 +9,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: "black",
-    height: "502px"
+    height: "500px",
+    padding: "0.5%"
   },
   done: {
     border: "solid",
@@ -53,13 +54,7 @@ export default function FullWidthGrid() {
 
   return (
     <div className={classes.root}>
-      <Grid
-        container
-        spacing={1}
-        style={{
-          padding: "1%"
-        }}
-      >
+      <Grid container spacing={1} style={{}}>
         <Grid item xs={5} className={classes.done}>
           <Paper className={classes.paper1}>
             <div className={classes.title1}>준비완료 | Ready</div>
