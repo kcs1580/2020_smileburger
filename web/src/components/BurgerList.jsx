@@ -5,7 +5,6 @@ import {
   Container,
   Grid,
   Card,
-  CardMedia,
   CardContent,
   Typography
 } from "@material-ui/core";
@@ -41,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BurgerList = () => {
+const BurgerList = ({ setTemp }) => {
   const classes = useStyles();
   const [burgers, setBurgers] = useState([]);
 
@@ -53,18 +52,18 @@ const BurgerList = () => {
   }, []);
 
   return (
-    <Container className={classes.cardGrid} maxWidth="md">
-      {/* End hero unit */}
+    <Container
+      className={classes.cardGrid}
+      maxWidth="md"
+      id="thisismine"
+      style={{ height: "1060px", overflow: "auto" }}
+    >
       <Grid container spacing={4}>
+        {/* Server 에 저장된 버거 정보만큼 반복하며 생성 */}
         {burgers.map(burger => (
           <Grid item xs={12} sm={6} md={4} key={"burger" + burger.id}>
             <Card className={classes.card} key={burger.title}>
-              {/* <CardMedia
-                className={classes.cardMedia}
-                image={burger.img}
-                title={burger.title}
-              /> */}
-              <BurgerModal burger={burger} />
+              <BurgerModal burger={burger} setTemp={setTemp} />
               <CardContent className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
                   {burger.title}
@@ -77,8 +76,6 @@ const BurgerList = () => {
                 </Typography>
               </CardContent>
             </Card>
-
-            {/* <BurgerModal burger={burger} /> */}
           </Grid>
         ))}
       </Grid>
