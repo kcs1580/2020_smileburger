@@ -39,7 +39,8 @@ io.on("connection", function (socket) {
         socket.on("joinRoom", function (data) {
           roomName = data.roomName
         })
-        io.sockets.in(roomName).emit('recMsg', res.data[0]);
+        console.log(res.data)
+        io.sockets.in(roomName).emit('recMsg', res.data);
       });
 
   })
