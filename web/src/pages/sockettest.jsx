@@ -3,7 +3,7 @@ import socketio from "socket.io-client";
 
 // let num = 1;
 
-const socket = socketio.connect("http://13.124.177.255:3001");
+const socket = socketio.connect("http://localhost:3001");
 (() => {
   console.log("hi");
   socket.emit("joinRoom", { roomName: "myroom" });
@@ -29,7 +29,6 @@ const Sockettest = () => {
           handle(e);
         }}
       />
-
       <button
         onClick={() => {
           send(num);
@@ -39,9 +38,7 @@ const Sockettest = () => {
         보내기{" "}
       </button>
       <div>{num}</div>
-
       <br />
->>>>>>> feature/manager
     </div>
   );
 };
