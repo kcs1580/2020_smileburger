@@ -95,4 +95,10 @@ app.get("/getOrder", function(req, res) {
   res.json({ success: query + " load succeed!", url: req.url });
 });
 
+// SD back test
+app.get("/orderTest/", (req, res) => {
+  console.log("Back 응답!!");
+  console.log(req);
+});
+
 module.exports = app;

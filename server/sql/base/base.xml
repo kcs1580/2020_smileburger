@@ -19,7 +19,6 @@
 		LIMIT 1
 	</select>
 
-
 		<select id="getorder">
 		/* 사용자, 유저 정보 조회 */
 		SELECT

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   makeStyles,
   Button,
@@ -17,6 +17,8 @@ import {
 } from "@material-ui/core";
 import { Fastfood, Storefront, CancelOutlined } from "@material-ui/icons";
 import { red, grey } from "@material-ui/core/colors";
+import axios from "axios";
+import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 
 const useStyles = makeStyles(theme => ({
   btnPayment: {
@@ -94,6 +96,7 @@ const PaymentModal = ({ orderList }) => {
     setOpenWatingNum(false);
   };
 
+  // 결제하기 버튼 클릭시 주문내역이 있는지 없는지 확인 후 무엇을 보여줄지 결정
   const handleClick = () => {
     if (orderList.length === 0) {
       handleClickOpenOrderFirst();
@@ -103,10 +106,70 @@ const PaymentModal = ({ orderList }) => {
     console.log(orderList);
   };
 
-  const handleClickWatingNum = () => {
+  // const [orderBack, setOrderBack] = useState({});
+  // 매장 또는 포장 버튼 클릭 시 실행 backend로 요청
+  const orderComplete = where => {
     handleClickOpenWatingNum();
     handleClose();
+
+    // if (where === "inEat") {
+    //   console.log("매장");
+    //   setOrderBack({
+    //     orderList: orderList,
+    //     where: "inEat"
+    //   });
+    // } else {
+    //   console.log("포장");
+    //   setOrderBack({
+    //     orderList: orderList,
+    //     where: "takeAway"
+    //   });
+    // }
+
+    axios
+      .get("http://localhost:3001/base/orderTest/", {
+        params: {
+          data: orderList,
+          where: where
+        }
+      })
+      .then(res => {
+        console.log("Front 요청!!");
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
+
+  // 매장 또는 포장 버튼 클릭 시 실행
+  // const handleClickWatingNum = () => {
+  //   handleClickOpenWatingNum();
+  //   handleClose();
+  // };
+
+  const goHome = check => {
+    if (check) {
+      window.location.replace("http://localhost:3000/");
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleCloseOrderFirst();
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [openOrderFirst]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleCloseWatingNum();
+      goHome(openWatingNum);
+    }, 3000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [openWatingNum]);
 
   return (
     <div>
@@ -132,10 +195,7 @@ const PaymentModal = ({ orderList }) => {
         </DialogTitle>
         {/* 주문내역 확인 테이블 */}
         <DialogContent>
-          <DialogContentText
-            id="alert-dialog-description"
-            style={{ textAlign: "center" }}
-          >
+          <DialogContentText id="alert-dialog-description" style={{ textAlign: "center" }}>
             <Typography variant="h5" style={{ color: "black", margin: 20 }}>
               주문내역을 확인 후 식사 장소를 선택하세요.
             </Typography>
@@ -149,19 +209,11 @@ const PaymentModal = ({ orderList }) => {
           >
             <TableHead>
               <TableRow style={{ background: red[100] }}>
-                <TableCell style={{ minWidth: 390, fontSize: 25 }}>
-                  제품명
-                </TableCell>
-                <TableCell
-                  style={{ minWidth: 200 }}
-                  className={classes.tableHeadCell}
-                >
+                <TableCell style={{ minWidth: 390, fontSize: 25 }}>제품명</TableCell>
+                <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
                   수량
                 </TableCell>
-                <TableCell
-                  style={{ minWidth: 200 }}
-                  className={classes.tableHeadCell}
-                >
+                <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
                   금액
                 </TableCell>
               </TableRow>
@@ -179,12 +231,8 @@ const PaymentModal = ({ orderList }) => {
                         }
                       })}
                     </TableCell>
-                    <TableCell style={{ textAlign: "center" }}>
-                      {order.cnt}
-                    </TableCell>
-                    <TableCell style={{ textAlign: "center" }}>
-                      {order.price}
-                    </TableCell>
+                    <TableCell style={{ textAlign: "center" }}>{order.cnt}</TableCell>
+                    <TableCell style={{ textAlign: "center" }}>{order.price}</TableCell>
                   </TableRow>
                 );
               })}
@@ -194,13 +242,13 @@ const PaymentModal = ({ orderList }) => {
         {/* 식사장소 선택 버튼 */}
         <Grid container style={{ height: 200 }}>
           <Grid item xs={6} className={classes.btnPosition}>
-            <Button onClick={handleClickWatingNum} className={classes.btnWhere}>
+            <Button onClick={() => orderComplete("takeAway")} className={classes.btnWhere}>
               <Fastfood className={classes.iconStyle} />
               <div>포장</div>
             </Button>
           </Grid>
           <Grid item xs={6} className={classes.btnPosition}>
-            <Button onClick={handleClickWatingNum} className={classes.btnWhere}>
+            <Button onClick={() => orderComplete("inEat")} className={classes.btnWhere}>
               <Storefront className={classes.iconStyle} />
               <div>매장</div>
             </Button>
@@ -244,7 +292,7 @@ const PaymentModal = ({ orderList }) => {
             paddingTop: 72
           }}
         >
-          <Typography variant="h3">대기번호</Typography>
+          <Typography variant="h3">대기번호: "back 에서 만들어서 반환시키자!!"</Typography>
         </DialogTitle>
       </Dialog>
     </div>
