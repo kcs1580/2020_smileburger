@@ -18,7 +18,6 @@ import {
 import { Fastfood, Storefront, CancelOutlined } from "@material-ui/icons";
 import { red, grey } from "@material-ui/core/colors";
 import axios from "axios";
-import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders";
 
 const useStyles = makeStyles(theme => ({
   btnPayment: {
@@ -127,7 +126,7 @@ const PaymentModal = ({ orderList }) => {
     // }
 
     axios
-      .get("http://localhost:3001/base/orderTest/", {
+      .get("http://localhost:3001/base/orderTest", {
         params: {
           data: orderList,
           where: where
@@ -138,6 +137,7 @@ const PaymentModal = ({ orderList }) => {
         console.log(res);
       })
       .catch(err => {
+        console.log("Error!!");
         console.log(err);
       });
   };
@@ -164,7 +164,7 @@ const PaymentModal = ({ orderList }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       handleCloseWatingNum();
-      goHome(openWatingNum);
+      // goHome(openWatingNum);
     }, 3000);
     return () => {
       clearTimeout(timer);
@@ -242,13 +242,13 @@ const PaymentModal = ({ orderList }) => {
         {/* 식사장소 선택 버튼 */}
         <Grid container style={{ height: 200 }}>
           <Grid item xs={6} className={classes.btnPosition}>
-            <Button onClick={() => orderComplete("takeAway")} className={classes.btnWhere}>
+            <Button onClick={() => orderComplete("포장")} className={classes.btnWhere}>
               <Fastfood className={classes.iconStyle} />
               <div>포장</div>
             </Button>
           </Grid>
           <Grid item xs={6} className={classes.btnPosition}>
-            <Button onClick={() => orderComplete("inEat")} className={classes.btnWhere}>
+            <Button onClick={() => orderComplete("매장")} className={classes.btnWhere}>
               <Storefront className={classes.iconStyle} />
               <div>매장</div>
             </Button>
