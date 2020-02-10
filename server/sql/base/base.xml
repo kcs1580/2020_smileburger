@@ -19,7 +19,7 @@
 		LIMIT 1
 	</select>
 
-		<select id="getorder">
+	<select id="getorder">
 		/* 사용자, 유저 정보 조회 */
 		SELECT
 		user_no
@@ -50,6 +50,7 @@
 		#{pwd}
 		);
 	</insert>
+
 	<insert id= "insertTest">
 		insert into product(
 			pid,
@@ -63,8 +64,30 @@
 			#{pprice},
 			#{pqty}
 		)
-		
 	</insert>
+
+	<insert id= "orderTest">
+		insert into product(
+			otId,
+			otUser,
+			otStore,
+			otDate,
+			otProducts,
+			otTotal,
+			otType,
+		)
+		values(
+			#{otId},
+			#{otUser},
+			#{otStore},
+			#{otDate}
+			#{otProducts},
+			#{otTotal},
+			#{otType}
+		)
+	</insert>
+
+
 
 	<select id="getOrder">
 		SELECT * FROM order_pro

@@ -3,6 +3,8 @@ var app = express.Router();
 var mysql = require("mysql");
 const mybatisMapper = require("mybatis-mapper");
 
+let orderNum = 0;
+
 ///////////////////////////DB Config////////////////////////////////
 const connection = mysql.createConnection({
   host: "ssafy-kiosk-db.cpwfrvk3u3vz.us-east-2.rds.amazonaws.com",
@@ -95,10 +97,32 @@ app.get("/getOrder", function(req, res) {
   res.json({ success: query + " load succeed!", url: req.url });
 });
 
-// SD back test
-app.get("/orderTest/", (req, res) => {
-  console.log("Back 응답!!");
-  console.log(req);
+// SD back test =================================
+app.get("/orderTest", (req, res) => {
+  let data = req.query.data;
+  let where = req.query.where;
+  const jsonData = [];
+  data.map(item => {
+    jsonData.push(JSON.parse(item));
+  });
+
+  // BackEnd에 잘 전달됐는지 확인
+  res.json({
+    msg: "succeed",
+    data: jsonData,
+    where: where
+  });
+
+  connection.connect();
+  jsondata.map(item => {
+    var selectParams = {
+      pid: null, // 여기 수정중
+      pname: item.name,
+      pprice: item.price,
+      pqty: item.qty
+    };
+  });
+  connection.end();
 });
 
 module.exports = app;
