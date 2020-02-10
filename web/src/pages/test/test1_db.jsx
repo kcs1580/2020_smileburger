@@ -4,6 +4,7 @@ import burger from "../../img/burger.jpg";
 import chicken from "../../img/chicken.jpg";
 import coke from "../../img/coke.jpg";
 import set from "../../img/set.jpg";
+import axios from "axios";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableBody from "@material-ui/core/TableBody";
@@ -28,6 +29,22 @@ const TestPageForDB = props => {
   };
   const orderComplete = () => {
     console.log("주문 완료!");
+    axios
+      .get("http://localhost:3001/base/test/", {
+        params: {
+          data: lists
+        }
+      })
+      .then(res => {
+        console.log("왔다");
+        console.log(res);
+        // const { data } = res;ss
+        // const temp = props.li.concat(data);
+        // props.fn(temp);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   return (
     <Layout>
