@@ -33,18 +33,10 @@ const serverHandler = (req, res) => {
 };
 server.listen("3001", serverHandler);
 
-<<<<<<< HEAD
 // -----------------------------------------------------------------------------------
 // 임시 데이터
 app.get("/test/", function(req, res) {
   res.json([
-=======
-
-// -----------------------------------------------------------------------------------
-// 임시 데이터
-app.get("/test/", function(req, res) {
-    res.json([
->>>>>>> 6643300692fedae1e1f68f7bef3544af632a3ffb
     {
       id: 1,
       title: "싸이버거",
@@ -146,10 +138,7 @@ app.get("/test/", function(req, res) {
         "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거인 싸이버거에 매콤함을 추가한 버거"
     }
   ]);
-<<<<<<< HEAD
 });
-=======
->>>>>>> 6643300692fedae1e1f68f7bef3544af632a3ffb
 
 io.on("connection", function(socket) {
   console.log(socket.id + "a user connected");
@@ -166,7 +155,6 @@ io.on("connection", function(socket) {
     console.log(data);
     io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
   });
-
 });
 
 app.get("/", function(req, res) {
