@@ -103,7 +103,7 @@ const OrderList = ({ orderList, setOrderList }) => {
   return (
     <Grid item xs={9} className={classes.listPaper}>
       <Paper style={{ height: 560 }}>
-        <TableContainer>
+        <TableContainer style={{ height: 560 }}>
           <TableHead>
             <TableRow style={{ background: grey[400] }}>
               <TableCell

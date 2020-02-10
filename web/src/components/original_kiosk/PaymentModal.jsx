@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import {
   makeStyles,
   Button,
+  IconButton,
+  Typography,
+  Grid,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -13,6 +15,7 @@ import {
   TableRow,
   TableCell
 } from "@material-ui/core";
+import { Fastfood, Storefront, CancelOutlined } from "@material-ui/icons";
 import { red, grey } from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
@@ -32,9 +35,6 @@ const useStyles = makeStyles(theme => ({
   dialogBody: {
     width: "840px"
   },
-  // tableHei: {
-  //   height: 500
-  // },
   titleCss: {
     position: "absolute",
     left: theme.spacing(2),
@@ -45,6 +45,25 @@ const useStyles = makeStyles(theme => ({
   tableHeadCell: {
     textAlign: "center",
     fontSize: 25
+  },
+  btnWhere: {
+    background: grey[300],
+    width: 300,
+    height: 150,
+    fontSize: 50
+  },
+  iconStyle: {
+    fontSize: 50,
+    marginRight: 10
+  },
+  btnPosition: {
+    textAlign: "center",
+    paddingTop: 25
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    color: "white"
   }
 }));
 
@@ -67,6 +86,14 @@ const PaymentModal = ({ orderList }) => {
     setOpenOrderFirst(false);
   };
 
+  const [openWatingNum, setOpenWatingNum] = useState(false);
+  const handleClickOpenWatingNum = () => {
+    setOpenWatingNum(true);
+  };
+  const handleCloseWatingNum = () => {
+    setOpenWatingNum(false);
+  };
+
   const handleClick = () => {
     if (orderList.length === 0) {
       handleClickOpenOrderFirst();
@@ -76,11 +103,17 @@ const PaymentModal = ({ orderList }) => {
     console.log(orderList);
   };
 
+  const handleClickWatingNum = () => {
+    handleClickOpenWatingNum();
+    handleClose();
+  };
+
   return (
     <div>
       <Button className={classes.btnPayment} onClick={handleClick}>
         결제하기
       </Button>
+
       {/* 주문 확인 및 식사 장소 선택 모달*/}
       <Dialog
         open={open}
@@ -90,15 +123,30 @@ const PaymentModal = ({ orderList }) => {
         maxWidth="xl"
       >
         <DialogTitle id="alert-dialog-title" className={classes.dialogTitle}>
-          <p className={classes.titleCss}>결제하기</p>
+          <Typography>
+            <p className={classes.titleCss}>결제하기</p>
+            <IconButton className={classes.closeButton}>
+              <CancelOutlined onClick={handleClose} style={{ fontSize: 45 }} />
+            </IconButton>
+          </Typography>
         </DialogTitle>
-        <DialogContent
-        // className={classes.dialogBody}
-        >
-          <DialogContentText id="alert-dialog-description">
-            주문내역을 확인 후 식사 장소를 선택하세요.
+        {/* 주문내역 확인 테이블 */}
+        <DialogContent>
+          <DialogContentText
+            id="alert-dialog-description"
+            style={{ textAlign: "center" }}
+          >
+            <Typography variant="h5" style={{ color: "black", margin: 20 }}>
+              주문내역을 확인 후 식사 장소를 선택하세요.
+            </Typography>
           </DialogContentText>
-          <TableContainer>
+          <TableContainer
+            style={{
+              height: 500,
+              borderTop: "2px solid",
+              borderBottom: "2px solid"
+            }}
+          >
             <TableHead>
               <TableRow style={{ background: red[100] }}>
                 <TableCell style={{ minWidth: 390, fontSize: 25 }}>
@@ -122,7 +170,6 @@ const PaymentModal = ({ orderList }) => {
               {orderList.map(order => {
                 return (
                   <TableRow key={order.id}>
-                    {/* 제품목록 보여주는 cell */}
                     <TableCell>
                       {order.contents.map((content, idx) => {
                         if (idx === order.contents.length - 1) {
@@ -132,25 +179,11 @@ const PaymentModal = ({ orderList }) => {
                         }
                       })}
                     </TableCell>
-                    {/* 제품수량 보여주는 cell */}
                     <TableCell style={{ textAlign: "center" }}>
-                      {/* <IndeterminateCheckBox
-                      style={{ color: "red" }}
-                      onClick={() => decCnt(order.id)}
-                    /> */}
                       {order.cnt}
-                      {/* <AddBox
-                      style={{ color: "red" }}
-                      onClick={() => incCnt(order.id)}
-                    /> */}
                     </TableCell>
-                    {/* 제품가격 보여주는 cell */}
                     <TableCell style={{ textAlign: "center" }}>
                       {order.price}
-                      {/* <Close
-                      style={{ color: "red" }}
-                      // onClick={() => deleteList(order.id)}
-                    /> */}
                     </TableCell>
                   </TableRow>
                 );
@@ -158,35 +191,61 @@ const PaymentModal = ({ orderList }) => {
             </TableBody>
           </TableContainer>
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
-        </DialogActions> */}
+        {/* 식사장소 선택 버튼 */}
+        <Grid container style={{ height: 200 }}>
+          <Grid item xs={6} className={classes.btnPosition}>
+            <Button onClick={handleClickWatingNum} className={classes.btnWhere}>
+              <Fastfood className={classes.iconStyle} />
+              <div>포장</div>
+            </Button>
+          </Grid>
+          <Grid item xs={6} className={classes.btnPosition}>
+            <Button onClick={handleClickWatingNum} className={classes.btnWhere}>
+              <Storefront className={classes.iconStyle} />
+              <div>매장</div>
+            </Button>
+          </Grid>
+        </Grid>
       </Dialog>
+
       {/* 주문내역이 없을 떄 보여주는 모달 */}
       <Dialog
         open={openOrderFirst}
         onClose={handleCloseOrderFirst}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        maxWidth="xl"
       >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            제품을 선택해 주세요.
-          </DialogContentText>
-        </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
-        </DialogActions> */}
+        <DialogTitle
+          style={{
+            textAlign: "center",
+            width: 700,
+            height: 200,
+            paddingTop: 72
+          }}
+        >
+          <Typography variant="h3">먼저 제품을 선택해 주세요.</Typography>
+        </DialogTitle>
+      </Dialog>
+
+      {/* 대기번호 모달 ======================= */}
+      <Dialog
+        open={openWatingNum}
+        onClose={handleCloseWatingNum}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="xl"
+      >
+        <DialogTitle
+          style={{
+            textAlign: "center",
+            width: 700,
+            height: 200,
+            paddingTop: 72
+          }}
+        >
+          <Typography variant="h3">대기번호</Typography>
+        </DialogTitle>
       </Dialog>
     </div>
   );

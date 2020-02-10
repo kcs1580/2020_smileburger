@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles, Grid, Paper, Typography, Button } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
-import OrderList from "../components/OrderList";
-import Payment from "../components/Payment";
+import OrderList from "../components/original_kiosk/OrderList";
+import Payment from "../components/original_kiosk/Payment";
 
 const useStyles = makeStyles(theme => ({
   container: {
