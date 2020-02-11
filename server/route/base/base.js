@@ -3,8 +3,6 @@ var app = express.Router();
 var mysql = require("mysql");
 const mybatisMapper = require("mybatis-mapper");
 
-let orderNum = 0;
-
 ///////////////////////////DB Config////////////////////////////////
 const connection = mysql.createConnection({
   host: "ssafy-kiosk-db.cpwfrvk3u3vz.us-east-2.rds.amazonaws.com",
@@ -98,31 +96,54 @@ app.get("/getOrder", function(req, res) {
 });
 
 // SD back test =================================
-app.get("/orderTest", (req, res) => {
-  let data = req.query.data;
-  let where = req.query.where;
-  const jsonData = [];
-  data.map(item => {
-    jsonData.push(JSON.parse(item));
+// 날짜 구하는 부분 ********************************
+const addingZero = n => {
+  if (n < 10) return "0" + n;
+  else return n;
+};
+
+let today = new Date();
+
+let date =
+  today.getFullYear() + "-" + addingZero(today.getMonth() + 1) + "-" + addingZero(today.getDate());
+
+let time =
+  addingZero(today.getHours()) +
+  ":" +
+  addingZero(today.getMinutes()) +
+  ":" +
+  addingZero(today.getSeconds());
+
+let dateTime = date + " " + time;
+// // *************************************************
+
+let orderNum = 0;
+app.get("/insertOrder", function(req, res) {
+  const data = req.query.data;
+  const type = req.query.type;
+  orderNum += 1;
+  const selectParams = {
+    oid: orderNum,
+    faceid: "defaultUser",
+    ocontent: data,
+    otype: type
+  };
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "insertOrder", selectParams, format);
+  connection.query(query, function(error, results, fields) {
+    if (error) {
+      console.log(error);
+      res.send(error);
+    } else {
+      res.send("완료");
+      console.log(results);
+    }
   });
 
-  // BackEnd에 잘 전달됐는지 확인
-  res.json({
-    msg: "succeed",
-    data: jsonData,
-    where: where
-  });
-
-  connection.connect();
-  jsondata.map(item => {
-    var selectParams = {
-      pid: null, // 여기 수정중
-      pname: item.name,
-      pprice: item.price,
-      pqty: item.qty
-    };
-  });
-  connection.end();
+  res.json({ msg: "성공!!" });
 });
 
 module.exports = app;

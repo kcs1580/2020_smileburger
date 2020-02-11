@@ -63,7 +63,24 @@
 			#{pname},
 			#{pprice},
 			#{pqty}
-		)
+		);
+	</insert>
+
+	<insert id= "insertOrder">
+		insert into orders(
+			oid,
+			odate,
+			faceid,
+			ocontent,
+			otype
+			)
+		values(
+			#{oid},
+			CURDATE(),
+			#{faceid},
+			#{ocontent},
+			#{otype}
+		);
 	</insert>
 
 	<insert id= "orderTest">
@@ -71,22 +88,25 @@
 			otId,
 			otUser,
 			otStore,
-			otDate,
+			otDateTime,
 			otProducts,
-			otTotal,
+			otCnt,
+			otPrice,
 			otType,
+			otGroup
 		)
 		values(
 			#{otId},
 			#{otUser},
 			#{otStore},
-			#{otDate}
+			#{otDateTime},
 			#{otProducts},
-			#{otTotal},
-			#{otType}
+			#{otCnt},
+			#{otPrice},
+			#{otType},
+			#(otGroup)
 		)
 	</insert>
-
 
 
 	<select id="getOrder">

@@ -270,9 +270,7 @@ const BurgerModalSetRequests = props => {
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
                 <p style={{ marginTop: 10, marginBottom: 10 }}>{side.name}</p>
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  +{side.addPrice}
-                </p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>+{side.addPrice}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -283,10 +281,7 @@ const BurgerModalSetRequests = props => {
   const beveragesHtml = beverages.map(beverage => {
     return (
       <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
-        <Card
-          className={classes.root}
-          onClick={() => pickBeverage(beverage.id)}
-        >
+        <Card className={classes.root} onClick={() => pickBeverage(beverage.id)}>
           <CardActionArea>
             <CardMedia
               component="img"
@@ -300,12 +295,8 @@ const BurgerModalSetRequests = props => {
             />
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  {beverage.name}
-                </p>
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  +{beverage.addPrice}
-                </p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>{beverage.name}</p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>+{beverage.addPrice}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -330,9 +321,7 @@ const BurgerModalSetRequests = props => {
             />
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  {request.name}
-                </p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>{request.name}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -409,20 +398,12 @@ const BurgerModalSetRequests = props => {
       {/* ==================================================== */}
       <Grid container className={classes.btnGridHeight}>
         <Grid item xs={6} className={classes.btnPosition}>
-          <Button
-            className={classes.btnCancel}
-            variant="contained"
-            onClick={props.handleCloseSet}
-          >
+          <Button className={classes.btnCancel} variant="contained" onClick={props.handleCloseSet}>
             <Typography variant="h5">취소</Typography>
           </Button>
         </Grid>
         <Grid item xs={6} className={classes.btnPosition}>
-          <Button
-            className={classes.btnCommit}
-            variant="contained"
-            onClick={orderDetail}
-          >
+          <Button className={classes.btnCommit} variant="contained" onClick={orderDetail}>
             <Typography variant="h5">확인</Typography>
           </Button>
         </Grid>

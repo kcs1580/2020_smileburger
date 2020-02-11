@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PaymentModal = ({ orderList }) => {
+const PaymentModal = ({ orderList, totalCnt, totalPrice }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -107,32 +107,19 @@ const PaymentModal = ({ orderList }) => {
 
   // const [orderBack, setOrderBack] = useState({});
   // 매장 또는 포장 버튼 클릭 시 실행 backend로 요청
-  const orderComplete = where => {
+  const orderComplete = type => {
     handleClickOpenWatingNum();
     handleClose();
 
-    // if (where === "inEat") {
-    //   console.log("매장");
-    //   setOrderBack({
-    //     orderList: orderList,
-    //     where: "inEat"
-    //   });
-    // } else {
-    //   console.log("포장");
-    //   setOrderBack({
-    //     orderList: orderList,
-    //     where: "takeAway"
-    //   });
-    // }
-
     axios
-      .get("http://localhost:3001/base/orderTest", {
+      .get("http://localhost:3001/base/insertOrder", {
         params: {
           data: orderList,
-          where: where
+          type: type
         }
       })
       .then(res => {
+        console.log(totalCnt, totalPrice);
         console.log("Front 요청!!");
         console.log(res);
       })
