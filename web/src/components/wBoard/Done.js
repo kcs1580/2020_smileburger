@@ -40,9 +40,12 @@ const Done = () => {
   // const list = li.map(nu2 => {   return <div>{nu2}</div>; });
 
   socket.on("recMsg", data => {
+    const oid = data.map(burgeridx => {
+      return burgeridx.oid
+    })
     console.log(data);
-    console.log(data.isReady);
-    setLi(li.concat(data.orderNum));
+    // console.log(data.isReady);
+    setLi(li.concat(oid));
   });
 
   const getList = () =>
@@ -65,5 +68,4 @@ const Done = () => {
     </div>
   );
 };
-
 export default Done;

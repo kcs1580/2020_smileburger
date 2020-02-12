@@ -30,18 +30,20 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bold",
     height: "500px"
   },
-  des1: {
-    fontSize: "25px"
+  paper: {
+    backgroundColor: "#f50057",
+    color: "white",
+    padding: "0.5rem"
   },
-  des2: {
-    fontSize: "20px"
+
+  des: {
+    fontSize: "25px",
   },
-  title1: {
-    fontSize: "35px"
+  title: {
+    fontSize: "35px",
+
   },
-  title2: {
-    fontSize: "35px"
-  }
+
 }));
 
 const initialState = {
@@ -56,17 +58,17 @@ export default function FullWidthGrid() {
     <div className={classes.root}>
       <Grid container spacing={1} style={{}}>
         <Grid item xs={5} className={classes.done}>
-          <Paper className={classes.paper1}>
-            <div className={classes.title1}>준비완료 | Ready</div>
-            <div className={classes.des1}>영수증 상단의 주문번호를 확인하세요.</div>
+          <Paper className={classes.paper} color="secondary">
+            <div className={classes.title}>준비완료 | Ready</div>
+            <div className={classes.des}>영수증 상단의 주문번호를 확인하세요.</div>
           </Paper>
           <Done />
         </Grid>
 
         <Grid item xs={7} className={classes.waiting}>
-          <Paper className={classes.paper2}>
-            <div className={classes.title2}>준비중 | Preparing</div>
-            <div className={classes.des2}>음식이 준비중이예요!</div>
+          <Paper className={classes.paper}>
+            <div className={classes.title}>준비중 | Preparing</div>
+            <div className={classes.des}>음식이 준비중이예요!</div>
           </Paper>
           <Waiting />
         </Grid>
