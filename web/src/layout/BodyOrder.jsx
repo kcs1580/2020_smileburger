@@ -1,9 +1,10 @@
 import React, { useState, Fragment, useEffect } from "react";
 import BodyOrderChoiceList from "./BodyOrderChoiceList";
-import BurgerListt from "../components/original_kiosk/BurgerList";
+import BurgerList from "../components/original_kiosk/BurgerList";
 import SideList from "../components/original_kiosk/SideList";
 import BeverageList from "../components/original_kiosk/BeverageList";
 import { makeStyles, AppBar, Toolbar, Grid, Paper } from "@material-ui/core";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -37,6 +38,58 @@ const BodyOrder = () => {
   const [order, setOrder] = useState({});
   const [orderList, setOrderList] = useState([]);
   const [nextId, setNextId] = useState(0);
+  const [burgers, setBurgers] = useState([]);
+  const [sides, setSides] = useState([]);
+  const [beverages, setBeverages] = useState([]);
+  const [burgerSets, setBurgerSets] = useState([]);
+
+  // 제품 정보가져오기
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/base/getProducts", {
+        params: {
+          pcategory: 0
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        setBurgers(res.data);
+      })
+      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3001/base/getProducts", {
+        params: {
+          pcategory: 1
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        setSides(res.data);
+      })
+      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3001/base/getProducts", {
+        params: {
+          pcategory: 2
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        setBeverages(res.data);
+      })
+      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3001/base/getProducts", {
+        params: {
+          pcategory: 3
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        setBurgerSets(res.data);
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   // 오더 리스트를 추가하는 부분
   useEffect(() => {
@@ -99,13 +152,19 @@ const BodyOrder = () => {
   const BodyControl = () => {
     switch (list) {
       case 0:
-        return <BurgerListt setOrder={setOrder} />;
+        return (
+          <BurgerList
+            burgers={burgers}
+            burgerSets={burgerSets}
+            sides={sides}
+            beverages={beverages}
+            setOrder={setOrder}
+          />
+        );
       case 1:
-        return <SideList />;
+        return <SideList sides={sides} setOrder={setOrder} />;
       case 2:
-        return <BeverageList />;
-      default:
-        return <BurgerListt />;
+        return <BeverageList beverages={beverages} setOrder={setOrder} />;
     }
   };
 

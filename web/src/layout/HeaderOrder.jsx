@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  makeStyles,
-  Typography,
-  AppBar,
-  Toolbar,
-  Fab
-} from "@material-ui/core";
+import { makeStyles, Typography, AppBar, Toolbar, Fab } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -27,21 +21,11 @@ const HeaderOrder = props => {
   const classes = useStyles();
 
   return (
-    <AppBar
-      position="fixed"
-      className={classes.appBar}
-      style={{ backgroundColor: "red" }}
-    >
+    <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "red" }}>
       <Toolbar style={{ height: "120px" }}>
-        <Typography
-          variant="h6"
-          className={classes.title}
-          style={{ textAlign: "center" }}
-        >
+        <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
           Head-Order
         </Typography>
-        <Fab className={classes.menuButton}>포장</Fab>
-        <Fab className={classes.menuButton}>매장</Fab>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Fab className={classes.menuButton}>첫화면</Fab>
         </Link>
