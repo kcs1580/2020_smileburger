@@ -1,15 +1,32 @@
 import React, { useState, useMemo } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { Route } from "react-router-dom";
+import Backdrop from "@material-ui/core/Backdrop";
+import { Redirect } from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
+import Slide from "@material-ui/core/Slide";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../layout/Layout";
 import Webcam from "react-webcam";
 import Order from "../../pages/customer/kiosk-order";
 var AWS = require("aws-sdk");
+const useStyles = makeStyles(theme => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff"
+  },
+  root: {
+    display: "flex",
+    "& > * + *": {
+      marginLeft: theme.spacing(2)
+    }
+  }
+}));
 const videoConstraints = {
   width: 1280,
   height: 720,
@@ -51,32 +68,126 @@ var s3 = new AWS.S3({
 });
 
 const AuthPage = props => {
+  const classes = useStyles();
+  const [progress, setProgress] = React.useState(0);
+  const [backdrop, setBackdrop] = React.useState(false);
+  function handleOpenBackdrop() {
+    console.log("들어오니?");
+    setBackdrop(true);
+    console.log(backdrop);
+  }
+  function handleCloseBackdrop() {
+    setBackdrop(false);
+  }
+
   const [isMatched, setIsMatched] = useState(false);
   const [isSmile, setIssmile] = useState(false);
 
   var imageSrc;
   const webcamRef = React.useRef(null);
+  const registerWebcamRef = React.useRef(null);
+
+  /////////////
+  function TransitionLeft(props) {
+    return <Slide {...props} direction="left" />;
+  }
+  const [alert, setAlert] = React.useState(false);
+  const [transition, setTransition] = React.useState(undefined);
+
+  function openAlert(Transition) {
+    console.log("openAlert메소드");
+    setTransition(() => Transition);
+    setAlert(true);
+  }
+  function closeAlert() {
+    console.log("closeAlert메소드");
+    setAlert(false);
+  }
+
+  /////////////
   var curImg;
   async function capture() {
     curImg = webcamRef.current.getScreenshot();
     imageSrc = getBinary(curImg);
-    console.log(imageSrc);
-    await trackEmotions();
+
+    if (isSmile === false) {
+      await trackEmotions();
+    } else {
+      await onTimeout();
+    }
   }
 
-  async function registerUser() {
-    curImg = webcamRef.current.getScreenshot();
+  function registerUser() {
+    curImg = registerWebcamRef.current.getScreenshot();
     imageSrc = getBinary(curImg);
+    var image_url = null;
+    var temp_face_id = null;
+    var temp_name = null;
+    var temp_key = null;
 
     var params = {
       CollectionId: face_collection,
       Image: {
         Bytes: imageSrc
       }
-    
-    await 
-  };
+    };
+    setIssmile(true);
 
+    rekognition.indexFaces(params, function(err, data) {
+      if (err) console.log(err, err.stack);
+      // an error occurred
+      else {
+        console.log(data);
+        if (data.FaceRecords.length == 1) {
+          console.log("filename to write :" + data.FaceRecords[0].Face.FaceId);
+          temp_face_id = data.FaceRecords[0].Face.FaceId;
+          temp_key = "face-collection/" + data.FaceRecords[0].Face.FaceId + ".jpg";
+          s3.upload(
+            {
+              Key: temp_key,
+              ContentType: "image/jpeg",
+              Body: imageSrc,
+              ACL: "public-read"
+            },
+            function(err, data) {
+              if (err) {
+                //container.error("There was an error uploading your photo : ", err.message);
+              }
+              image_url = data.Location;
+              console.log("자 업로드 성공했다. 콘테이너 실행되니?");
+              // container.success("Successfully upload your face on S3.");
+
+              openAlert(TransitionLeft);
+
+              var params = {
+                TableName: table,
+                Item: {
+                  faceId: temp_face_id,
+                  name: temp_name,
+                  image: image_url,
+                  key: temp_key
+                }
+              };
+
+              docClient.put(params, function(err, data) {
+                if (err) {
+                  console.log(err + "DYNAMODRRRE");
+                } else {
+                  //container.success("Successfully saved metadata on DynamoDB");
+                  //refreshGallery();
+                  handleClose();
+                  console.log("DYNAMODB SUCESS");
+                }
+              });
+            }
+          );
+          //container.success("Successfully recognize your face.");
+        } else {
+          //container.error("Please take a photo again.");
+        }
+      }
+    });
+  }
   function getBinary(encodedFile) {
     var base64Image = encodedFile.split("data:image/jpeg;base64,")[1];
     var binaryImg = atob(base64Image);
@@ -94,6 +205,7 @@ const AuthPage = props => {
     return ab;
   }
   async function onTimeout() {
+    setBackdrop(true);
     console.log("얼굴 탐색 시작한다..");
 
     var paramsForFace = {
@@ -112,17 +224,19 @@ const AuthPage = props => {
       if (data.FaceMatches && data.FaceMatches.length) {
         console.log("속보) Collection에 담긴 FaceID와 면상 일치");
         try {
-          await setIsMatched(true).promise();
+          setIsMatched(true);
         } catch (e) {
           console.log(e);
         }
       } else {
-        //interval
+        //새로운 유저 등록 pop 뜨기
+        setNewFace(true);
       }
     } catch (e) {
       console.log(e);
       //interval
     }
+    setBackdrop(false);
   }
 
   async function trackEmotions() {
@@ -146,13 +260,13 @@ const AuthPage = props => {
         console.log(data.FaceDetails);
         //반복문 전부 돌면서 한명이라도 웃고 있으면 이제 faceSearchByImage.
         data.FaceDetails.some(p => {
-          console.log(p);
           if (p.Smile.Value === true) {
             setIssmile(true);
             onTimeout();
             return p.Smile.Value === true;
           } else {
             console.log("웃어달라고.. 웃어야 그래야 님 주문 할 수 있어 ㅋ");
+            setBackdrop(false);
           }
         });
       }
@@ -170,66 +284,46 @@ const AuthPage = props => {
     setNewFace(false);
   };
 
-  const registerUser = () => {
-    curImg = webcamRef.current.getScreenshot();
-    imageSrc = getBinary(curImg);
-    console.log(imageSrc);
-  };
   const [newFace, setNewFace] = useState(false);
   useMemo(() => {
     if (!isMatched && isSmile) {
+      console.log("ad");
       setNewFace(true);
-      console.log("조건 만족!");
     }
-  }, [isMatched, isSmile]);
-  // ==========================================================
+  }, [isMatched]);
+
+  if (isMatched) {
+    return <Redirect to="/order" />;
+  }
 
   return (
     <>
-      {!isSmile ? (
-        <body>
-          <Webcam
-            audio={false}
-            height={620}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={1080}
-            videoConstraints={videoConstraints}
-          />
-          <br></br>
-          <div style={{ textAlign: "center" }}>
-            <Button color="primary" variant="contained" onClick={capture}>
-              Capture photo
-            </Button>
-            <Button color="primary" variant="contained" onClick={registerUser}>
-              Capture photo
-            </Button>
-          </div>
-        </body>
-      ) : isMatched ? (
-        <Route to="/order" component={Order} />
-      ) : (
-        // <>{() => setOpen(true)}</>
-        <Layout>
-          <Webcam
-            audio={false}
-            height={360}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={720}
-            videoConstraints={videoConstraints}
-          />
-          <br></br>
+      <body>
+        <Webcam
+          audio={false}
+          height={620}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          width={1080}
+          videoConstraints={videoConstraints}
+        />
+        <br></br>
+
+        <div style={{ textAlign: "center" }}>
           <Button color="primary" variant="contained" onClick={capture}>
             Capture photo
           </Button>
-          <Button color="primary" variant="contained" onClick={registerUser}>
-            Capture photo
-          </Button>
-        </Layout>
-      )}
-      {/* <ChangeComp /> */}
-      {/* 새로만든 다이얼 */}
+        </div>
+      </body>
+      <Backdrop className={classes.backdrop} open={backdrop} onClick={handleCloseBackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Snackbar
+        open={alert}
+        onClose={closeAlert}
+        TransitionComponent={transition}
+        message="등록 완료되었습니다!!"
+      />
       <Dialog
         open={newFace}
         onClose={handleClose}
@@ -241,7 +335,7 @@ const AuthPage = props => {
           <Webcam
             audio={false}
             height={200}
-            ref={webcamRef}
+            ref={registerWebcamRef}
             screenshotFormat="image/jpeg"
             width={400}
             videoConstraints={videoConstraints}
