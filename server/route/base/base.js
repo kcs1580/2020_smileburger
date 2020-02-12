@@ -11,10 +11,10 @@ const connection = mysql.createConnection({
 });
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 ////////////////////////////////////////////////////////////////////
-app.get("/", async function (req, res) {
+app.get("/", async function(req, res) {
   res.redirect("https://www.google.com");
 });
-app.get("/test/", function (req, res) {
+app.get("/test/", function(req, res) {
   var data = req.query.data;
   const jsondata = [];
   data.map(item => {
@@ -34,7 +34,7 @@ app.get("/test/", function (req, res) {
       indent: "  "
     };
     var query = mybatisMapper.getStatement("BASE", "insertTest", selectParams, format);
-    connection.query(query, function (error, results, fields) {
+    connection.query(query, function(error, results, fields) {
       if (error) {
         console.log(error);
       }
@@ -44,16 +44,16 @@ app.get("/test/", function (req, res) {
   connection.end();
   //res.send(req.query); res.json(req.query);  해당 값 다시 해당 페이지로 보내보기
 });
-app.post("/", function (req, res) {
+app.post("/", function(req, res) {
   res.json({ success: "post call succeed!", url: req.url, body: req.body });
 });
-app.put("/", function (req, res) {
+app.put("/", function(req, res) {
   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 });
-app.delete("/", function (req, res) {
+app.delete("/", function(req, res) {
   res.json({ success: "delete call succeed!", url: req.url });
 });
-app.get("/getOrder", function (req, res) {
+app.get("/getOrder", function(req, res) {
   console.log("들어옴");
   //connection.connect(); 조회할 파라미터
   var param = {
@@ -74,11 +74,11 @@ app.get("/getOrder", function (req, res) {
   //첫번째는 xml의 namespace, 두번째는 해당 xml id값, 세번째는 파라미터, 마지막은 포맷.
   let query = mybatisMapper.getStatement("BASE", "getOrder", param, format);
   // console.log(query); // 쿼리 출력
-  connection.query(query, function (error, results, fields) {
+  connection.query(query, function(error, results, fields) {
     if (error) {
       console.log(error);
     }
-    res.send(results)
+    res.send(results);
     // console.log(results);
   });
   // connection.execute(query, [], function(err, result) {   if (err) {
@@ -88,4 +88,111 @@ app.get("/getOrder", function (req, res) {
   // res.json({ success: query + " load succeed!", url: req.url });
   // res.send(results);
 });
+app.get("/getBurger", function(req, res) {
+  console.log("버거 들어옴");
+  var param = {
+    Burger: req.body
+  };
+  let format = {
+    language: "sql",
+    indent: "  "
+  };
+  let query = mybatisMapper.getStatement("BASE", "getBurger", param, format);
+  connection.query(query, function(error, results, fields) {
+    if (error) {
+      console.log(error);
+    }
+    res.send(results);
+  });
+});
+
+// app.get("/getOneBurger", function(req, res) {
+//   console.log("버거하나 들어옴");
+//   var param = {
+//     Burger: req.body
+//   };
+//   let format = {
+//     language: "sql",
+//     indent: "  "
+//   };
+//   let query = mybatisMapper.getStatement("BASE", "getOneBurger", param, format);
+//   connection.query(query, function(error, results, fields) {
+//     if (error) {
+//       console.log(error);
+//     }
+//     res.send(results);
+//   });
+// });
+
+app.get("/getSide", function(req, res) {
+  console.log("사이드 들어옴");
+  var param = {
+    Burger: req.body
+  };
+  let format = {
+    language: "sql",
+    indent: "  "
+  };
+  let query = mybatisMapper.getStatement("BASE", "getSide", param, format);
+  connection.query(query, function(error, results, fields) {
+    if (error) {
+      console.log(error);
+    }
+    res.send(results);
+  });
+});
+
+// app.get("/getOneSide", function(req, res) {
+//   console.log("사이드 들어옴");
+//   var param = {
+//     OneSide: req.body
+//   };
+//   let format = {
+//     language: "sql",
+//     indent: "  "
+//   };
+//   let query = mybatisMapper.getStatement("BASE", "getOneSide", param, format);
+//   connection.query(query, function(error, results, fields) {
+//     if (error) {
+//       console.log(error);
+//     }
+//     res.send(results);
+//   });
+// });
+
+app.get("/getBeverage", function(req, res) {
+  console.log("음료 들어옴");
+  var param = {
+    Burger: req.body
+  };
+  let format = {
+    language: "sql",
+    indent: "  "
+  };
+  let query = mybatisMapper.getStatement("BASE", "getBeverage", param, format);
+  connection.query(query, function(error, results, fields) {
+    if (error) {
+      console.log(error);
+    }
+    res.send(results);
+  });
+});
+
+// app.get("/getOneBeverage", function(req, res) {
+//   console.log("음료하나 들어옴");
+//   var param = {
+//     oneBeverage: req.body
+//   };
+//   let format = {
+//     language: "sql",
+//     indent: "  "
+//   };
+//   let query = mybatisMapper.getStatement("BASE", "getOneBeverage", param, format);
+//   connection.query(query, function(error, results, fields) {
+//     if (error) {
+//       console.log(error);
+//     }
+//   });
+// });
+
 module.exports = app;
