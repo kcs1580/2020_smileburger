@@ -8,10 +8,10 @@ import socketio from "socket.io-client";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    margin: "10px"
+    margin: "20px"
   },
   paper: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(9),
     textAlign: "center",
     color: "white",
     borderBottom: "solid",

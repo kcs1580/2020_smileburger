@@ -9,8 +9,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: "black",
-    height: "500px",
-    padding: "0.5%"
+    height: "1050px",
+    width: "1900spx",
+    padding: "15px"
+  },
+  container: {
+    margin: "auto auto"
   },
   done: {
     border: "solid",
@@ -19,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     color: "yellow",
     textAlign: "center",
     fontWeight: "bold",
-    height: "500px"
+    height: "1050px"
   },
   waiting: {
     border: "solid",
@@ -28,22 +32,20 @@ const useStyles = makeStyles(theme => ({
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
-    height: "500px"
+    height: "1050px"
   },
   paper: {
     backgroundColor: "#f50057",
     color: "white",
-    padding: "0.5rem"
+    padding: "20px"
   },
 
   des: {
-    fontSize: "25px",
+    fontSize: "25px"
   },
   title: {
-    fontSize: "35px",
-
-  },
-
+    fontSize: "35px"
+  }
 }));
 
 const initialState = {
@@ -56,7 +58,7 @@ export default function FullWidthGrid() {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1} style={{}}>
+      <Grid className={classes.container} container spacing={1} style={{}}>
         <Grid item xs={5} className={classes.done}>
           <Paper className={classes.paper} color="secondary">
             <div className={classes.title}>준비완료 | Ready</div>

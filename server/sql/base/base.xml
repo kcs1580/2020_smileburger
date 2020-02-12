@@ -19,16 +19,10 @@
         SELECT * FROM order_pro
     </select>
 
-    <select id="getBurger">
-        SELECT * FROM burgers
+     <select id="getLatestOrder">
+        SELECT * FROM orders 
     </select>
 
-    <select id="getBeverage">
-        SELECT * FROM beverages
-    </select>
-
-    <select id="getSide">
-        SELECT * FROM sides
-    </select>
+    
 
 </mapper>

@@ -8,10 +8,10 @@ import socketio from "socket.io-client";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    margin: "10px"
+    margin: "20px"
   },
   paper: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(9),
     textAlign: "center",
     color: "yellow",
     borderBottom: "solid",
@@ -41,8 +41,8 @@ const Done = () => {
 
   socket.on("recMsg", data => {
     const oid = data.map(burgeridx => {
-      return burgeridx.oid
-    })
+      return burgeridx.oid;
+    });
     console.log(data);
     // console.log(data.isReady);
     setLi(li.concat(oid));
