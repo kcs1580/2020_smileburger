@@ -13,12 +13,15 @@ function BoardRow(props) {
         onSelectRow(row);
     };
 
-    const [order_list_unit, setlist] = useState([]);
+    const [orderListUnit, setOrderListUnit] = useState([]);
 
     useEffect(() => {
         axios
-            .get("http://localhost:3000/base/BASE.SELECT.admin_order_list")
-            .then(({ data }) => setlist(data))
+            .get("http://localhost:3001/base/BASE.SELECT.admin_order_list")
+            .then(res => {
+                console.log(res)
+                // setOrderListUnit(data)
+            })
             .catch(err => console.log(err + "\n Admin_BoardItem의 useEffect에서 에러가 나는군"))
         console.log("**#@Admin_BoardItem에서 useEffect가 작동했어!@#**");
     }, []);
@@ -36,11 +39,11 @@ function BoardRow(props) {
        </tr>
        */
         <tr>
-            {order_list_unit.map(order => (
+            {orderListUnit.map(order => (
                 <tb>
                     {order}
                 </tb>
-            ))}
+            ), console.log("order 불렀는데!"))}
         </tr>
     );
 };

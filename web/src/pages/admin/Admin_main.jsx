@@ -3,13 +3,13 @@ import CheeseburgerMenu from 'cheeseburger-menu'
 import HamburgerMenu from 'react-hamburger-menu'
 import Admin_menu from './Admin_menu'
 import Admin_login from './Admin_login'
+import Button from '@material-ui/core/Button';
 
 const contentStyles = {
     fontFamily: 'sans-serif',
     textAlign: 'center',
 }
 
-//0213
 const Admin_main = () => {
     const [can, setCan] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -33,9 +33,9 @@ const Admin_main = () => {
                 <HamburgerMenu
                     isOpen={menuOpen}
                     menuClicked={openMenu}
-                    width={50}
-                    height={50}
-                    strokeWidth={10}
+                    width={70}
+                    height={70}
+                    strokeWidth={15}
                     rotate={0}
                     color='blue'
                     borderRadius={0}
@@ -47,6 +47,17 @@ const Admin_main = () => {
                         <p>관리자 페이지에 오신것을 환영합니다.</p>
                         <br></br>
                         <img src="admin_img.png" alt="admin Image"></img>
+                        <br></br><br></br><br></br>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            width="40"
+                            className="logout"
+                            href="/Admin_main"
+                        >
+                            Logout
+                     </Button>
                     </div>
                 </div>
             </div>
