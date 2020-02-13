@@ -39,7 +39,7 @@ const Content = () => {
   const [orders, setOrder] = useState([]);
 
   socket.on("recMsg", data => {
-    // console.log(data);
+    console.log(data);
     const or = data.map(burger => {
       return {
         orderNum: burger.oid,
