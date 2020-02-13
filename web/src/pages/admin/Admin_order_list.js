@@ -3,7 +3,7 @@ import BoardForm from './App_BoardForm';
 import BoardItem from './App_BoardItem';
 
 /*
-    component files.
+    component files.///
 */
 class App extends Component {
 
