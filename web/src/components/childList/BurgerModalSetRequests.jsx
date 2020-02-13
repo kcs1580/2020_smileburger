@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     margin: 'auto auto'
   },
   media1: {
-    height: 230
+    height: 220
   },
   btnPosition: {
     textAlign: "center",
@@ -71,6 +71,16 @@ const useStyles = makeStyles({
   burgerinfo: {
     background: 'yellow',
     height: '100%'
+  },
+  name: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 30
+  },
+  price: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 25
   }
 });
 
@@ -250,13 +260,13 @@ const BurgerModalSetRequests = props => {
             />
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>{side.name}</p>
-                <p style={{ marginTop: 10, marginBottom: 10 }}>+{side.addPrice}</p>
+                <p className={classes.name} >{side.name}</p>
+                <p className={classes.price}>+{side.addPrice}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
-      </Grid>
+      </Grid >
     );
   });
   const beveragesHtml = beverages.map(beverage => {
@@ -276,8 +286,8 @@ const BurgerModalSetRequests = props => {
             />
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>{beverage.name}</p>
-                <p style={{ marginTop: 10, marginBottom: 10 }}>+{beverage.addPrice}</p>
+                <p className={classes.name} >{beverage.name}</p>
+                <p className={classes.price} >+{beverage.addPrice}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -302,7 +312,7 @@ const BurgerModalSetRequests = props => {
             />
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>{request.name}</p>
+                <p className={classes.name}>{request.name}</p>
               </Typography>
             </CardContent>
           </CardActionArea>

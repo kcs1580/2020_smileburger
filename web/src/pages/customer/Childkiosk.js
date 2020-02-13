@@ -186,14 +186,17 @@ const Childkiosk = props => {
             <CssBaseline />
             <HeaderOrder />
             <div className={classes.body}>
-                <BottomNav select={select} setSelect={setSelect} />
-                {/* <Menutap select={select} setSelect={setSelect} /> */}
+                {/* <BottomNav select={select} setSelect={setSelect} /> */}
+
                 <SelectPage className={classes.selpage} />
+                <Menutap select={select} setSelect={setSelect} />
                 <BodyOrderChoiceListDrawer
                     className={classes.btnorder}
                     orderList={orderList}
                     setOrderList={setOrderList}
+                    style={{ marginRight: 20 }}
                 />
+
             </div>
         </Fragment>
     );

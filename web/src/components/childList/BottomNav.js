@@ -8,7 +8,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Grid from '@material-ui/core/Grid';
 const useStyles = makeStyles({
     root: {
-        width: 500,
+        width: 1000,
         fontSize: '40px',
     },
     nav: {

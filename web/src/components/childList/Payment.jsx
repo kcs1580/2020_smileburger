@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Payment = ({ orderList, setOrderList }) => {
+const Payment = ({ orderList, setOrderList, setState }) => {
   const classes = useStyles();
 
   const getTotalCnt = () => {
@@ -67,9 +67,9 @@ const Payment = ({ orderList, setOrderList }) => {
       />
       <Grid justify="flex-end" container>
 
-        <Icon style={{ fontSize: 100 }}>add_circle</Icon>
+        <Icon style={{ fontSize: 100, marginTop: 70, }} onClick={() => { setState({ bottom: false }) }} >add_circle</Icon>
       </Grid>
-    </Grid>
+    </Grid >
   );
 };
 

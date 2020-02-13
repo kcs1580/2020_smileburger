@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BodyOrderChoiceList = ({ orderList, setOrderList }) => {
+const BodyOrderChoiceList = ({ orderList, setOrderList, setState }) => {
   const classes = useStyles();
 
   return (
@@ -49,7 +49,7 @@ const BodyOrderChoiceList = ({ orderList, setOrderList }) => {
       {/* 왼쪽 주문목록정보======================================== */}
       <OrderList orderList={orderList} setOrderList={setOrderList} />
       {/* 오른쪽 결제확인======================================== */}
-      <Payment orderList={orderList} setOrderList={setOrderList} />
+      <Payment orderList={orderList} setOrderList={setOrderList} setState={setState} />
     </Grid>
   );
 };
