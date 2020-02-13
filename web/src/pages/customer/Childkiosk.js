@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useState, useEffect } from "react";
 import HeaderOrder from "../../components/childlayout/HeaderOrder";
-import BodyOrder from "../../components/childlayout/BodyOrder";
+import Menutap from "../../components/childList/Menutap"
+import BottomNav from "../../components/childList/BottomNav"
 
 import { makeStyles } from "@material-ui/core";
 import { CssBaseline, } from "@material-ui/core";
@@ -11,12 +12,21 @@ import BeverageList from "../../components/childList/BeverageList";
 import SideList from "../../components/childList/SideList";
 
 import BodyOrderChoiceListDrawer from "../../components/childList/BodyOrderChoiceListDrawer"
+
+import axios from "axios";
 const useStyles = makeStyles(theme => ({
     body: {
         position: "fixed",
-        top: "835px"
+        top: "835px",
+        width: "100%",
+        position: "relative",
+        zIndex: 1
 
     },
+    btnorder: {
+        position: "relative",
+        zIndex: 1
+    }
 
 
 }))
@@ -28,9 +38,60 @@ const Childkiosk = props => {
     const [order, setOrder] = useState({});
     const [orderList, setOrderList] = useState([]);
     const [nextId, setNextId] = useState(0);
-
     const { } = useContext(CommonContext);
 
+    const [burgers, setBurgers] = useState([]);
+    const [sides, setSides] = useState([]);
+    const [beverages, setBeverages] = useState([]);
+    const [burgerSets, setBurgerSets] = useState([]);
+
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:3001/base/getProducts", {
+                params: {
+                    pcategory: 0
+                }
+            })
+            .then(res => {
+                console.log(res.data);
+                setBurgers(res.data);
+            })
+            .catch(err => console.log(err));
+        axios
+            .get("http://localhost:3001/base/getProducts", {
+                params: {
+                    pcategory: 1
+                }
+            })
+            .then(res => {
+                console.log(res.data);
+                setSides(res.data);
+            })
+            .catch(err => console.log(err));
+        axios
+            .get("http://localhost:3001/base/getProducts", {
+                params: {
+                    pcategory: 2
+                }
+            })
+            .then(res => {
+                console.log(res.data);
+                setBeverages(res.data);
+            })
+            .catch(err => console.log(err));
+        axios
+            .get("http://localhost:3001/base/getProducts", {
+                params: {
+                    pcategory: 3
+                }
+            })
+            .then(res => {
+                console.log(res.data);
+                setBurgerSets(res.data);
+            })
+            .catch(err => console.log(err));
+    }, []);
     // 오더 리스트를 추가하는 부분
     useEffect(() => {
         if (order.contents) {
@@ -89,18 +150,32 @@ const Childkiosk = props => {
         }
     }, [order]);
 
+
     const SelectPage = () => {
         switch (select) {
+            case 0:
+                return <BurgerList
+                    burgers={burgers}
+                    burgerSets={burgerSets}
+                    sides={sides}
+                    beverages={beverages}
+                    setOrder={setOrder}
+                />
+
             case 1:
-                return <BurgerList nextId={nextId} setNextId={setNextId} setOrder={setOrder} />
+                return <SideList sides={sides} setOrder={setOrder} />;
             case 2:
-                return <SideList />
-            case 3:
-                return <BeverageList />
+                return <BeverageList beverages={beverages} setOrder={setOrder} />
             case 4:
                 return <h1>기타페이지</h1>
             default:
-                return <BodyOrder select={select} setSelect={setSelect} />
+                return <BurgerList
+                    burgers={burgers}
+                    burgerSets={burgerSets}
+                    sides={sides}
+                    beverages={beverages}
+                    setOrder={setOrder}
+                />
 
         }
 
@@ -108,12 +183,17 @@ const Childkiosk = props => {
 
     return (
         <Fragment>
-
             <CssBaseline />
             <HeaderOrder />
             <div className={classes.body}>
+                <BottomNav select={select} setSelect={setSelect} />
+                {/* <Menutap select={select} setSelect={setSelect} /> */}
                 <SelectPage className={classes.selpage} />
-                <BodyOrderChoiceListDrawer orderList={orderList} setOrderList={setOrderList} />
+                <BodyOrderChoiceListDrawer
+                    className={classes.btnorder}
+                    orderList={orderList}
+                    setOrderList={setOrderList}
+                />
             </div>
         </Fragment>
     );

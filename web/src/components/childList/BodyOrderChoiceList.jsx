@@ -4,6 +4,7 @@ import { grey } from "@material-ui/core/colors";
 import OrderList from "./OrderList";
 import Payment from "./Payment";
 
+
 const useStyles = makeStyles(theme => ({
   container: {
     flexGrow: 1,
@@ -43,15 +44,13 @@ const BodyOrderChoiceList = ({ orderList, setOrderList }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.container}>
-      <Grid container>
-        <Grid item xs={12} style={{ background: grey[700], height: 20 }}></Grid>
-        {/* 왼쪽 주문목록정보======================================== */}
-        <OrderList orderList={orderList} setOrderList={setOrderList} />
-        {/* 오른쪽 결제확인======================================== */}
-        <Payment orderList={orderList} setOrderList={setOrderList} />
-      </Grid>
-    </div>
+    <Grid container className={classes.container}>
+      <Grid item xs={12} style={{ background: grey[700], height: 20 }}></Grid>
+      {/* 왼쪽 주문목록정보======================================== */}
+      <OrderList orderList={orderList} setOrderList={setOrderList} />
+      {/* 오른쪽 결제확인======================================== */}
+      <Payment orderList={orderList} setOrderList={setOrderList} />
+    </Grid>
   );
 };
 

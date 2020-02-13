@@ -1,10 +1,10 @@
 import React, { useEffect, useState, Fragment } from "react";
-import axios from "axios";
+
 import {
     makeStyles,
     Container,
-    GridList,
-    GridListTile,
+    Grid,
+    Card,
     CardContent,
     Typography
 } from "@material-ui/core";
@@ -17,6 +17,11 @@ const useStyles = makeStyles(theme => ({
 
 
     },
+    cardGrid: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8)
+    },
+
     gridList: {
         display: 'flex',
         flexWrap: 'wrap',
@@ -39,62 +44,61 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const BurgerList = ({ nextId, setNextId, setOrder }) => {
+const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages }) => {
     const classes = useStyles();
-    const [burgers, setBurgers] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get("http://localhost:3001/test")
-            .then(({ data }) => setBurgers(data))
-            .catch(err => console.log(err));
-    }, []);
+    let burgerSetId = [];
+    let burgerSetName = [];
+    let burgerSetPrice = [];
+    let burgerSetDesc = [];
+    let burgerSetImgurl = [];
+
+    burgerSets.map(burgerSet => {
+        burgerSetId.push(burgerSet.pid);
+        burgerSetName.push(burgerSet.pname);
+        burgerSetPrice.push(burgerSet.pprice);
+        burgerSetDesc.push(burgerSet.pdesc);
+        burgerSetImgurl.push(burgerSet.pimgurl);
+    });
 
     return (
-        <Fragment>
-            <Container className={classes.root}>
-                <Menutap />
-                <GridList className={classes.gridList} >
-
-                    {
-                        burgers.map(burger => (
-                            <GridListTile
-                                key={burger.id}
-                                cols={2}
-                                style={{
-                                    height: 'auto',
-                                    width: '50%',
-                                }}>
-
-
-                                <BurgerModal
-                                    burger={burger}
-                                    setOrder={setOrder}
-                                    nextId={nextId}
-                                    setNextId={setNextId} />
-                                <CardContent className={classes.cardContent}>
-                                    <Typography gutterBottom="gutterBottom" variant="h5" component="h2">
-                                        {burger.title}
-                                    </Typography>
-                                    <Typography>
-                                        <span
-                                            style={{
-                                                marginRight: "10px"
-                                            }}>
-                                            단품: {burger.price_single}
-                                        </span>
-                                        <span>세트: {burger.price_set}</span>
-                                    </Typography>
-                                </CardContent>
-                            </GridListTile>
-                        ))
-                    }
-                </GridList>
-
-            </Container>
-        </Fragment>
-
+        <Container
+            className={classes.cardGrid}
+            maxWidth="md"
+            style={{ height: "850px", overflow: "auto" }}
+        >
+            <Grid container spacing={4}>
+                {/* Server 에 저장된 버거 정보만큼 반복하며 생성 */}
+                {burgers.map((burger, idx) => (
+                    <Grid item xs={12} sm={6} md={6} key={burger.pid}>
+                        <Card className={classes.card}>
+                            <BurgerModal
+                                burger={burger}
+                                burgerSetId={burgerSetId[idx]}
+                                burgerSetName={burgerSetName[idx]}
+                                burgerSetPrice={burgerSetPrice[idx]}
+                                burgerSetDesc={burgerSetDesc[idx]}
+                                burgerSetImgurl={burgerSetImgurl[idx]}
+                                sides={sides}
+                                beverages={beverages}
+                                setOrder={setOrder}
+                            />
+                            <CardContent className={classes.cardContent}>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {burger.pname}
+                                </Typography>
+                                <Typography>
+                                    <span style={{ marginRight: "10px" }}>단품: {burger.pprice}</span>
+                                    <span>세트: {burgerSetPrice[idx]} </span>
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Container>
     );
+
 };
 
 export default BurgerList;

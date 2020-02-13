@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { makeStyles, Grid, Paper, Typography, Button } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import PaymentModal from "./PaymentModal";
+import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -64,6 +65,10 @@ const Payment = ({ orderList, setOrderList }) => {
         totalCnt={totalCnt}
         totalPrice={totalPrice}
       />
+      <Grid justify="flex-end" container>
+
+        <Icon style={{ fontSize: 100 }}>add_circle</Icon>
+      </Grid>
     </Grid>
   );
 };

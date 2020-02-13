@@ -11,11 +11,7 @@ import {
   Grid,
   Paper
 } from "@material-ui/core";
-import {
-  CancelOutlined,
-  AddBox,
-  IndeterminateCheckBox
-} from "@material-ui/icons";
+import { CancelOutlined, AddBox, IndeterminateCheckBox } from "@material-ui/icons";
 import BurgerModalSingleRequests from "./BurgerModalSingleRequests";
 import BurgerModalSetRequests from "./BurgerModalSetRequests";
 
@@ -53,9 +49,12 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 20
   },
   img: {
-    marginLeft: 40,
+    marginLeft: 20,
     marginRight: 40,
-    width: 350
+    marginTop: 10,
+    marginBottom: 10,
+    width: 420,
+    height: 240
   },
   btnGridHeight: {
     height: 180
@@ -90,7 +89,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
+const BurgerMoal = ({
+  burger,
+  burgerSetId,
+  burgerSetName,
+  burgerSetPrice,
+  burgerSetDesc,
+  burgerSetImgurl,
+  sides,
+  beverages,
+  setOrder
+}) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -124,7 +133,7 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
     setOpen(false);
     setOpenSingle(true);
     setCount(1);
-    setPrice(burger.price_single);
+    setPrice(burger.pprice);
   };
   const handleCloseSingle = () => {
     setOpenSingle(false);
@@ -135,7 +144,7 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
     setOpen(false);
     setOpenSet(true);
     setCount(1);
-    setPrice(burger.price_set);
+    setPrice(burgerSetPrice);
   };
   const handleCloseSet = () => {
     setOpenSet(false);
@@ -145,8 +154,8 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
     <div>
       <CardMedia
         className={classes.cardMedia}
-        image={burger.img}
-        title={burger.title}
+        image={burger.pimgurl}
+        title={burger.pname}
         onClick={handleClickOpen}
       />
 
@@ -158,23 +167,17 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
         aria-describedby="alert-dialog-description"
         maxWidth="xl"
       >
-        <DialogTitle
-          id="alert-dialog-title"
-          className={classes.dialogTitle1}
-          onClose={handleClose}
-        >
-          <Typography>
-            <p className={classes.titleCss}>{burger.title}</p>
-            <IconButton className={classes.closeButton}>
-              <CancelOutlined onClick={handleClose} style={{ fontSize: 45 }} />
-            </IconButton>
-          </Typography>
+        <DialogTitle id="alert-dialog-title" className={classes.dialogTitle1} onClose={handleClose}>
+          <Typography className={classes.titleCss}>{burger.pname}</Typography>
+          <IconButton className={classes.closeButton} onClick={handleClose}>
+            <CancelOutlined style={{ fontSize: 45 }} />
+          </IconButton>
         </DialogTitle>
         <DialogContent className={classes.dialogBody1}>
-          <img src={burger.img} alt={burger.title} className={classes.img} />
+          <img src={burger.pimgurl} alt={burger.pname} className={classes.img} />
           <Typography component="h6" variant="h6" className={classes.details}>
-            <p>조리시간: {burger.cooking_time}분</p>
-            <p>{burger.description}</p>
+            {/* <p>조리시간: {burger.cooking_time}분</p> */}
+            <p>{burger.pdesc}</p>
           </Typography>
         </DialogContent>
         <Grid container className={classes.btnGridHeight}>
@@ -184,16 +187,12 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
               variant="contained"
               onClick={handleClickOpenSingle}
             >
-              <Typography variant="h5">단품: {burger.price_single}</Typography>
+              <Typography variant="h5">단품: {burger.pprice}</Typography>
             </Button>
           </Grid>
           <Grid item xs={6} className={classes.btnPosition}>
-            <Button
-              className={classes.btnSet}
-              variant="contained"
-              onClick={handleClickOpenSet}
-            >
-              <Typography variant="h5">세트: {burger.price_set}</Typography>
+            <Button className={classes.btnSet} variant="contained" onClick={handleClickOpenSet}>
+              <Typography variant="h5">세트: {burgerSetPrice}</Typography>
             </Button>
           </Grid>
         </Grid>
@@ -205,38 +204,31 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
         onClose={handleCloseSingle}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-      // maxWidth="false"
+        maxWidth="xl"
+      // style={{ height: "800px" }}
       >
         <DialogTitle
           id="customized-dialog-title"
           onClose={handleClose}
           className={classes.dialogTitle2}
         >
-          <Typography>
-            <p className={classes.titleCss}>단품선택</p>
-            <IconButton className={classes.closeButton}>
-              <CancelOutlined
-                onClick={handleCloseSingle}
-                style={{ fontSize: 45 }}
-              />
-            </IconButton>
-          </Typography>
+          <Typography className={classes.titleCss}>단품선택</Typography>
+          <IconButton className={classes.closeButton} onClick={handleCloseSingle}>
+            <CancelOutlined style={{ fontSize: 45 }} />
+          </IconButton>
         </DialogTitle>
         <DialogContent dividers className={classes.dialogBody2}>
-          <img src={burger.img} alt={burger.title} className={classes.img} />
+          <img src={burger.pimgurl} alt={burger.pname} className={classes.img} />
           <Typography component="h6" variant="h6" className={classes.details}>
-            <p>조리시간: {burger.cooking_time}분</p>
-            <p>{burger.description}</p>
+            {/* <p>조리시간: {burger.cooking_time}분</p> */}
+            <p>{burger.pdesc}</p>
             <p></p>
           </Typography>
         </DialogContent>
         <Grid container>
           <Grid item xs={6}>
             <Paper elevation={0} style={{ textAlign: "center" }}>
-              <IndeterminateCheckBox
-                onClick={onClickDecCnt}
-                style={{ color: "red" }}
-              />
+              <IndeterminateCheckBox onClick={onClickDecCnt} style={{ color: "red" }} />
               {count}
               <AddBox onClick={onClickIncCnt} style={{ color: "red" }} />
             </Paper>
@@ -251,6 +243,9 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
         <BurgerModalSingleRequests
           burger={burger}
           handleCloseSingle={handleCloseSingle}
+          setOrder={setOrder}
+          count={count}
+          total={total}
         />
       </Dialog>
 
@@ -260,38 +255,30 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
         onClose={handleCloseSet}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-      // maxWidth="false"
+        maxWidth="xl"
       >
         <DialogTitle
           id="customized-dialog-title"
           onClose={handleClose}
           className={classes.dialogTitle2}
         >
-          <Typography>
-            <p className={classes.titleCss}>세트선택</p>
-            <IconButton className={classes.closeButton}>
-              <CancelOutlined
-                onClick={handleCloseSet}
-                style={{ fontSize: 45 }}
-              />
-            </IconButton>
-          </Typography>
+          <Typography className={classes.titleCss}>세트선택</Typography>
+          <IconButton className={classes.closeButton} onClick={handleCloseSet}>
+            <CancelOutlined style={{ fontSize: 45 }} />
+          </IconButton>
         </DialogTitle>
         <DialogContent dividers className={classes.dialogBody2}>
-          <img src={burger.img} alt={burger.title} className={classes.img} />
+          {/* <img src={burgerSetImgurl} alt={burgerSetName} className={classes.img} /> */}
           <Typography component="h6" variant="h6" className={classes.details}>
-            <p>조리시간: {burger.cooking_time}분</p>
-            <p>{burger.description}</p>
+            {/* <p>조리시간: {burger.cooking_time}분</p> */}
+            {/* <p>{burgerSetDesc}</p> */}
             <p></p>
           </Typography>
         </DialogContent>
         <Grid container>
           <Grid item xs={6}>
             <Paper elevation={0} style={{ textAlign: "center" }}>
-              <IndeterminateCheckBox
-                onClick={onClickDecCnt}
-                style={{ color: "red" }}
-              />
+              <IndeterminateCheckBox onClick={onClickDecCnt} style={{ color: "red" }} />
               {count}
               <AddBox onClick={onClickIncCnt} style={{ color: "red" }} />
             </Paper>
@@ -304,14 +291,18 @@ const BurgerMoal = ({ burger, setOrder, nextId, setNextId }) => {
           <Grid item xs={1} />
         </Grid>
         <BurgerModalSetRequests
-          burger={burger}
+          burgerSetId={burgerSetId}
+          burgerSetName={burgerSetName}
+          burgerSetPrice={burgerSetPrice}
+          burgerSetDesc={burgerSetDesc}
+          burgerSetImgurl={burgerSetImgurl}
           priceChanger={setPrice}
           handleCloseSet={handleCloseSet}
           setOrder={setOrder}
           count={count}
           total={total}
-          nextId={nextId}
-          setNextId={setNextId}
+          sides={sides}
+          beverages={beverages}
         />
       </Dialog>
     </div>

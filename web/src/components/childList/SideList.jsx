@@ -1,93 +1,67 @@
-import React, {useEffect, useState, Fragment} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-    makeStyles,
-    Container,
-    GridList,
-    GridListTile,
-    CardContent,
-    Typography
-} from "@material-ui/core";
-import SideModal from "./SideModal";
-import InfoIcon from '@material-ui/icons/Info';
+import { makeStyles, Container, Grid, Card, CardContent, Typography } from "@material-ui/core";
+import ProductModal from "./ProductModal";
 
 const useStyles = makeStyles(theme => ({
-    root: {},
-    gridList: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'auto',
-        backgroundColor: theme.palette.background.paper,
-        height: '1000px'
+    cardGrid: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8)
+    },
+    card: {
+        height: "100%",
+        display: "flex",
+        flexDirection: "column"
+    },
+    cardMedia: {
+        paddingTop: "56.25%" // 16:9
     },
     cardContent: {
         flexGrow: 1,
-        textAlign: "center",
-        overflow: 'hidden'
-
+        textAlign: "center"
     },
     modal: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: "2px solid #000",
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3)
     }
 }));
 
-const SideList = ({nextId, setNextId, setOrder}) => {
+const SideList = ({ setOrder, sides }) => {
     const classes = useStyles();
-    const [sides, setSides] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get("http://localhost:3001/test")
-            .then(({data}) => setSides(data))
-            .catch(err => console.log(err));
-    }, []);
 
     return (
-        <Fragment>
-            <Container className={classes.root}>
-
-                <GridList className={classes.gridList}>
-
-                    {
-                        sides.map(side => (
-                            <GridListTile
-                                key={side.id}
-                                cols={2}
-                                style={{
-                                    height: 'auto',
-                                    width: '50%'
-                                }}>
-
-                                <SideModal
-                                    burger={side}
-                                    setOrder={setOrder}
-                                    nextId={nextId}
-                                    setNextId={setNextId}/>
-                                <CardContent className={classes.cardContent}>
-                                    <Typography gutterBottom="gutterBottom" variant="h5" component="h2">
-                                        {side.title}
-                                    </Typography>
-                                    <Typography>
-                                        <span
-                                            style={{
-                                                marginRight: "10px"
-                                            }}>
-                                            단품: {side.price_single}
-                                        </span>
-
-                                    </Typography>
-                                </CardContent>
-                            </GridListTile>
-                        ))
-                    }
-                </GridList>
-
-            </Container>
-        </Fragment>
-
+        <Container
+            className={classes.cardGrid}
+            maxWidth="md"
+            style={{ height: "1060px", overflow: "auto" }}
+        >
+            <Grid container spacing={4}>
+                {/* Server 에 저장된 버거 정보만큼 반복하며 생성 */}
+                {sides.map(side => (
+                    <Grid item xs={12} sm={6} md={6} key={side.pid}>
+                        <Card className={classes.card}>
+                            <ProductModal product={side} setOrder={setOrder} />
+                            <CardContent className={classes.cardContent}>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {side.pname}
+                                </Typography>
+                                <Typography>
+                                    <span style={{ marginRight: "10px" }}>단품: {side.pprice}</span>
+                                    <span>세트: {side.pprice}</span>
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Container>
     );
 };
 
