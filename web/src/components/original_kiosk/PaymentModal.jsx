@@ -75,7 +75,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PaymentModal = ({ orderList, totalCnt, totalPrice }) => {
+const PaymentModal = ({ orderList, waitingNum }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -109,32 +109,24 @@ const PaymentModal = ({ orderList, totalCnt, totalPrice }) => {
     } else {
       handleClickOpen();
     }
-    console.log(orderList);
+    // console.log(orderList);
   };
 
-  // const [orderBack, setOrderBack] = useState({});
-  // 매장 또는 포장 버튼 클릭 시 실행 backend로 요청
+  // const [waitingNum, setWaitingNum] = useState(101);
   const orderComplete = type => {
     handleClickOpenWatingNum();
     handleClose();
-
     // DB에 주문저장 하는 부분
     axios
       .get("http://localhost:3001/base/insertOrder", {
         params: {
+          waitingNum: waitingNum,
           data: orderList,
           type: type
         }
       })
-      .then(res => {
-        console.log(totalCnt, totalPrice);
-        console.log("Front 요청!!");
-        console.log(res);
-      })
-      .catch(err => {
-        console.log("Error!!");
-        console.log(err);
-      });
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   };
 
   const goHome = check => {
@@ -265,7 +257,7 @@ const PaymentModal = ({ orderList, totalCnt, totalPrice }) => {
         maxWidth="xl"
       >
         <DialogContent>
-          <Typography variant="h3">대기번호: "back 에서 만들어서 반환시키자!!"</Typography>
+          <Typography variant="h3">대기번호: {waitingNum}</Typography>
         </DialogContent>
       </Dialog>
     </div>

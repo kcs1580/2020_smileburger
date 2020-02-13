@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Payment = ({ orderList, setOrderList }) => {
+const Payment = ({ orderList, setOrderList, waitingNum }) => {
   const classes = useStyles();
 
   const getTotalCnt = () => {
@@ -58,12 +58,7 @@ const Payment = ({ orderList, setOrderList }) => {
           전체취소
         </Button>
       </div>
-      <PaymentModal
-        className={classes.btnPayment}
-        orderList={orderList}
-        totalCnt={totalCnt}
-        totalPrice={totalPrice}
-      />
+      <PaymentModal className={classes.btnPayment} orderList={orderList} waitingNum={waitingNum} />
     </Grid>
   );
 };

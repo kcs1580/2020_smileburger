@@ -35,6 +35,17 @@
 		LIMIT 1
 	</select>
 
+	<select id="getProducts">
+		SELECT
+			pid, pname, pcategory, pprice, pdesc, pimgurl
+		FROM
+			product
+		WHERE
+			pcategory = #{pcategory}
+	</select>
+
+
+
 	<insert id="AUTH.INSERT.TB_USER.001">
 		/* 사용자, 유저 정보 삽입 */
 		INSERT INTO VOTEON.TB_USER
@@ -66,16 +77,24 @@
 		);
 	</insert>
 
+	<select id="getLatestOrder">
+		SELECT oid, owaitingNum
+		FROM orders
+		WHERE odate = CURDATE()
+		ORDER BY oid DESC
+		LIMIT 1			
+	</select>
+
 	<insert id= "insertOrder">
 		insert into orders(
-			oid,
+			owaitingNum,
 			odate,
 			faceid,
 			ocontent,
 			otype
 			)
 		values(
-			#{oid},
+			#{owaitingNum},
 			CURDATE(),
 			#{faceid},
 			#{ocontent},
@@ -111,5 +130,11 @@
 
 	<select id="getOrder">
 		SELECT * FROM order_pro
+	</select>
+
+	<select id="getLastOrderLists">
+		 SELECT * FROM orders
+		 WHERE faceid=#{faceid}
+		 ORDER BY oid DESC LIMIT 5
 	</select>
 </mapper>
