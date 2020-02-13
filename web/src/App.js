@@ -9,7 +9,12 @@ import Main from "./pages/Main";
 import Auth from "./pages/auth/auth-go";
 import Register from "./pages/auth/auth-register";
 import Order from "./pages/customer/kiosk-order";
+
+//Admin pages
+import Admin_main from "./pages/admin/Admin_main";
 import Admin_order_list from "./pages/admin/Admin_order_list";
+import Admin_store from "./pages/admin/Admin_store";
+import Admin_kiosk from "./pages/admin/Admin_kiosk";
 
 // import BugerList from "./components/BugerList";
 import wBoard from "./pages/waitingboard/wMain";
@@ -60,8 +65,12 @@ const App = () => {
             <Route path="/wBoard" component={wBoard} />
             <Route path="/TestDB" component={TestDB} />
 
+            <Route path="/Admin_main" component={Admin_main} />
+            <Route path="/Admin_order_list" component={Admin_order_list} />
+            <Route path="/Admin_store" component={Admin_store} />
+            <Route path="/Admin_kiosk" component={Admin_kiosk} />
+
             <Route path="/not-found" component={NotFound} />
-            <Route path="/Admin" component={Admin_order_list} />
             <Route path="/ManagerMain" component={ManagerMain} />
             <Route path="/sockettest" component={sockettest} />
             <Route path="/Template" component={Paperbase} />
