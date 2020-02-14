@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SectionCarousel from "../../components/slick/SectionCarousel";
 import styled from "styled-components";
 import Layout from "../../layout/Layout";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -128,7 +129,9 @@ const AuthPage = props => {
   async function capture() {
     curImg = webcamRef.current.getScreenshot();
     imageSrc = getBinary(curImg);
+    ////////////////////////
 
+    ////////////////////////
     if (isSmile === false) {
       await trackEmotions();
     } else {
@@ -224,6 +227,9 @@ const AuthPage = props => {
     return ab;
   }
   async function onTimeout() {
+    const faces = await rekognition.listFaces(face_collection);
+    console.dir(faces);
+
     setBackdrop(true);
     console.log("얼굴 탐색 시작한다..");
 
@@ -333,11 +339,9 @@ const AuthPage = props => {
           videoConstraints={videoConstraints}
         />
         <br></br>
-
         <Button color="primary" variant="contained" onClick={capture}>
           Capture photo
         </Button>
-
         <Backdrop className={classes.backdrop} open={backdrop} onClick={handleCloseBackdrop}>
           <CircularProgress color="inherit" />
         </Backdrop>
@@ -376,6 +380,7 @@ const AuthPage = props => {
         </Dialog>
         {/* 여기까지 */}
       </Layout>
+      <SectionCarousel />
     </Container>
   );
 };
