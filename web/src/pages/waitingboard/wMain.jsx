@@ -9,7 +9,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: "black",
-    height: "502px"
+    height: "1050px",
+    width: "1900spx",
+    padding: "15px"
+  },
+  container: {
+    margin: "auto auto"
   },
   done: {
     border: "solid",
@@ -18,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     color: "yellow",
     textAlign: "center",
     fontWeight: "bold",
-    height: "500px"
+    height: "1050px"
   },
   waiting: {
     border: "solid",
@@ -27,7 +32,19 @@ const useStyles = makeStyles(theme => ({
     color: "white",
     textAlign: "center",
     fontWeight: "bold",
-    height: "500px"
+    height: "1050px"
+  },
+  paper: {
+    backgroundColor: "#f50057",
+    color: "white",
+    padding: "20px"
+  },
+
+  des: {
+    fontSize: "25px"
+  },
+  title: {
+    fontSize: "35px"
   }
 }));
 
@@ -41,20 +58,20 @@ export default function FullWidthGrid() {
 
   return (
     <div className={classes.root}>
-      <Grid
-        container
-        spacing={1}
-        style={{
-          padding: "1%"
-        }}
-      >
+      <Grid className={classes.container} container spacing={1} style={{}}>
         <Grid item xs={5} className={classes.done}>
-          <Paper className={classes.paper1}>준비완료</Paper>
+          <Paper className={classes.paper} color="secondary">
+            <div className={classes.title}>준비완료 | Ready</div>
+            <div className={classes.des}>영수증 상단의 주문번호를 확인하세요.</div>
+          </Paper>
           <Done />
         </Grid>
 
         <Grid item xs={7} className={classes.waiting}>
-          <Paper className={classes.paper2}>준비중</Paper>
+          <Paper className={classes.paper}>
+            <div className={classes.title}>준비중 | Preparing</div>
+            <div className={classes.des}>음식이 준비중이예요!</div>
+          </Paper>
           <Waiting />
         </Grid>
       </Grid>

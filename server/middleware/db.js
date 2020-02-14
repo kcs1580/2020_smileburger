@@ -1,5 +1,4 @@
 const path = require("path");
-const Sequelize = require("sequelize");
 const mybatisMapper = require("mybatis-mapper");
 const envJson = require(`${__dirname}/../env/env.json`);
 //const sequelize = new Sequelize("ssafy-kiosk-db.cpwfrvk3u3vz.us-east-2.rds.amazonaws.com:3306");
