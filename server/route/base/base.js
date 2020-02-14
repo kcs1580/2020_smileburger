@@ -97,35 +97,6 @@ app.get("/getOrder", function (req, res) {
 
 // SD back test =================================
 // 날짜 구하는 부분 ********************************
-<<<<<<< HEAD
-const addingZero = n => {
-  if (n < 10) return "0" + n;
-  else return n;
-};
-
-let today = new Date();
-
-let date =
-  today.getFullYear() + "-" + addingZero(today.getMonth() + 1) + "-" + addingZero(today.getDate());
-
-let time =
-  addingZero(today.getHours()) +
-  ":" +
-  addingZero(today.getMinutes()) +
-  ":" +
-  addingZero(today.getSeconds());
-
-let dateTime = date + " " + time;
-// // *************************************************
-
-let orderNum = 0;
-app.get("/insertOrder", function (req, res) {
-  const data = req.query.data;
-  const type = req.query.type;
-  orderNum += 1;
-  const selectParams = {
-    oid: orderNum,
-=======
 // const addingZero = n => {
 //   if (n < 10) return "0" + n;
 //   else return n;
@@ -181,7 +152,6 @@ app.get("/insertOrder", async (req, res) => {
   console.log("================================================");
   const selectParams = {
     owaitingNum: waitingNum,
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
     faceid: "defaultUser",
     ocontent: data,
     otype: type
@@ -191,20 +161,6 @@ app.get("/insertOrder", async (req, res) => {
     indent: "  "
   };
   const query = mybatisMapper.getStatement("BASE", "insertOrder", selectParams, format);
-<<<<<<< HEAD
-  connection.query(query, function (error, results, fields) {
-    if (error) {
-      console.log(error);
-      res.send(error);
-    } else {
-      res.send("완료");
-      console.log(results);
-    }
-  });
-
-  res.json({ msg: "성공!!" });
-});
-=======
   try {
     await connection.query(query);
     console.log(results);
@@ -216,7 +172,6 @@ app.get("/insertOrder", async (req, res) => {
   res.json({ msg: "성공!!" });
 });
 
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 // 제품 정보 조회하기
 app.get("/getProducts", (req, res) => {
   const params = {
@@ -227,11 +182,7 @@ app.get("/getProducts", (req, res) => {
     indent: "  "
   };
   const query = mybatisMapper.getStatement("BASE", "getProducts", params, format);
-<<<<<<< HEAD
   connection.query(query, function (error, results) {
-=======
-  connection.query(query, function(error, results) {
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
     if (error) {
       console.log(error);
       res.send(error);
@@ -242,8 +193,6 @@ app.get("/getProducts", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-=======
 app.get("/getLastOrderLists", (req, res) => {
   const params = {
     faceid: req.query.faceid
@@ -264,5 +213,4 @@ app.get("/getLastOrderLists", (req, res) => {
   });
 });
 
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 module.exports = app;
