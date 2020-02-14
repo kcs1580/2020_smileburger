@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  makeStyles,
-  Container,
-  Grid,
-  Card,
-  CardContent,
-  Typography
-} from "@material-ui/core";
+import { makeStyles, Container, Grid, Card, CardContent, Typography } from "@material-ui/core";
 import BurgerModal from "./BurgerModal";
 
 const useStyles = makeStyles(theme => ({
@@ -40,39 +33,52 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BurgerList = ({ setOrder }) => {
+const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages }) => {
   const classes = useStyles();
-  const [burgers, setBurgers] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/test")
-      .then(({ data }) => setBurgers(data))
-      .catch(err => console.log(err));
-  }, []);
+  let burgerSetId = [];
+  let burgerSetName = [];
+  let burgerSetPrice = [];
+  let burgerSetDesc = [];
+  let burgerSetImgurl = [];
+
+  burgerSets.map(burgerSet => {
+    burgerSetId.push(burgerSet.pid);
+    burgerSetName.push(burgerSet.pname);
+    burgerSetPrice.push(burgerSet.pprice);
+    burgerSetDesc.push(burgerSet.pdesc);
+    burgerSetImgurl.push(burgerSet.pimgurl);
+  });
 
   return (
     <Container
       className={classes.cardGrid}
       maxWidth="md"
-      id="thisismine"
       style={{ height: "1060px", overflow: "auto" }}
     >
       <Grid container spacing={4}>
         {/* Server 에 저장된 버거 정보만큼 반복하며 생성 */}
-        {burgers.map(burger => (
-          <Grid item xs={12} sm={6} md={4} key={"burger" + burger.id}>
-            <Card className={classes.card} key={burger.title}>
-              <BurgerModal burger={burger} setOrder={setOrder} />
+        {burgers.map((burger, idx) => (
+          <Grid item xs={12} sm={6} md={4} key={burger.pid}>
+            <Card className={classes.card}>
+              <BurgerModal
+                burger={burger}
+                burgerSetId={burgerSetId[idx]}
+                burgerSetName={burgerSetName[idx]}
+                burgerSetPrice={burgerSetPrice[idx]}
+                burgerSetDesc={burgerSetDesc[idx]}
+                burgerSetImgurl={burgerSetImgurl[idx]}
+                sides={sides}
+                beverages={beverages}
+                setOrder={setOrder}
+              />
               <CardContent className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
-                  {burger.title}
+                  {burger.pname}
                 </Typography>
                 <Typography>
-                  <span style={{ marginRight: "10px" }}>
-                    단품: {burger.price_single}
-                  </span>
-                  <span>세트: {burger.price_set}</span>
+                  <span style={{ marginRight: "10px" }}>단품: {burger.pprice}</span>
+                  <span>세트: {burgerSetPrice[idx]} </span>
                 </Typography>
               </CardContent>
             </Card>
