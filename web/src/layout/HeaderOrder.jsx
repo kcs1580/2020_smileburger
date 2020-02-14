@@ -19,15 +19,21 @@ const useStyles = makeStyles(theme => ({
 
 const HeaderOrder = props => {
   const classes = useStyles();
-
+  function reset() {
+    localStorage.clear();
+  }
   return (
     <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "red" }}>
       <Toolbar style={{ height: "120px" }}>
         <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
           Head-Order
         </Typography>
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Fab className={classes.menuButton}>첫화면</Fab>
+        <Fab className={classes.menuButton}>포장</Fab>
+        <Fab className={classes.menuButton}>매장</Fab>
+        <Link to="/Auth" style={{ textDecoration: "none" }}>
+          <Fab onClick={reset} className={classes.menuButton}>
+            첫화면
+          </Fab>
         </Link>
       </Toolbar>
     </AppBar>
