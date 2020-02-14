@@ -3,7 +3,7 @@ var app = express.Router();
 var mysql = require("mysql");
 const mybatisMapper = require("mybatis-mapper");
 
-
+/*
 ///////////////////////////DB Config////////////////////////////////
 const connection = mysql.createConnection({
   host: "ssafy-kiosk-db.cpwfrvk3u3vz.us-east-2.rds.amazonaws.com",
@@ -13,16 +13,18 @@ const connection = mysql.createConnection({
 });
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 ////////////////////////////////////////////////////////////////////
+*/
 
-/*
+
 ///////////////////////////DB Config_admin_s////////////////////////////////
 const pool = mysql.createPool({
   connectionLimit: 10,
   host: "host",
   user: "root",
   port: "3001",
-  password: "aroot",
-  database: "kiosk"
+  password: "root",
+  database: "kiosk",
+  method: 'GET'
 });
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 //////////////////////////////////////e//////////////////////////////
@@ -31,21 +33,22 @@ mybatisMapper.createMapper(["./sql/base/base.xml"]);
 //////////////////////////admin_order_list select  s
 app.get("/BASE.SELECT.admin_order_list", (req, res) => {
   pool.query('SELECT * FROM admin_order_list',
-    (err, data, fields) => {
+    (err, data) => {
       if (!err) {
-        console.log(data + "base의 admin을 get하는 함수 뭐 잘 작동하는중")
+        console.log(data + "base에서 admin을 get하는 함수 뭐 잘 작동하는중")
         res.send(data);
       }
       else if (err) {
-        console.log(err + "base의 admin을 get하는 함수에서 에러난다.")
+        console.log(err + "\n base에서 admin_order_list 태이블을 get하는 함수에서 에러난다.")
+        console.log(data);
         res.send(err);
-        throw err;
+        //throw err;  //에러시 서버와 연결 끊기게
       }
     }
   )
 })
 /////////////////////////////////e
-*/
+
 
 app.get("/", async function (req, res) { });
 
