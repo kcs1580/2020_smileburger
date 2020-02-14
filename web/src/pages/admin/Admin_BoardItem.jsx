@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+//자 부르자 꼭
 function BoardRow(props) {
 
     const handleRemove = () => {
