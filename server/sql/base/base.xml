@@ -135,6 +135,6 @@
 	<select id="getLastOrderLists">
 		 SELECT * FROM orders
 		 WHERE faceid=#{faceid}
-		 ORDER BY oid DESC LIMIT 5
+		 ORDER BY oid DESC LIMIT 10
 	</select>
 </mapper>

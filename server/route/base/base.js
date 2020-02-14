@@ -95,28 +95,6 @@ app.get("/getOrder", function(req, res) {
   res.json({ success: query + " load succeed!", url: req.url });
 });
 
-// SD back test =================================
-// 날짜 구하는 부분 ********************************
-// const addingZero = n => {
-//   if (n < 10) return "0" + n;
-//   else return n;
-// };
-
-// let today = new Date();
-
-// let date =
-//   today.getFullYear() + "-" + addingZero(today.getMonth() + 1) + "-" + addingZero(today.getDate());
-
-// let time =
-//   addingZero(today.getHours()) +
-//   ":" +
-//   addingZero(today.getMinutes()) +
-//   ":" +
-//   addingZero(today.getSeconds());
-
-// let dateTime = date + " " + time;
-// // *************************************************
-
 // 최근에 저장한 주문 정보 불러오기
 app.get("/getLatestOrder", async (req, res) => {
   const params = {};
