@@ -19,8 +19,7 @@
 		LIMIT 1
 	</select>
 
-
-		<select id="getorder">
+	<select id="getorder">
 		/* 사용자, 유저 정보 조회 */
 		SELECT
 		user_no
@@ -35,6 +34,17 @@
 		WHERE user_id = #{user_id}
 		LIMIT 1
 	</select>
+
+	<select id="getProducts">
+		SELECT
+			pid, pname, pcategory, pprice, pdesc, pimgurl
+		FROM
+			product
+		WHERE
+			pcategory = #{pcategory}
+	</select>
+
+
 
 	<insert id="AUTH.INSERT.TB_USER.001">
 		/* 사용자, 유저 정보 삽입 */
@@ -51,6 +61,7 @@
 		#{pwd}
 		);
 	</insert>
+
 	<insert id= "insertTest">
 		insert into product(
 			pid,
@@ -63,11 +74,67 @@
 			#{pname},
 			#{pprice},
 			#{pqty}
-		)
-		
+		);
 	</insert>
+
+	<select id="getLatestOrder">
+		SELECT oid, owaitingNum
+		FROM orders
+		WHERE odate = CURDATE()
+		ORDER BY oid DESC
+		LIMIT 1			
+	</select>
+
+	<insert id= "insertOrder">
+		insert into orders(
+			owaitingNum,
+			odate,
+			faceid,
+			ocontent,
+			otype
+			)
+		values(
+			#{owaitingNum},
+			CURDATE(),
+			#{faceid},
+			#{ocontent},
+			#{otype}
+		);
+	</insert>
+
+	<insert id= "orderTest">
+		insert into product(
+			otId,
+			otUser,
+			otStore,
+			otDateTime,
+			otProducts,
+			otCnt,
+			otPrice,
+			otType,
+			otGroup
+		)
+		values(
+			#{otId},
+			#{otUser},
+			#{otStore},
+			#{otDateTime},
+			#{otProducts},
+			#{otCnt},
+			#{otPrice},
+			#{otType},
+			#(otGroup)
+		)
+	</insert>
+
 
 	<select id="getOrder">
 		SELECT * FROM order_pro
+	</select>
+
+	<select id="getLastOrderLists">
+		 SELECT * FROM orders
+		 WHERE faceid=#{faceid}
+		 ORDER BY oid DESC LIMIT 5
 	</select>
 </mapper>
