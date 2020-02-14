@@ -13,9 +13,9 @@ const connection = mysql.createConnection({
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 ////////////////////////////////////////////////////////////////////
 
-app.get("/", async function (req, res) { });
+app.get("/", async function(req, res) {});
 
-app.get("/test/", function (req, res) {
+app.get("/test/", function(req, res) {
   var data = req.query.data;
   const jsondata = [];
   data.map(item => {
@@ -36,7 +36,7 @@ app.get("/test/", function (req, res) {
       indent: "  "
     };
     var query = mybatisMapper.getStatement("BASE", "insertTest", selectParams, format);
-    connection.query(query, function (error, results, fields) {
+    connection.query(query, function(error, results, fields) {
       if (error) {
         console.log(error);
       }
@@ -46,19 +46,19 @@ app.get("/test/", function (req, res) {
   connection.end();
   //res.send(req.query); res.json(req.query);  해당 값 다시 해당 페이지로 보내보기
 });
-app.post("/", function (req, res) {
+app.post("/", function(req, res) {
   res.json({ success: "post call succeed!", url: req.url, body: req.body });
 });
 
-app.put("/", function (req, res) {
+app.put("/", function(req, res) {
   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 });
 
-app.delete("/", function (req, res) {
+app.delete("/", function(req, res) {
   res.json({ success: "delete call succeed!", url: req.url });
 });
 
-app.get("/getOrder", function (req, res) {
+app.get("/getOrder", function(req, res) {
   console.log("들어옴");
   //connection.connect(); 조회할 파라미터
   var param = {
@@ -81,7 +81,7 @@ app.get("/getOrder", function (req, res) {
   let query = mybatisMapper.getStatement("BASE", "getOrder", param, format);
   console.log(query); // 쿼리 출력
 
-  connection.query(query, function (error, results, fields) {
+  connection.query(query, function(error, results, fields) {
     if (error) {
       console.log(error);
     }
@@ -94,57 +94,6 @@ app.get("/getOrder", function (req, res) {
   // Connection 해제 }); connection.end();
   res.json({ success: query + " load succeed!", url: req.url });
 });
-
-// SD back test =================================
-// 날짜 구하는 부분 ********************************
-<<<<<<< HEAD
-const addingZero = n => {
-  if (n < 10) return "0" + n;
-  else return n;
-};
-
-let today = new Date();
-
-let date =
-  today.getFullYear() + "-" + addingZero(today.getMonth() + 1) + "-" + addingZero(today.getDate());
-
-let time =
-  addingZero(today.getHours()) +
-  ":" +
-  addingZero(today.getMinutes()) +
-  ":" +
-  addingZero(today.getSeconds());
-
-let dateTime = date + " " + time;
-// // *************************************************
-
-let orderNum = 0;
-app.get("/insertOrder", function (req, res) {
-  const data = req.query.data;
-  const type = req.query.type;
-  orderNum += 1;
-  const selectParams = {
-    oid: orderNum,
-=======
-// const addingZero = n => {
-//   if (n < 10) return "0" + n;
-//   else return n;
-// };
-
-// let today = new Date();
-
-// let date =
-//   today.getFullYear() + "-" + addingZero(today.getMonth() + 1) + "-" + addingZero(today.getDate());
-
-// let time =
-//   addingZero(today.getHours()) +
-//   ":" +
-//   addingZero(today.getMinutes()) +
-//   ":" +
-//   addingZero(today.getSeconds());
-
-// let dateTime = date + " " + time;
-// // *************************************************
 
 // 최근에 저장한 주문 정보 불러오기
 app.get("/getLatestOrder", async (req, res) => {
@@ -181,7 +130,6 @@ app.get("/insertOrder", async (req, res) => {
   console.log("================================================");
   const selectParams = {
     owaitingNum: waitingNum,
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
     faceid: "defaultUser",
     ocontent: data,
     otype: type
@@ -191,20 +139,6 @@ app.get("/insertOrder", async (req, res) => {
     indent: "  "
   };
   const query = mybatisMapper.getStatement("BASE", "insertOrder", selectParams, format);
-<<<<<<< HEAD
-  connection.query(query, function (error, results, fields) {
-    if (error) {
-      console.log(error);
-      res.send(error);
-    } else {
-      res.send("완료");
-      console.log(results);
-    }
-  });
-
-  res.json({ msg: "성공!!" });
-});
-=======
   try {
     await connection.query(query);
     console.log(results);
@@ -216,7 +150,6 @@ app.get("/insertOrder", async (req, res) => {
   res.json({ msg: "성공!!" });
 });
 
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 // 제품 정보 조회하기
 app.get("/getProducts", (req, res) => {
   const params = {
@@ -227,11 +160,7 @@ app.get("/getProducts", (req, res) => {
     indent: "  "
   };
   const query = mybatisMapper.getStatement("BASE", "getProducts", params, format);
-<<<<<<< HEAD
-  connection.query(query, function (error, results) {
-=======
   connection.query(query, function(error, results) {
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
     if (error) {
       console.log(error);
       res.send(error);
@@ -242,8 +171,6 @@ app.get("/getProducts", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-=======
 app.get("/getLastOrderLists", (req, res) => {
   const params = {
     faceid: req.query.faceid
@@ -264,5 +191,4 @@ app.get("/getLastOrderLists", (req, res) => {
   });
 });
 
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 module.exports = app;
