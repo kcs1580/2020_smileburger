@@ -40,7 +40,7 @@ const BeverageList = ({ setOrder, beverages }) => {
         <Container
             className={classes.cardGrid}
             maxWidth="md"
-            style={{ height: "1060px", overflow: "auto" }}
+            style={{ height: "850px", overflow: "auto" }}
         >
             <Grid container spacing={4}>
                 {/* Server 에 저장된 버거 정보만큼 반복하며 생성 */}
