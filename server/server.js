@@ -33,6 +33,8 @@ const serverHandler = (req, res) => {
 };
 server.listen("3001", serverHandler);
 
+<<<<<<< HEAD
+=======
 // -----------------------------------------------------------------------------------
 // 임시 데이터
 app.get("/test/", function(req, res) {
@@ -139,25 +141,26 @@ app.get("/test/", function(req, res) {
     }
   ]);
 });
+>>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   console.log(socket.id + "a user connected");
 
   var instanceid = socket.id;
 
-  socket.on("joinRoom", function(data) {
+  socket.on("joinRoom", function (data) {
     console.log(instanceid + " : 접속");
     socket.join(data.roomName);
     roomName = data.roomName;
   });
 
-  socket.on("reqMsg", function(data) {
+  socket.on("reqMsg", function (data) {
     console.log(data);
     io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
   });
 });
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.send("Hello Vote On~");
 });
 
