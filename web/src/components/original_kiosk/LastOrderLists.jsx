@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Container, Grid, Typography } from "@material-ui/core";
 import { ShoppingCartOutlined } from "@material-ui/icons";
+import LastOrderModal from "./LastOrderModal";
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -9,28 +10,27 @@ const useStyles = makeStyles(theme => ({
     marginTop: 50,
     marginBottom: 30
   },
-  paper: {
-    marginTop: 30,
-    marginBottom: 10,
-    marginLeft: 180,
-    marginRight: 180,
-    height: 150,
-    padding: theme.spacing(2)
+  orderHeader: {
+    textAlign: "center",
+    borderTop: "2px solid black",
+    borderBottom: "2px solid black",
+    height: 50
+    // align: "center"
   }
 }));
 
-const LastOrderLists = ({ lastOrderLists, setOrder }) => {
+const LastOrderLists = ({ lastOrderLists, setOrder, waitingNum, orderList }) => {
   const classes = useStyles();
-
   const [totalCntList, setTotalCntList] = useState([]);
   const [totalPriceList, setTotalPriceList] = useState([]);
+  const [orderShowList, setOrderShowList] = useState([]);
   const [orderDetailList, setOrderDetailList] = useState([]);
-  // const [tempNum, setTempNum] = useState(0);
 
   useEffect(() => {
     const tempCntList = [];
     const tempPriceList = [];
     const tempOrderList = [];
+    const tempOrderDetailList = [];
     lastOrderLists.map(lastOrder => {
       // 주문수량
       let totalCnt = 0;
@@ -52,6 +52,8 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
 
       // 주문내용
       let orderSummary = "";
+      // let tempOrderDetail = "";
+      // let tempOrderDetail = [];
       const tempList = lastOrder.ocontent.split("contents");
       tempList.map((el, idx) => {
         if (idx !== 0) {
@@ -63,32 +65,62 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
               orderSummary += string;
             }
           });
+          // tempString.map((string, sIdx) => {
+          //   // if (sIdx % 2 === 1 && sIdx !== tempString.length - 2) {
+          //   //   tempOrderDetail += string + ", ";
+          //   // } else if (sIdx === tempString.length - 2) {
+          //   //   tempOrderDetail += string;
+          //   // }
+          //   if
+          // });
         }
       });
       tempOrderList.push(orderSummary);
+      // tempOrderDetailList.push(tempOrderDetail);
     });
     setTotalCntList(tempCntList);
     setTotalPriceList(tempPriceList);
-    setOrderDetailList(tempOrderList);
+    setOrderShowList(tempOrderList);
+    // setOrderDetailList(tempOrderDetailList);
   }, []);
 
   return (
-    <Grid container>
+    <Grid container style={{ height: 1060, overflow: "auto" }}>
       <Grid item xs={12}>
         <Typography variant="h3" className={classes.title}>
           최근 주문 내역
         </Typography>
       </Grid>
+      <Grid container style={{ marginLeft: 180, marginRight: 180 }}>
+        <Grid itme xs={2} className={classes.orderHeader}>
+          날짜
+        </Grid>
+        <Grid itme xs={5} className={classes.orderHeader}>
+          내용
+        </Grid>
+        <Grid itme xs={1} className={classes.orderHeader}>
+          수량
+        </Grid>
+        <Grid itme xs={2} className={classes.orderHeader}>
+          금액
+        </Grid>
+        <Grid itme xs={2} className={classes.orderHeader}>
+          주문
+        </Grid>
+      </Grid>
       {lastOrderLists.map((lastOrder, idx) => {
         return (
-          <Grid key={lastOrder.oid} item xs={12}>
-            <Paper className={classes.paper}>
-              <Typography>{lastOrder.odate}</Typography>
-              <p>주문수량: {totalCntList[idx]}</p>
-              <p>주문가격: {totalPriceList[idx]}</p>
-              <p>주문내용: {orderDetailList[idx]}</p>
-            </Paper>
-          </Grid>
+          <LastOrderModal
+            key={lastOrder.oid}
+            idx={idx}
+            lastOrder={lastOrder}
+            setOrder={setOrder}
+            orderList={orderList}
+            totalCntList={totalCntList}
+            totalPriceList={totalPriceList}
+            orderShowList={orderShowList}
+            orderDetailList={orderDetailList}
+          />
         );
       })}
     </Grid>
