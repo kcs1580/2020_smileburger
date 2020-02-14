@@ -3,7 +3,7 @@ var app = express.Router();
 var mysql = require("mysql");
 const mybatisMapper = require("mybatis-mapper");
 
-/*
+
 ///////////////////////////DB Config////////////////////////////////
 const connection = mysql.createConnection({
   host: "ssafy-kiosk-db.cpwfrvk3u3vz.us-east-2.rds.amazonaws.com",
@@ -13,8 +13,8 @@ const connection = mysql.createConnection({
 });
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 ////////////////////////////////////////////////////////////////////
-*/
 
+/*
 ///////////////////////////DB Config_admin_s////////////////////////////////
 const pool = mysql.createPool({
   connectionLimit: 10,
@@ -45,6 +45,7 @@ app.get("/BASE.SELECT.admin_order_list", (req, res) => {
   )
 })
 /////////////////////////////////e
+*/
 
 app.get("/", async function (req, res) { });
 
