@@ -8,9 +8,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "cheeseburger-menu": "0.0.13",
     "aws-sdk": "^2.614.0",
     "axios": "^0.19.2",
+    "cheeseburger-menu": "0.0.13",
     "core-util-is": "^1.0.2",
     "material-ui": "^0.20.2",
     "material-ui-flat-pagination": "^4.1.0",
@@ -29,7 +29,8 @@
     "react-webcam": "^5.0.0",
     "reactjs-popup": "^1.5.0",
     "redux": "^4.0.5",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "styled-components": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

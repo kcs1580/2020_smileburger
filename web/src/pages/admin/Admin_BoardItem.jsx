@@ -14,37 +14,73 @@ function BoardRow(props) {
     };
 
     const [orderListUnit, setOrderListUnit] = useState([]);
-
+    const [refresh, setRefresh] = useState(false);
+    function refreshed() {
+        console.log("refresh싫애 중")
+        setRefresh(!refresh);
+    }
     useEffect(() => {
         axios
-            .get("http://localhost:3001/base/BASE.SELECT.admin_order_list")
+            .get("http://localhost:3001/base/adminOrderList")
             .then(res => {
+                console.log("들어왔다.")
                 console.log(res)
-                setOrderListUnit(orderListUnit)
+                setOrderListUnit(res.data)
+                console.log(res.data[0].oid)
             })
             .catch(err => console.log(err + "\n Admin_BoardItem의 useEffect에서 에러가 나는군"))
         console.log("**#@Admin_BoardItem에서 useEffect가 작동했어!@#**");
-    }, []);
+    }, [refresh]);
 
     return (
-        /*
-       <tr>
-           <td>{props.row.brdno}</td>
-           <td>{props.row.brdstore}</td>
-           <td><a onClick={handleSelectRow}>{props.row.brdtitle}</a></td>
-           <td>{props.row.brdwriter}</td>
-           <td>{props.row.brdcost}</td>
-           <td>{props.row.brddate.toLocaleString('ko-KR')}</td>
-           <td><button onClick={handleRemove}>X</button></td>
-       </tr>
-       */
-        <tr>
-            {orderListUnit.map(order => (
-                <tb>
-                    {order}
-                </tb>
-            ), console.log("order 불렀는데!"))}
-        </tr>
+        < div >
+
+            {
+                orderListUnit.map(order => (
+                    <tr>
+                        <tb>
+                            {order.oid}
+                        </tb>
+                    </tr>
+                ))
+            }
+            {
+                orderListUnit.map(order => (
+                    <tr>
+                        <tb>
+                            {order.otype}
+                        </tb>
+                    </tr>
+                ))
+            }
+            {
+                orderListUnit.map(order => (
+                    <tr>
+                        <tb>
+                            {order.owaitingNum}
+                        </tb>
+                    </tr>
+                ))
+            }
+            {
+                orderListUnit.map(order => (
+                    <tr>
+                        <tb>
+                            {order.ocontent}
+                        </tb>
+                    </tr>
+                ))
+            }
+            {
+                orderListUnit.map(order => (
+                    <tr>
+                        <tb>
+                            {order.odate}
+                        </tb>
+                    </tr>
+                ))
+            }
+        </div >
     );
 };
 

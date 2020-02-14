@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Content from '../../components/Manager/Content';
-import Header from '../../components/Manager/Header';
+import Content from '../../components/manager/Content';
+import Header from '../../components/manager/Header';
 import { makeStyles } from '@material-ui/core/styles';
 
 
