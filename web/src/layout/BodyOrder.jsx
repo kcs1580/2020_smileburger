@@ -1,9 +1,11 @@
 import React, { useState, Fragment, useEffect } from "react";
 import BodyOrderChoiceList from "./BodyOrderChoiceList";
-import BurgerListt from "../components/original_kiosk/BurgerList";
+import LastOrderLists from "../components/original_kiosk/LastOrderLists";
+import BurgerList from "../components/original_kiosk/BurgerList";
 import SideList from "../components/original_kiosk/SideList";
 import BeverageList from "../components/original_kiosk/BeverageList";
 import { makeStyles, AppBar, Toolbar, Grid, Paper } from "@material-ui/core";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -27,16 +29,86 @@ const useStyles = makeStyles(theme => ({
 
 const BodyOrder = () => {
   const classes = useStyles();
-  const [list, setList] = useState(0);
+  const [list, setList] = useState(1);
   const menus = [
-    { id: 0, text: "버거" },
-    { id: 1, text: "사이드" },
-    { id: 2, text: "음료" }
+    { id: 0, text: "MyPage" },
+    { id: 1, text: "버거" },
+    { id: 2, text: "사이드" },
+    { id: 3, text: "음료" }
   ];
 
   const [order, setOrder] = useState({});
   const [orderList, setOrderList] = useState([]);
   const [nextId, setNextId] = useState(0);
+  const [burgers, setBurgers] = useState([]);
+  const [sides, setSides] = useState([]);
+  const [beverages, setBeverages] = useState([]);
+  const [burgerSets, setBurgerSets] = useState([]);
+  const [waitingNum, setWaitingNum] = useState(101);
+  const [registered, setRegisterd] = useState("defaultUser"); // 페이스 인식에서 인증된 사용자 인지 아닌지 넘겨 받을 값
+  const [lastOrderLists, setLastOrderLists] = useState([]);
+
+  // 제품 정보가져오기
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/base/getProducts", {
+        params: {
+          pcategory: 0
+        }
+      })
+      .then(res => {
+        // console.log(res.data);
+        setBurgers(res.data);
+      })
+      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3001/base/getProducts", {
+        params: {
+          pcategory: 1
+        }
+      })
+      .then(res => {
+        // console.log(res.data);
+        setSides(res.data);
+      })
+      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3001/base/getProducts", {
+        params: {
+          pcategory: 2
+        }
+      })
+      .then(res => {
+        // console.log(res.data);
+        setBeverages(res.data);
+      })
+      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3001/base/getProducts", {
+        params: {
+          pcategory: 3
+        }
+      })
+      .then(res => {
+        // console.log(res.data);
+        setBurgerSets(res.data);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
+  // 기존의 주문정보를 먼저 확인
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/base/getLatestOrder")
+      .then(res => {
+        if (res.data.length !== 0) {
+          console.log(res.data.length);
+          console.log(res.data);
+          setWaitingNum(res.data[0].owaitingNum + 1);
+        }
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   // 오더 리스트를 추가하는 부분
   useEffect(() => {
@@ -45,7 +117,7 @@ const BodyOrder = () => {
       let check = true;
       let checkIdx = 0;
       let editOrder = {};
-      console.log("before: ", check);
+      // console.log("before: ", check);
       orderList.map((ord, idx) => {
         if (ord.contents.length === order.contents.length) {
           let cntCheck = 0;
@@ -66,7 +138,7 @@ const BodyOrder = () => {
           }
         }
       });
-      console.log("after: ", check);
+      // console.log("after: ", check);
       if (check) {
         const newOrderList = orderList.concat({
           id: "list" + nextId,
@@ -96,32 +168,79 @@ const BodyOrder = () => {
     }
   }, [order]);
 
+  // 인증된 사용자일 경우 사용자의 데이터 가져오기
+  // (데이터 넣기 수정 필요)
+  useEffect(() => {
+    if (registered) {
+      setList(0);
+      axios
+        .get("http://localhost:3001/base/getLastOrderLists", {
+          params: {
+            faceid: registered // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
+          }
+        })
+        .then(res => {
+          console.log(res);
+          console.log(res.data[0].odate);
+          console.log(typeof res.data);
+          setLastOrderLists(res.data);
+        })
+        .catch(err => console.log(err));
+    }
+  }, []);
+
   const BodyControl = () => {
     switch (list) {
       case 0:
-        return <BurgerListt setOrder={setOrder} />;
+        return <LastOrderLists lastOrderLists={lastOrderLists} setOrder={setOrder} />;
       case 1:
-        return <SideList />;
+        return (
+          <BurgerList
+            burgers={burgers}
+            burgerSets={burgerSets}
+            sides={sides}
+            beverages={beverages}
+            setOrder={setOrder}
+          />
+        );
       case 2:
-        return <BeverageList />;
-      default:
-        return <BurgerListt />;
+        return <SideList sides={sides} setOrder={setOrder} />;
+      case 3:
+        return <BeverageList beverages={beverages} setOrder={setOrder} />;
     }
   };
 
   const menuList = menus.map(menu => {
-    return (
-      <Grid item xs={2} key={menu.id}>
-        <Paper
-          className={classes.paper}
-          onClick={() => {
-            setList(menu.id);
-          }}
-        >
-          {menu.text}
-        </Paper>
-      </Grid>
-    );
+    // MyPage 는 인증된 사용자만 보여준다.
+    if (menu.id === 0) {
+      if (registered) {
+        return (
+          <Grid item xs={2} key={menu.id}>
+            <Paper
+              className={classes.paper}
+              onClick={() => {
+                setList(menu.id);
+              }}
+            >
+              {menu.text}
+            </Paper>
+          </Grid>
+        );
+      }
+    } else {
+      return (
+        <Grid item xs={2} key={menu.id}>
+          <Paper
+            className={classes.paper}
+            onClick={() => {
+              setList(menu.id);
+            }}
+          >
+            {menu.text}
+          </Paper>
+        </Grid>
+      );
+    }
   });
 
   return (
@@ -141,6 +260,7 @@ const BodyOrder = () => {
         // order={order}
         orderList={orderList}
         setOrderList={setOrderList}
+        waitingNum={waitingNum}
       />
     </Fragment>
   );

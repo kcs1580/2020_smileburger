@@ -19,8 +19,7 @@
 		LIMIT 1
 	</select>
 
-
-		<select id="getorder">
+	<select id="getorder">
 		/* 사용자, 유저 정보 조회 */
 		SELECT
 		user_no
@@ -35,6 +34,17 @@
 		WHERE user_id = #{user_id}
 		LIMIT 1
 	</select>
+
+	<select id="getProducts">
+		SELECT
+			pid, pname, pcategory, pprice, pdesc, pimgurl
+		FROM
+			product
+		WHERE
+			pcategory = #{pcategory}
+	</select>
+
+
 
 	<insert id="AUTH.INSERT.TB_USER.001">
 		/* 사용자, 유저 정보 삽입 */
@@ -51,6 +61,7 @@
 		#{pwd}
 		);
 	</insert>
+
 	<insert id= "insertTest">
 		insert into product(
 			pid,
@@ -66,16 +77,34 @@
 		);
 	</insert>
 
+<<<<<<< HEAD
 	<insert id= "insertOrder">
 		insert into orders(
 			oid,
+=======
+	<select id="getLatestOrder">
+		SELECT oid, owaitingNum
+		FROM orders
+		WHERE odate = CURDATE()
+		ORDER BY oid DESC
+		LIMIT 1			
+	</select>
+
+	<insert id= "insertOrder">
+		insert into orders(
+			owaitingNum,
+>>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 			odate,
 			faceid,
 			ocontent,
 			otype
 			)
 		values(
+<<<<<<< HEAD
 			#{oid},
+=======
+			#{owaitingNum},
+>>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 			CURDATE(),
 			#{faceid},
 			#{ocontent},
@@ -113,6 +142,7 @@
 		SELECT * FROM order_pro
 	</select>
 
+<<<<<<< HEAD
     <select id="getProducts">
         SELECT
             pid, pname, pcategory, pprice, pdesc, pimgurl
@@ -121,4 +151,11 @@
         WHERE
             pcategory = #{pcategory}
     </select>
+=======
+	<select id="getLastOrderLists">
+		 SELECT * FROM orders
+		 WHERE faceid=#{faceid}
+		 ORDER BY oid DESC LIMIT 5
+	</select>
+>>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 </mapper>

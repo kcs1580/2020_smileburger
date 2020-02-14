@@ -1,22 +1,48 @@
 import React, { useState, useMemo } from "react";
-import { Redirect, Route } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import styled from "styled-components";
+import Layout from "../../layout/Layout";
+import Backdrop from "@material-ui/core/Backdrop";
+import { Redirect } from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
+import Slide from "@material-ui/core/Slide";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Layout from "../../layout/Layout";
+import { makeStyles } from "@material-ui/core/styles";
+
 import Webcam from "react-webcam";
-import Popup from "reactjs-popup";
-import Content from "../../content/content";
 import Order from "../../pages/customer/kiosk-order";
 var AWS = require("aws-sdk");
+const useStyles = makeStyles(theme => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff"
+  },
+  root: {
+    display: "flex",
+    "& > * + *": {
+      marginLeft: theme.spacing(2)
+    }
+  }
+}));
+const Container = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(https://ssafy-kiosk-menu-images.s3.ap-northeast-2.amazonaws.com/main/mainImage.jpg);
+  background-size: cover;
+`;
 const videoConstraints = {
   width: 1280,
   height: 720,
   facingMode: "user"
 };
+// Define AWS Resources ================================================
 const cfg = {
   region: "us-west-2",
   upload_bucket_name: "rekognition-stack-demo-s3upload-1gezpp4hs4cul",
@@ -27,7 +53,7 @@ const cfg = {
 var bucketName = cfg.upload_bucket_name;
 var face_collection = cfg.face_collection;
 var table = cfg.ddb_table;
-// Define AWS Resources
+
 var region = cfg.region;
 var creds = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: cfg.identity_pool_id
@@ -37,7 +63,7 @@ AWS.config.update({
   region: region,
   credentials: creds
 });
-
+// Define AWS Resources ==================================================
 var rekognition = new AWS.Rekognition({ apiVersion: "2016-06-27" });
 var docClient = new AWS.DynamoDB.DocumentClient();
 
@@ -50,18 +76,137 @@ var s3 = new AWS.S3({
   apiVersion: "2006-03-01",
   params: { Bucket: bucketName }
 });
+
 const AuthPage = props => {
+  const classes = useStyles();
+  const [progress, setProgress] = React.useState(0);
+  const [backdrop, setBackdrop] = React.useState(false);
+  const [gotoOrder, setGotoOrder] = React.useState(false);
+  const [gotoMain, setGotoMain] = React.useState(false);
+  function handleGotoMainPage() {
+    setGotoMain(true);
+  }
+  function handleGotoOrderPage() {
+    console.log("거기로가라.");
+    setGotoOrder(true);
+  }
+  function handleOpenBackdrop() {
+    console.log("들어오니?");
+    setBackdrop(true);
+    console.log(backdrop);
+  }
+  function handleCloseBackdrop() {
+    setBackdrop(false);
+  }
+
   const [isMatched, setIsMatched] = useState(false);
   const [isSmile, setIssmile] = useState(false);
-  const index = 0;
+
   var imageSrc;
   const webcamRef = React.useRef(null);
-  const capture = React.useCallback(() => {
-    imageSrc = getBinary(webcamRef.current.getScreenshot());
-    console.log(imageSrc);
-    trackEmotions();
-  }, [webcamRef]);
-  function registerUser() {}
+  const registerWebcamRef = React.useRef(null);
+
+  /////////////
+  function TransitionLeft(props) {
+    return <Slide {...props} direction="left" />;
+  }
+  const [alert, setAlert] = React.useState(false);
+  const [transition, setTransition] = React.useState(undefined);
+
+  function openAlert(Transition) {
+    console.log("openAlert메소드");
+    setTransition(() => Transition);
+    setAlert(true);
+  }
+  function closeAlert() {
+    console.log("closeAlert메소드");
+    setAlert(false);
+  }
+
+  /////////////
+  var curImg;
+  async function capture() {
+    curImg = webcamRef.current.getScreenshot();
+    imageSrc = getBinary(curImg);
+
+    if (isSmile === false) {
+      await trackEmotions();
+    } else {
+      await onTimeout();
+    }
+  }
+
+  function registerUser() {
+    curImg = registerWebcamRef.current.getScreenshot();
+    imageSrc = getBinary(curImg);
+    var image_url = null;
+    var temp_face_id = null;
+    var temp_name = null;
+    var temp_key = null;
+
+    var params = {
+      CollectionId: face_collection,
+      Image: {
+        Bytes: imageSrc
+      }
+    };
+    setIssmile(true);
+
+    rekognition.indexFaces(params, function(err, data) {
+      if (err) console.log(err, err.stack);
+      // an error occurred
+      else {
+        console.log(data);
+        if (data.FaceRecords.length == 1) {
+          console.log("filename to write :" + data.FaceRecords[0].Face.FaceId);
+          temp_face_id = data.FaceRecords[0].Face.FaceId;
+          temp_key = "face-collection/" + data.FaceRecords[0].Face.FaceId + ".jpg";
+          s3.upload(
+            {
+              Key: temp_key,
+              ContentType: "image/jpeg",
+              Body: imageSrc,
+              ACL: "public-read"
+            },
+            function(err, data) {
+              if (err) {
+                //container.error("There was an error uploading your photo : ", err.message);
+              }
+              image_url = data.Location;
+              console.log("자 업로드 성공했다. 콘테이너 실행되니?");
+              // container.success("Successfully upload your face on S3.");
+
+              openAlert(TransitionLeft);
+
+              var params = {
+                TableName: table,
+                Item: {
+                  faceId: temp_face_id,
+                  name: temp_name,
+                  image: image_url,
+                  key: temp_key
+                }
+              };
+
+              docClient.put(params, function(err, data) {
+                if (err) {
+                  console.log(err + "DYNAMODRRRE");
+                } else {
+                  //container.success("Successfully saved metadata on DynamoDB");
+                  //refreshGallery();
+                  setNewFace(false);
+                  console.log("DYNAMODB SUCESS");
+                }
+              });
+            }
+          );
+          //container.success("Successfully recognize your face.");
+        } else {
+          //container.error("Please take a photo again.");
+        }
+      }
+    });
+  }
   function getBinary(encodedFile) {
     var base64Image = encodedFile.split("data:image/jpeg;base64,")[1];
     var binaryImg = atob(base64Image);
@@ -78,7 +223,8 @@ const AuthPage = props => {
 
     return ab;
   }
-  function onTimeout() {
+  async function onTimeout() {
+    setBackdrop(true);
     console.log("얼굴 탐색 시작한다..");
 
     var paramsForFace = {
@@ -89,22 +235,33 @@ const AuthPage = props => {
       },
       MaxFaces: 10
     };
-    rekognition.searchFacesByImage(paramsForFace, function(err, data) {
-      if (err) {
-        //다시 interval가자.
-        console.log("error낫디" + err);
-      } else {
-        console.log(data);
-        if (data && data.FaceMatches && data.FaceMatches.length) {
-          console.log("속보) Collection에 담긴 FaceID와 면상 일치");
+
+    try {
+      const data = await rekognition.searchFacesByImage(paramsForFace).promise();
+      // await >> try/catch
+      console.log(data);
+      if (data.FaceMatches && data.FaceMatches.length) {
+        console.log("속보) Collection에 담긴 FaceID와 면상 일치");
+        localStorage.setItem("FaceID", data.FaceMatches[0].Face.FaceId);
+
+        console.log(localStorage.getItem("FaceID"));
+        try {
           setIsMatched(true);
-          // console.log(fill_metadata(data.FaceMatches));
-          console.log(data.FaceMatches);
+        } catch (e) {
+          console.log(e);
         }
+      } else {
+        //새로운 유저 등록 pop 뜨기
+        setNewFace(true);
       }
-    });
+    } catch (e) {
+      console.log(e);
+      //interval
+    }
+    setBackdrop(false);
   }
-  const trackEmotions = () => {
+
+  async function trackEmotions() {
     console.log("얼굴 분석 들어갑니다.");
     var params = {
       Attributes: ["ALL"],
@@ -112,31 +269,33 @@ const AuthPage = props => {
         Bytes: imageSrc
       }
     };
-    rekognition.detectFaces(params, function(err, data) {
+    await rekognition.detectFaces(params, function(err, data) {
       if (err) {
         console.log("얼굴 인식 ERROR");
         console.log(err);
       } else {
-        // console.log(data);
         // console.log(data.FaceDetails[0].Smile);
         var smile = data.FaceDetails[0].Smile;
 
         // console.log(smile.Value);
-        console.log("========매칭 된 얼굴 다 가져와라===========");
+        console.log("========인식된 얼굴 다 가져와라===========");
         console.log(data.FaceDetails);
-        //onTimeout();
-        if (smile.Value === true) {
-          console.log("너는 웃고 있다..");
-          setIssmile(true);
-          onTimeout();
-        } else {
-          console.log("웃어달라고.. 웃어야 그래야 님 주문 할 수 있어 ㅋ");
-        }
+        //반복문 전부 돌면서 한명이라도 웃고 있으면 이제 faceSearchByImage.
+        data.FaceDetails.some(p => {
+          if (p.Smile.Value === true) {
+            setIssmile(true);
+            onTimeout();
+            return p.Smile.Value === true;
+          } else {
+            console.log("웃어달라고.. 웃어야 그래야 님 주문 할 수 있어 ㅋ");
+            setBackdrop(false);
+          }
+        });
       }
     });
-  };
+  }
   // ==========================================================
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -146,84 +305,78 @@ const AuthPage = props => {
     setOpen(false);
     setNewFace(false);
   };
+
   const [newFace, setNewFace] = useState(false);
   useMemo(() => {
     if (!isMatched && isSmile) {
+      console.log("ad");
       setNewFace(true);
-      console.log("조건 만족!");
     }
-    console.log(newFace);
-  }, [newFace, isMatched, isSmile]);
-  // ==========================================================
-  console.log(newFace);
+  }, [isMatched]);
+
+  if (isMatched || gotoOrder) {
+    return <Redirect to="/order" />;
+  }
+  if (gotoMain) {
+    return <Redirect to="/Auth" />;
+  }
+
   return (
-    <>
-      {!isSmile ? (
-        <Layout>
-          <Webcam
-            audio={false}
-            height={720}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={1280}
-            videoConstraints={videoConstraints}
-          />
-          <br></br>
-          <Button color="primary" variant="contained" onClick={capture}>
-            Capture photo
-          </Button>
-          <Button color="primary" variant="contained" onClick={registerUser}>
-            Capture photo
-          </Button>
-        </Layout>
-      ) : isMatched ? (
-        <Route to="/order" component={Order} />
-      ) : (
-        // <>{() => setOpen(true)}</>
-        <Layout>
-          <Webcam
-            audio={false}
-            height={720}
-            ref={webcamRef}
-            screenshotFormat="image/jpeg"
-            width={1280}
-            videoConstraints={videoConstraints}
-          />
-          <br></br>
-          <Button color="primary" variant="contained" onClick={capture}>
-            Capture photo
-          </Button>
-          <Button color="primary" variant="contained" onClick={registerUser}>
-            Capture photo
-          </Button>
-        </Layout>
-      )}
-      {/* <ChangeComp /> */}
-      {/* 새로만든 다이얼 */}
-      <Dialog
-        open={newFace}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-      {/* 여기까지 */}
-    </>
+    <Container>
+      <Layout>
+        <Webcam
+          audio={false}
+          height={400}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          width={800}
+          videoConstraints={videoConstraints}
+        />
+        <br></br>
+
+        <Button color="primary" variant="contained" onClick={capture}>
+          Capture photo
+        </Button>
+
+        <Backdrop className={classes.backdrop} open={backdrop} onClick={handleCloseBackdrop}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        <Snackbar
+          open={alert}
+          onClose={closeAlert}
+          TransitionComponent={transition}
+          message="등록 완료되었습니다!!"
+        />
+        <Dialog
+          open={newFace}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"얼굴 등록 하시겠어요?"}</DialogTitle>
+          <DialogContent>
+            <Webcam
+              audio={false}
+              height={200}
+              ref={registerWebcamRef}
+              screenshotFormat="image/jpeg"
+              width={400}
+              videoConstraints={videoConstraints}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={registerUser} color="primary">
+              회원 등록
+            </Button>
+
+            <Button onClick={handleGotoOrderPage} color="primary" autoFocus>
+              비회원 주문
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/* 여기까지 */}
+      </Layout>
+    </Container>
   );
 };
 
