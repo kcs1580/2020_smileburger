@@ -67,7 +67,7 @@ const Payment = ({ orderList, setOrderList, setState }) => {
       />
       <Grid justify="flex-end" container>
 
-        <Icon style={{ fontSize: 100, marginTop: 70, }} onClick={() => { setState({ bottom: false }) }} >add_circle</Icon>
+        <Icon style={{ fontSize: 100, marginTop: 120, }} onClick={() => { setState({ bottom: false }) }} >add_circle</Icon>
       </Grid>
     </Grid >
   );
