@@ -29,7 +29,6 @@ const Sockettest = () => {
           handle(e);
         }}
       />
-
       <button
         onClick={() => {
           send(num);
@@ -39,9 +38,7 @@ const Sockettest = () => {
         보내기{" "}
       </button>
       <div>{num}</div>
-
       <br />
->>>>>>> feature/manager
     </div>
   );
 };

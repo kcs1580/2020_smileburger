@@ -10,22 +10,22 @@ import {
   CardMedia,
   Button
 } from "@material-ui/core";
-import check from "../img/burgerModal/check.png";
-import checkNone from "../img/burgerModal/check-none.png";
-import chips1 from "../img/burgerModal/chips1.png";
-import chips2 from "../img/burgerModal/chips2.png";
-import cheese from "../img/burgerModal/cheese.png";
-import onion from "../img/burgerModal/onion.png";
-import coke from "../img/burgerModal/coke.png";
-import sprite from "../img/burgerModal/sprite.png";
-import orange from "../img/burgerModal/orange.png";
-import blackberry from "../img/burgerModal/blackberry.png";
-import lemon from "../img/burgerModal/lemon.png";
-import muscat from "../img/burgerModal/muscat.png";
-import nothing from "../img/burgerModal/nothing.png";
-import noPickle from "../img/burgerModal/n_pickle.png";
-import noOnion from "../img/burgerModal/n_onion.png";
-import noBoth from "../img/burgerModal/n_both.png";
+import check from "../../img/burgerModal/check.png";
+import checkNone from "../../img/burgerModal/check-none.png";
+import chips1 from "../../img/burgerModal/chips1.png";
+import chips2 from "../../img/burgerModal/chips2.png";
+import cheese from "../../img/burgerModal/cheese.png";
+import onion from "../../img/burgerModal/onion.png";
+import coke from "../../img/burgerModal/coke.png";
+import sprite from "../../img/burgerModal/sprite.png";
+import orange from "../../img/burgerModal/orange.png";
+import blackberry from "../../img/burgerModal/blackberry.png";
+import lemon from "../../img/burgerModal/lemon.png";
+import muscat from "../../img/burgerModal/muscat.png";
+import nothing from "../../img/burgerModal/nothing.png";
+import noPickle from "../../img/burgerModal/n_pickle.png";
+import noOnion from "../../img/burgerModal/n_onion.png";
+import noBoth from "../../img/burgerModal/n_both.png";
 
 const useStyles = makeStyles({
   root: {
@@ -346,14 +346,7 @@ const BurgerModalSetRequests = props => {
   };
   props.priceChanger(getTotalPrice());
 
-  // const [temp, setTemp] = useState({
-  //   burger: props.burger.title,
-  //   side: sides[0].name,
-  //   beverage: beverages[0].name,
-  //   request: requests[0].name
-  // });
-
-  const orderDetail = () => {
+  const orderDetail = e => {
     let pickSide = "";
     let pickBeverage = "";
     let pickRequest = "";
@@ -372,12 +365,13 @@ const BurgerModalSetRequests = props => {
         pickRequest = request.name;
       }
     });
-    props.setTemp({
-      burger: props.burger.title,
-      side: pickSide,
-      beverage: pickBeverage,
-      request: pickRequest
+    // BodyOrder의 state 변경 ===============================
+    props.setOrder({
+      contents: [props.burger.title, pickSide, pickBeverage, pickRequest],
+      cnt: props.count,
+      price: props.total
     });
+    // =====================================================
     props.handleCloseSet();
   };
 

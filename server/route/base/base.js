@@ -58,7 +58,7 @@ app.delete("/", function (req, res) {
   res.json({ success: "delete call succeed!", url: req.url });
 });
 
-app.get("/get", function (req, res) {
+app.get("/getOrder", function (req, res) {
   console.log("들어옴");
   //connection.connect(); 조회할 파라미터
   var param = {

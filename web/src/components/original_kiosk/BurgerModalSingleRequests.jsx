@@ -10,12 +10,12 @@ import {
   CardMedia,
   CardContent
 } from "@material-ui/core";
-import check from "../img/burgerModal/check.png";
-import checkNone from "../img/burgerModal/check-none.png";
-import nothing from "../img/burgerModal/nothing.png";
-import noPickle from "../img/burgerModal/n_pickle.png";
-import noOnion from "../img/burgerModal/n_onion.png";
-import noBoth from "../img/burgerModal/n_both.png";
+import check from "../../img/burgerModal/check.png";
+import checkNone from "../../img/burgerModal/check-none.png";
+import nothing from "../../img/burgerModal/nothing.png";
+import noPickle from "../../img/burgerModal/n_pickle.png";
+import noOnion from "../../img/burgerModal/n_onion.png";
+import noBoth from "../../img/burgerModal/n_both.png";
 
 const useStyles = makeStyles({
   root: {

@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BurgerList = ({ setTemp }) => {
+const BurgerList = ({ setOrder }) => {
   const classes = useStyles();
   const [burgers, setBurgers] = useState([]);
 
@@ -63,7 +63,7 @@ const BurgerList = ({ setTemp }) => {
         {burgers.map(burger => (
           <Grid item xs={12} sm={6} md={4} key={"burger" + burger.id}>
             <Card className={classes.card} key={burger.title}>
-              <BurgerModal burger={burger} setTemp={setTemp} />
+              <BurgerModal burger={burger} setOrder={setOrder} />
               <CardContent className={classes.cardContent}>
                 <Typography gutterBottom variant="h5" component="h2">
                   {burger.title}

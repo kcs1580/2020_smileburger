@@ -19,7 +19,8 @@
 		LIMIT 1
 	</select>
 
-	<select id="getorder">
+
+		<select id="getorder">
 		/* 사용자, 유저 정보 조회 */
 		SELECT
 		user_no
@@ -50,7 +51,6 @@
 		#{pwd}
 		);
 	</insert>
-
 	<insert id= "insertTest">
 		insert into product(
 			pid,
