@@ -192,14 +192,7 @@ const BodyOrder = () => {
   const BodyControl = () => {
     switch (list) {
       case 0:
-        return (
-          <LastOrderLists
-            lastOrderLists={lastOrderLists}
-            setOrder={setOrder}
-            waitingNum={waitingNum}
-            orderList={orderList}
-          />
-        );
+        return <LastOrderLists lastOrderLists={lastOrderLists} setOrder={setOrder} />;
       case 1:
         return (
           <BurgerList

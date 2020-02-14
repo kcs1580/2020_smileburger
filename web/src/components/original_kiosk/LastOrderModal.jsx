@@ -83,15 +83,18 @@ const LastOrderModal = ({
   lastOrder,
   setOrder,
   totalCntList,
+  totalCntSumList,
   totalPriceList,
+  totalPriceSumList,
   orderShowList,
   orderDetailList
 }) => {
-  // console.log(orderDetailList);
-  // console.log(orderDetailList[idx]);
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
+  const [reorderContent, setReorderContent] = useState([]);
+  const [reorderCntList, setReorderCntList] = useState([]);
+  const [reorderPriceList, setReorderPriceList] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -103,14 +106,58 @@ const LastOrderModal = ({
 
   // 주문 하는 함수
   const orderDetail = () => {
-    console.log("주문함수");
-    console.log(orderDetailList[idx]);
-    setOrder({
-      contents: [],
-      cnt: totalCntList[idx],
-      price: totalPriceList[idx]
+    reorderContent.map((ord, tIdx) => {
+      setOrder({
+        contents: [ord],
+        cnt: reorderCntList[tIdx],
+        price: reorderPriceList[tIdx]
+      });
     });
+
     handleClose();
+  };
+
+  // 상품의 상세정보를 보여주는 함수
+  const reorder = index => {
+    orderDetailList.map((ord1, idx1) => {
+      let tempContentList = [];
+      if (idx1 == index) {
+        ord1.map(ord2 => {
+          let tempString = "";
+          ord2.map((ord3, idx3) => {
+            if (idx3 !== ord2.length - 1) {
+              tempString += ord3 + ", ";
+            } else {
+              tempString += ord3;
+            }
+          });
+          tempContentList.push(tempString);
+          setReorderContent(tempContentList);
+        });
+      }
+    });
+
+    totalCntList.map((cnt1, idx1) => {
+      let tempCntList = [];
+      if (idx1 === idx) {
+        cnt1.map(cnt2 => {
+          tempCntList.push(cnt2);
+        });
+        setReorderCntList(tempCntList);
+      }
+    });
+
+    totalPriceList.map((pri1, idx1) => {
+      let tempPriceList = [];
+      if (idx1 === idx) {
+        pri1.map(pri2 => {
+          tempPriceList.push(pri2);
+        });
+        setReorderPriceList(tempPriceList);
+      }
+    });
+
+    handleClickOpen();
   };
 
   return (
@@ -125,13 +172,18 @@ const LastOrderModal = ({
               {orderShowList[idx]}
             </Grid>
             <Grid itme xs={1} className={classes.paperContent}>
-              {totalCntList[idx]}
+              {totalCntSumList[idx]}
             </Grid>
             <Grid itme xs={2} className={classes.paperContent}>
-              {totalPriceList[idx]}
+              {totalPriceSumList[idx]}
             </Grid>
             <Grid itme xs={2} className={classes.paperContent}>
-              <Button variant="contained" color="secondary" size="large" onClick={handleClickOpen}>
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                onClick={() => reorder(idx)}
+              >
                 주문
               </Button>
             </Grid>
@@ -172,11 +224,17 @@ const LastOrderModal = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>{orderDetailList[idx]}</TableCell>
-                  <TableCell style={{ textAlign: "center" }}>{totalCntList[idx]}</TableCell>
-                  <TableCell style={{ textAlign: "center" }}>{totalPriceList[idx]}</TableCell>
-                </TableRow>
+                {reorderContent.map((ord, tIdx) => {
+                  return (
+                    <TableRow>
+                      <TableCell>{ord}</TableCell>
+                      <TableCell style={{ textAlign: "center" }}>{reorderCntList[tIdx]}</TableCell>
+                      <TableCell style={{ textAlign: "center" }}>
+                        {reorderPriceList[tIdx]}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>

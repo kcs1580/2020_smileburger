@@ -19,44 +19,54 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LastOrderLists = ({ lastOrderLists, setOrder, waitingNum, orderList }) => {
+const LastOrderLists = ({ lastOrderLists, setOrder }) => {
   const classes = useStyles();
   const [totalCntList, setTotalCntList] = useState([]);
+  const [totalCntSumList, setTotalCntSumList] = useState([]);
   const [totalPriceList, setTotalPriceList] = useState([]);
+  const [totalPriceSumList, setTotalPriceSumList] = useState([]);
   const [orderShowList, setOrderShowList] = useState([]);
   const [orderDetailList, setOrderDetailList] = useState([]);
 
   useEffect(() => {
     const tempCntList = [];
+    const tempCntSumList = [];
     const tempPriceList = [];
+    const tempPriceSumList = [];
     const tempOrderList = [];
     const tempOrderDetailList = [];
     lastOrderLists.map(lastOrder => {
       // 주문수량
-      let totalCnt = 0;
+      let totalCnt = [];
+      let totalCntSum = 0;
       lastOrder.ocontent.split("cnt").map((el, idx) => {
         if (idx !== 0) {
-          totalCnt += Number(el.slice(el.indexOf(":") + 1, el.indexOf(",")));
+          totalCnt.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf(","))));
+          totalCntSum += Number(el.slice(el.indexOf(":") + 1, el.indexOf(",")));
         }
       });
       tempCntList.push(totalCnt);
+      tempCntSumList.push(totalCntSum);
 
       // 주문가격
-      let totalPrice = 0;
+      let totalPrice = [];
+      let totalPriceSum = 0;
       lastOrder.ocontent.split("price").map((el, idx) => {
         if (idx !== 0) {
-          totalPrice += Number(el.slice(el.indexOf(":") + 1, el.indexOf("}")));
+          totalPrice.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf("}"))));
+          totalPriceSum += Number(el.slice(el.indexOf(":") + 1, el.indexOf("}")));
         }
       });
       tempPriceList.push(totalPrice);
+      tempPriceSumList.push(totalPriceSum);
 
       // 주문내용
       let orderSummary = "";
-      // let tempOrderDetail = "";
-      // let tempOrderDetail = [];
+      let eachOrderDetail = [];
       const tempList = lastOrder.ocontent.split("contents");
       tempList.map((el, idx) => {
         if (idx !== 0) {
+          let tempOrderDetail = [];
           const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
           tempString.map((string, sIdx) => {
             if (sIdx === 1 && idx !== tempList.length - 1) {
@@ -65,23 +75,24 @@ const LastOrderLists = ({ lastOrderLists, setOrder, waitingNum, orderList }) => 
               orderSummary += string;
             }
           });
-          // tempString.map((string, sIdx) => {
-          //   // if (sIdx % 2 === 1 && sIdx !== tempString.length - 2) {
-          //   //   tempOrderDetail += string + ", ";
-          //   // } else if (sIdx === tempString.length - 2) {
-          //   //   tempOrderDetail += string;
-          //   // }
-          //   if
-          // });
+          tempString.map((string, sIdx) => {
+            if (sIdx % 2 === 1) {
+              tempOrderDetail.push(string);
+            }
+          });
+          eachOrderDetail.push(tempOrderDetail);
         }
       });
+
       tempOrderList.push(orderSummary);
-      // tempOrderDetailList.push(tempOrderDetail);
+      tempOrderDetailList.push(eachOrderDetail);
     });
     setTotalCntList(tempCntList);
+    setTotalCntSumList(tempCntSumList);
     setTotalPriceList(tempPriceList);
     setOrderShowList(tempOrderList);
-    // setOrderDetailList(tempOrderDetailList);
+    setOrderDetailList(tempOrderDetailList);
+    setTotalPriceSumList(tempPriceSumList);
   }, []);
 
   return (
@@ -115,9 +126,10 @@ const LastOrderLists = ({ lastOrderLists, setOrder, waitingNum, orderList }) => 
             idx={idx}
             lastOrder={lastOrder}
             setOrder={setOrder}
-            orderList={orderList}
             totalCntList={totalCntList}
+            totalCntSumList={totalCntSumList}
             totalPriceList={totalPriceList}
+            totalPriceSumList={totalPriceSumList}
             orderShowList={orderShowList}
             orderDetailList={orderDetailList}
           />
