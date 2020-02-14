@@ -1,13 +1,7 @@
 import React, { useContext } from "react";
 
 import * as Colors from "material-ui/styles/colors";
-import {
-  makeStyles,
-  Typography,
-  AppBar,
-  Toolbar,
-  IconButton
-} from "@material-ui/core";
+import { makeStyles, Typography, AppBar, Toolbar, IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { CommonContext } from "../context/CommonContext";
@@ -42,9 +36,9 @@ const Header = props => {
     <AppBar
       position="fixed"
       className={classes.appBar}
-      style={{ backgroundColor: "red" }}
+      style={{ backgroundColor: "red", height: "60px" }}
     >
-      <Toolbar style={{ height: "120px" }}>
+      <Toolbar style={{ height: "60px" }}>
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -54,12 +48,8 @@ const Header = props => {
         >
           {/* <MenuIcon /> */}
         </IconButton>
-        <Typography
-          variant="h6"
-          className={classes.title}
-          style={{ textAlign: "center" }}
-        >
-          Head
+        <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
+          S M I L E ~ B U R G E R
         </Typography>
         <IconButton
           aria-label="account of current user"

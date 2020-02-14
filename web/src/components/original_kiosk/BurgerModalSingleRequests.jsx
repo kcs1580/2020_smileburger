@@ -80,7 +80,7 @@ const BurgerModalSingleRequests = props => {
 
   const requestsHtml = requests.map(request => {
     return (
-      <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
+      <Grid key={request.id} item xs={3} style={{ margin: 0, textAlign: "center" }}>
         <Card className={classes.root} onClick={() => pickRequest(request.id)}>
           <CardActionArea>
             <CardMedia
@@ -95,9 +95,7 @@ const BurgerModalSingleRequests = props => {
             />
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  {request.name}
-                </p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>{request.name}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -130,6 +128,23 @@ const BurgerModalSingleRequests = props => {
     setRequests(temp);
   };
 
+  const orderDetail = e => {
+    let pickRequest = "";
+
+    requests.map(request => {
+      if (request.check) {
+        pickRequest = request.name;
+      }
+    });
+    // BodyOrder의 state 변경 ===============================
+    props.setOrder({
+      contents: [props.burger.pname, pickRequest],
+      cnt: props.count,
+      price: props.total
+    });
+    // =====================================================
+    props.handleCloseSingle();
+  };
   return (
     <div>
       <Grid container>
@@ -140,26 +155,6 @@ const BurgerModalSingleRequests = props => {
       </Grid>
       <Grid container style={{ margin: 0, width: 900, padding: 20 }}>
         {requestsHtml}
-        {/* <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
-          <Typography gutterBottom variant="h5" component="h2">
-            <p>요청없음</p>
-          </Typography>
-        </Grid>
-        <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
-          <Typography gutterBottom variant="h5" component="h2">
-            <p>피클제거</p>
-          </Typography>
-        </Grid>
-        <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
-          <Typography gutterBottom variant="h5" component="h2">
-            <p>양파제거</p>
-          </Typography>
-        </Grid>
-        <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
-          <Typography gutterBottom variant="h5" component="h2">
-            <p>피클,양파제거</p>
-          </Typography>
-        </Grid> */}
       </Grid>
       {/* ==================================================== */}
       <Grid container className={classes.btnGridHeight}>
@@ -173,7 +168,7 @@ const BurgerModalSingleRequests = props => {
           </Button>
         </Grid>
         <Grid item xs={6} className={classes.btnPosition}>
-          <Button className={classes.btnCommit} variant="contained">
+          <Button className={classes.btnCommit} variant="contained" onClick={orderDetail}>
             <Typography variant="h5">확인</Typography>
           </Button>
         </Grid>

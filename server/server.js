@@ -33,6 +33,8 @@ const serverHandler = (req, res) => {
 };
 server.listen("3001", serverHandler);
 
+<<<<<<< HEAD
+=======
 // -----------------------------------------------------------------------------------
 // 임시 데이터
 app.get("/test/", function (req, res) {
@@ -110,7 +112,7 @@ app.get("/test/", function (req, res) {
     {
       id: 8,
       title: "불싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170412442355.jpg",
+      img: "src/image/products",
       price_single: 3600,
       price_set: 5800,
       cooking_time: "7~10",
@@ -139,6 +141,7 @@ app.get("/test/", function (req, res) {
     }
   ]);
 });
+>>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 
 io.on("connection", function (socket) {
   console.log(socket.id + "a user connected");

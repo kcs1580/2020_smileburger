@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   makeStyles,
   Button,
@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Table,
   TableContainer,
   TableHead,
   TableBody,
@@ -17,6 +18,7 @@ import {
 } from "@material-ui/core";
 import { Fastfood, Storefront, CancelOutlined } from "@material-ui/icons";
 import { red, grey } from "@material-ui/core/colors";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   btnPayment: {
@@ -64,10 +66,16 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     right: theme.spacing(1),
     color: "white"
+  },
+  dialogText: {
+    textAlign: "center",
+    color: "black",
+    margin: 20,
+    fontSize: 25
   }
 }));
 
-const PaymentModal = ({ orderList }) => {
+const PaymentModal = ({ orderList, waitingNum }) => {
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -94,19 +102,55 @@ const PaymentModal = ({ orderList }) => {
     setOpenWatingNum(false);
   };
 
+  // 결제하기 버튼 클릭시 주문내역이 있는지 없는지 확인 후 무엇을 보여줄지 결정
   const handleClick = () => {
     if (orderList.length === 0) {
       handleClickOpenOrderFirst();
     } else {
       handleClickOpen();
     }
-    console.log(orderList);
+    // console.log(orderList);
   };
 
-  const handleClickWatingNum = () => {
+  // const [waitingNum, setWaitingNum] = useState(101);
+  const orderComplete = type => {
     handleClickOpenWatingNum();
     handleClose();
+    // DB에 주문저장 하는 부분
+    axios
+      .get("http://localhost:3001/base/insertOrder", {
+        params: {
+          waitingNum: waitingNum,
+          data: orderList,
+          type: type
+        }
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   };
+
+  const goHome = check => {
+    if (check) {
+      window.location.replace("http://localhost:3000/");
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleCloseOrderFirst();
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [openOrderFirst]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleCloseWatingNum();
+      goHome(openWatingNum);
+    }, 3000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [openWatingNum]);
 
   return (
     <div>
@@ -123,22 +167,15 @@ const PaymentModal = ({ orderList }) => {
         maxWidth="xl"
       >
         <DialogTitle id="alert-dialog-title" className={classes.dialogTitle}>
-          <Typography>
-            <p className={classes.titleCss}>결제하기</p>
-            <IconButton className={classes.closeButton}>
-              <CancelOutlined onClick={handleClose} style={{ fontSize: 45 }} />
-            </IconButton>
-          </Typography>
+          <Typography className={classes.titleCss}>결제하기</Typography>
+          <IconButton className={classes.closeButton} onClick={handleClose}>
+            <CancelOutlined style={{ fontSize: 45 }} />
+          </IconButton>
         </DialogTitle>
         {/* 주문내역 확인 테이블 */}
         <DialogContent>
-          <DialogContentText
-            id="alert-dialog-description"
-            style={{ textAlign: "center" }}
-          >
-            <Typography variant="h5" style={{ color: "black", margin: 20 }}>
-              주문내역을 확인 후 식사 장소를 선택하세요.
-            </Typography>
+          <DialogContentText id="alert-dialog-description" className={classes.dialogText}>
+            주문내역을 확인 후 식사 장소를 선택하세요.
           </DialogContentText>
           <TableContainer
             style={{
@@ -147,60 +184,50 @@ const PaymentModal = ({ orderList }) => {
               borderBottom: "2px solid"
             }}
           >
-            <TableHead>
-              <TableRow style={{ background: red[100] }}>
-                <TableCell style={{ minWidth: 390, fontSize: 25 }}>
-                  제품명
-                </TableCell>
-                <TableCell
-                  style={{ minWidth: 200 }}
-                  className={classes.tableHeadCell}
-                >
-                  수량
-                </TableCell>
-                <TableCell
-                  style={{ minWidth: 200 }}
-                  className={classes.tableHeadCell}
-                >
-                  금액
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {orderList.map(order => {
-                return (
-                  <TableRow key={order.id}>
-                    <TableCell>
-                      {order.contents.map((content, idx) => {
-                        if (idx === order.contents.length - 1) {
-                          return content;
-                        } else {
-                          return content + ", ";
-                        }
-                      })}
-                    </TableCell>
-                    <TableCell style={{ textAlign: "center" }}>
-                      {order.cnt}
-                    </TableCell>
-                    <TableCell style={{ textAlign: "center" }}>
-                      {order.price}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+            <Table>
+              <TableHead>
+                <TableRow style={{ background: red[100] }}>
+                  <TableCell style={{ minWidth: 390, fontSize: 25 }}>제품명</TableCell>
+                  <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
+                    수량
+                  </TableCell>
+                  <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
+                    금액
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {orderList.map(order => {
+                  return (
+                    <TableRow key={order.id}>
+                      <TableCell>
+                        {order.contents.map((content, idx) => {
+                          if (idx === order.contents.length - 1) {
+                            return content;
+                          } else {
+                            return content + ", ";
+                          }
+                        })}
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center" }}>{order.cnt}</TableCell>
+                      <TableCell style={{ textAlign: "center" }}>{order.price}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
           </TableContainer>
         </DialogContent>
         {/* 식사장소 선택 버튼 */}
         <Grid container style={{ height: 200 }}>
           <Grid item xs={6} className={classes.btnPosition}>
-            <Button onClick={handleClickWatingNum} className={classes.btnWhere}>
+            <Button onClick={() => orderComplete("포장")} className={classes.btnWhere}>
               <Fastfood className={classes.iconStyle} />
               <div>포장</div>
             </Button>
           </Grid>
           <Grid item xs={6} className={classes.btnPosition}>
-            <Button onClick={handleClickWatingNum} className={classes.btnWhere}>
+            <Button onClick={() => orderComplete("매장")} className={classes.btnWhere}>
               <Storefront className={classes.iconStyle} />
               <div>매장</div>
             </Button>
@@ -216,16 +243,9 @@ const PaymentModal = ({ orderList }) => {
         aria-describedby="alert-dialog-description"
         maxWidth="xl"
       >
-        <DialogTitle
-          style={{
-            textAlign: "center",
-            width: 700,
-            height: 200,
-            paddingTop: 72
-          }}
-        >
+        <DialogContent>
           <Typography variant="h3">먼저 제품을 선택해 주세요.</Typography>
-        </DialogTitle>
+        </DialogContent>
       </Dialog>
 
       {/* 대기번호 모달 ======================= */}
@@ -236,16 +256,9 @@ const PaymentModal = ({ orderList }) => {
         aria-describedby="alert-dialog-description"
         maxWidth="xl"
       >
-        <DialogTitle
-          style={{
-            textAlign: "center",
-            width: 700,
-            height: 200,
-            paddingTop: 72
-          }}
-        >
-          <Typography variant="h3">대기번호</Typography>
-        </DialogTitle>
+        <DialogContent>
+          <Typography variant="h3">대기번호: {waitingNum}</Typography>
+        </DialogContent>
       </Dialog>
     </div>
   );

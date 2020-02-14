@@ -51,96 +51,64 @@ const useStyles = makeStyles({
     background: "grey",
     height: 100,
     width: 200
+  },
+  eachRequestGroup: {
+    margin: 0,
+    width: 900,
+    padding: 20,
+    height: 340,
+    overflow: "auto"
   }
 });
 
 const BurgerModalSetRequests = props => {
   const classes = useStyles();
-
-  const [sides, setSides] = useState([
-    {
-      id: "side1",
-      name: "양념감자(소)",
-      check: true,
-      addPrice: 0,
-      img: check,
-      back: chips1
-    },
-    {
-      id: "side2",
-      name: "양념감자(중)",
-      check: false,
-      addPrice: 1000,
-      img: checkNone,
-      back: chips2
-    },
-    {
-      id: "side3",
-      name: "치즈감자",
-      check: false,
-      addPrice: 1000,
-      img: checkNone,
-      back: cheese
-    },
-    {
-      id: "side4",
-      name: "어니언치즈감자",
-      check: false,
-      addPrice: 1000,
-      img: checkNone,
-      back: onion
-    }
-  ]);
-  const [beverages, setBeverages] = useState([
-    {
-      id: "beverage1",
-      name: "콜라",
-      check: true,
-      addPrice: 0,
-      back: coke,
-      img: check
-    },
-    {
-      id: "beverage2",
-      name: "사이다",
-      check: false,
-      addPrice: 0,
-      back: sprite,
-      img: checkNone
-    },
-    {
-      id: "beverage3",
-      name: "오렌지쥬스",
-      check: false,
-      addPrice: 400,
-      back: orange,
-      img: checkNone
-    },
-    {
-      id: "beverage4",
-      name: "블렉베리쥬스",
-      check: false,
-      addPrice: 400,
-      back: blackberry,
-      img: checkNone
-    },
-    {
-      id: "beverage5",
-      name: "레몬에이드",
-      check: false,
-      addPrice: 600,
-      back: lemon,
-      img: checkNone
-    },
-    {
-      id: "beverage6",
-      name: "청포도에이드",
-      check: false,
-      addPrice: 600,
-      back: muscat,
-      img: checkNone
-    }
-  ]);
+  const [sides, setSides] = useState(
+    props.sides.map((side, idx) => {
+      if (idx === 0) {
+        return {
+          id: side.pid,
+          name: side.pname,
+          check: true,
+          addPrice: 0,
+          img: check,
+          back: side.pimgurl
+        };
+      } else {
+        return {
+          id: side.pid,
+          name: side.pname,
+          check: false,
+          addPrice: side.pprice - 1500,
+          img: checkNone,
+          back: side.pimgurl
+        };
+      }
+    })
+  );
+  const [beverages, setBeverages] = useState(
+    props.beverages.map((beverage, idx) => {
+      if (idx === 0) {
+        return {
+          id: beverage.pid,
+          name: beverage.pname,
+          check: true,
+          addPrice: 0,
+          img: check,
+          back: beverage.pimgurl
+        };
+      } else {
+        return {
+          id: beverage.pid,
+          name: beverage.pname,
+          check: false,
+          addPrice: beverage.pprice - 1700,
+          img: checkNone,
+          back: beverage.pimgurl
+        };
+      }
+    })
+  );
   const [requests, setRequests] = useState([
     {
       id: "request1",
@@ -270,9 +238,7 @@ const BurgerModalSetRequests = props => {
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
                 <p style={{ marginTop: 10, marginBottom: 10 }}>{side.name}</p>
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  +{side.addPrice}
-                </p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>+{side.addPrice}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -283,10 +249,7 @@ const BurgerModalSetRequests = props => {
   const beveragesHtml = beverages.map(beverage => {
     return (
       <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
-        <Card
-          className={classes.root}
-          onClick={() => pickBeverage(beverage.id)}
-        >
+        <Card className={classes.root} onClick={() => pickBeverage(beverage.id)}>
           <CardActionArea>
             <CardMedia
               component="img"
@@ -300,12 +263,8 @@ const BurgerModalSetRequests = props => {
             />
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  {beverage.name}
-                </p>
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  +{beverage.addPrice}
-                </p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>{beverage.name}</p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>+{beverage.addPrice}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -330,9 +289,7 @@ const BurgerModalSetRequests = props => {
             />
             <CardContent style={{ padding: 0 }}>
               <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>
-                  {request.name}
-                </p>
+                <p style={{ marginTop: 10, marginBottom: 10 }}>{request.name}</p>
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -342,7 +299,7 @@ const BurgerModalSetRequests = props => {
   });
 
   const getTotalPrice = () => {
-    return props.burger.price_set + sidePrice + beveragePrice;
+    return props.burgerSetPrice + sidePrice + beveragePrice;
   };
   props.priceChanger(getTotalPrice());
 
@@ -367,7 +324,7 @@ const BurgerModalSetRequests = props => {
     });
     // BodyOrder의 state 변경 ===============================
     props.setOrder({
-      contents: [props.burger.title, pickSide, pickBeverage, pickRequest],
+      contents: [props.burgerSetName, pickSide, pickBeverage, pickRequest],
       cnt: props.count,
       price: props.total
     });
@@ -383,7 +340,7 @@ const BurgerModalSetRequests = props => {
           사이드
         </Grid>
       </Grid>
-      <Grid container style={{ margin: 0, width: 900, padding: 20 }}>
+      <Grid container className={classes.eachRequestGroup}>
         {sidesHtml}
       </Grid>
       {/* ==================================================== */}
@@ -393,7 +350,7 @@ const BurgerModalSetRequests = props => {
           음료
         </Grid>
       </Grid>
-      <Grid container style={{ margin: 0, width: 900, padding: 20 }}>
+      <Grid container className={classes.eachRequestGroup}>
         {beveragesHtml}
       </Grid>
       {/* ==================================================== */}
@@ -403,26 +360,18 @@ const BurgerModalSetRequests = props => {
           요청사항
         </Grid>
       </Grid>
-      <Grid container style={{ margin: 0, width: 900, padding: 20 }}>
+      <Grid container className={classes.eachRequestGroup}>
         {requestsHtml}
       </Grid>
       {/* ==================================================== */}
       <Grid container className={classes.btnGridHeight}>
         <Grid item xs={6} className={classes.btnPosition}>
-          <Button
-            className={classes.btnCancel}
-            variant="contained"
-            onClick={props.handleCloseSet}
-          >
+          <Button className={classes.btnCancel} variant="contained" onClick={props.handleCloseSet}>
             <Typography variant="h5">취소</Typography>
           </Button>
         </Grid>
         <Grid item xs={6} className={classes.btnPosition}>
-          <Button
-            className={classes.btnCommit}
-            variant="contained"
-            onClick={orderDetail}
-          >
+          <Button className={classes.btnCommit} variant="contained" onClick={orderDetail}>
             <Typography variant="h5">확인</Typography>
           </Button>
         </Grid>
