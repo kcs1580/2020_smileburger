@@ -52,14 +52,14 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
 
       // 주문내용
       let orderSummary = "";
-      const asdf = lastOrder.ocontent.split("contents");
-      asdf.map((el, idx) => {
+      const tempList = lastOrder.ocontent.split("contents");
+      tempList.map((el, idx) => {
         if (idx !== 0) {
           const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
           tempString.map((string, sIdx) => {
-            if (sIdx === 1 && idx !== asdf.length - 1) {
+            if (sIdx === 1 && idx !== tempList.length - 1) {
               orderSummary += string + ", ";
-            } else if (sIdx === 1 && idx === asdf.length - 1) {
+            } else if (sIdx === 1 && idx === tempList.length - 1) {
               orderSummary += string;
             }
           });
@@ -80,7 +80,6 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
         </Typography>
       </Grid>
       {lastOrderLists.map((lastOrder, idx) => {
-        console.log(typeof orderDetailList[idx]); // object 타입
         return (
           <Grid key={lastOrder.oid} item xs={12}>
             <Paper className={classes.paper}>
