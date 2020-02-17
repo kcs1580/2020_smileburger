@@ -17,38 +17,42 @@ mybatisMapper.createMapper(["./sql/base/base.xml"]);
 
 /*
 ///////////////////////////DB Config_admin_s////////////////////////////////
-const pool = mysql.createPool({
-  connectionLimit: 10,
+const connection = mysql.createConnection({
   host: "host",
   user: "root",
-  port: "3001",
   password: "root",
-  database: "kiosk",
-  method: 'GET'
+  database: "kiosk"
 });
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 //////////////////////////////////////e//////////////////////////////
-
+*/
 
 //////////////////////////admin_order_list select  s
-app.get("/BASE.SELECT.admin_order_list", (req, res) => {
-  pool.query('SELECT * FROM admin_order_list',
-    (err, data) => {
-      if (!err) {
-        console.log(data + "base에서 admin을 get하는 함수 뭐 잘 작동하는중")
-        res.send(data);
+app.get("/adminOrderList", async (req, res) => {
+  const params = {};
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "adminOrderList", params, format);
+  try {
+    await connection.query(query, (error, results) => {
+      if (error) {
+        console.error(error + "\n adminOrderList 를 get하는데 오류");
+        res.send(error);
+      } else {
+        console.error(results);
+        console.log("값 잘 보내지나");
+        res.send(results);
       }
-      else if (err) {
-        console.log(err + "\n base에서 admin_order_list 태이블을 get하는 함수에서 에러난다.")
-        console.log(data);
-        res.send(err);
-        //throw err;  //에러시 서버와 연결 끊기게
-      }
-    }
-  )
-})
+    });
+  } catch (connectionErr) {
+    console.error(connectionErr);
+    res.send(connectionErr);
+  }
+});
 /////////////////////////////////e
-*/
+
 
 app.get("/", async function (req, res) { });
 

@@ -33,54 +33,23 @@ function BoardRow(props) {
     }, [refresh]);
 
     return (
-        < div >
+        <tr>
+            {
+                orderListUnit.map(order => (
 
-            {
-                orderListUnit.map(order => (
-                    <tr>
-                        <tb>
-                            {order.oid}
-                        </tb>
-                    </tr>
+                    <tb>
+                        {order.oid}
+                    </tb>
+                    /* <tb>
+                        {order.otype}
+                    </tb>
+                    <tb>
+                        {order.owaitingNum}
+                    </tb> */
+
                 ))
             }
-            {
-                orderListUnit.map(order => (
-                    <tr>
-                        <tb>
-                            {order.otype}
-                        </tb>
-                    </tr>
-                ))
-            }
-            {
-                orderListUnit.map(order => (
-                    <tr>
-                        <tb>
-                            {order.owaitingNum}
-                        </tb>
-                    </tr>
-                ))
-            }
-            {
-                orderListUnit.map(order => (
-                    <tr>
-                        <tb>
-                            {order.ocontent}
-                        </tb>
-                    </tr>
-                ))
-            }
-            {
-                orderListUnit.map(order => (
-                    <tr>
-                        <tb>
-                            {order.odate}
-                        </tb>
-                    </tr>
-                ))
-            }
-        </div >
+        </tr>
     );
 };
 

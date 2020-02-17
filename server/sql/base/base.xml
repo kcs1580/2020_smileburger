@@ -132,13 +132,20 @@
 		SELECT * FROM order_pro
 	</select>
 
-<<<<<<< HEAD
-	<select id="BASE.SELECT.admin_order_list">
-		/*사용자, 주문 목록 조회*/
-		SELECT * FROM admin_order_list
+	<select id="adminOrderList">
+		SELECT * FROM orders
+		<!--SELECT 
+			oid,
+			owaitingNum,
+			odate,
+			ocontent,
+			otype
+		FROM
+			orders
+		WHERE
+			REGEXP(ocontent,'[가-힣]')-->
 	</select>
-=======
-<<<<<<< HEAD
+
     <select id="getProducts">
         SELECT
             pid, pname, pcategory, pprice, pdesc, pimgurl
@@ -147,12 +154,9 @@
         WHERE
             pcategory = #{pcategory}
     </select>
-=======
 	<select id="getLastOrderLists">
 		 SELECT * FROM orders
 		 WHERE faceid=#{faceid}
 		 ORDER BY oid DESC LIMIT 5
 	</select>
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
->>>>>>> ff77282fc63e7800e9a5458553c1b3d3c3179618
 </mapper>
