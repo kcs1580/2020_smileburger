@@ -213,4 +213,103 @@ app.get("/getLastOrderLists", (req, res) => {
   });
 });
 
+app.get("/getpreNumbers", (req, res) => {
+  const params = {};
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "getpreNumbers", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      console.log(error);
+    } else {
+      res.send(results);
+      console.log(results);
+    }
+  });
+});
+
+app.get("/getredNumbers", (req, res) => {
+  const params = {};
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "getredNumbers", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      console.log(error);
+    } else {
+      res.send(results);
+      console.log(results);
+    }
+  });
+});
+
+app.get("/getinOrders", (req, res) => {
+  const params = {};
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "getinOrders", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      console.log(error);
+    } else {
+      res.send(results);
+      // console.log(results);
+    }
+  });
+});
+
+app.get("/ready2complete", (req, res) => {
+  const params = {
+    oid: req.query.oid
+  };
+  console.log(params.oid)
+
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "ready2complete", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      console.log(error);
+    } else {
+      res.send(results);
+      console.log(results)
+    }
+  });
+})
+
+app.get("/complete2out", (req, res) => {
+  const params = {
+    oid: req.query.oid
+  };
+  console.log(params.oid)
+
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "complete2out", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      console.log(error);
+    } else {
+      res.send(results);
+      console.log(results)
+    }
+  });
+
+})
+
 module.exports = app;
