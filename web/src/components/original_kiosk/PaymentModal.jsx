@@ -118,7 +118,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
     handleClose();
     // DB에 주문저장 하는 부분
     axios
-      .get("http://localhost:3001/base/insertOrder", {
+      .get("http://localhost:3001/insertOrder", {
         params: {
           waitingNum: waitingNum,
           data: orderList,

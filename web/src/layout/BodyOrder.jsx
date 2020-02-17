@@ -51,7 +51,7 @@ const BodyOrder = () => {
   // 제품 정보가져오기
   useEffect(() => {
     axios
-      .get("http://localhost:3001/base/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 0
         }
@@ -62,7 +62,7 @@ const BodyOrder = () => {
       })
       .catch(err => console.log(err));
     axios
-      .get("http://localhost:3001/base/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 1
         }
@@ -73,7 +73,7 @@ const BodyOrder = () => {
       })
       .catch(err => console.log(err));
     axios
-      .get("http://localhost:3001/base/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 2
         }
@@ -84,7 +84,7 @@ const BodyOrder = () => {
       })
       .catch(err => console.log(err));
     axios
-      .get("http://localhost:3001/base/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 3
         }
@@ -99,7 +99,7 @@ const BodyOrder = () => {
   // 기존의 주문정보를 먼저 확인
   useEffect(() => {
     axios
-      .get("http://localhost:3001/base/getLatestOrder")
+      .get("http://localhost:3001/getLatestOrder")
       .then(res => {
         if (res.data.length !== 0) {
           console.log(res.data.length);
@@ -174,7 +174,7 @@ const BodyOrder = () => {
     if (registered) {
       setList(0);
       axios
-        .get("http://localhost:3001/base/getLastOrderLists", {
+        .get("http://localhost:3001/getLastOrderLists", {
           params: {
             faceid: registered // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
           }
