@@ -55,6 +55,7 @@ const Content = () => {
       order.isready = '1'
       axios.get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
         .then((res) => {
+          socket.emit("Front2Back", { data: "data" })
           console.log(res)
         })
 
@@ -62,9 +63,11 @@ const Content = () => {
       order.isready = '2'
       axios.get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
         .then((res) => {
+          socket.emit("Front2Back", { data: "data" })
           console.log(res)
         })
     }
+
     console.log(order)
     console.log(order.oid)
   }
