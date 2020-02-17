@@ -117,7 +117,6 @@ const BodyOrder = () => {
       let check = true;
       let checkIdx = 0;
       let editOrder = {};
-      // console.log("before: ", check);
       orderList.map((ord, idx) => {
         if (ord.contents.length === order.contents.length) {
           let cntCheck = 0;

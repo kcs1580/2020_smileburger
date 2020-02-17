@@ -77,11 +77,6 @@
 		);
 	</insert>
 
-<<<<<<< HEAD
-	<insert id= "insertOrder">
-		insert into orders(
-			oid,
-=======
 	<select id="getLatestOrder">
 		SELECT oid, owaitingNum
 		FROM orders
@@ -93,18 +88,13 @@
 	<insert id= "insertOrder">
 		insert into orders(
 			owaitingNum,
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 			odate,
 			faceid,
 			ocontent,
 			otype
 			)
 		values(
-<<<<<<< HEAD
-			#{oid},
-=======
 			#{owaitingNum},
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 			CURDATE(),
 			#{faceid},
 			#{ocontent},
@@ -142,7 +132,6 @@
 		SELECT * FROM order_pro
 	</select>
 
-<<<<<<< HEAD
     <select id="getProducts">
         SELECT
             pid, pname, pcategory, pprice, pdesc, pimgurl
@@ -151,11 +140,10 @@
         WHERE
             pcategory = #{pcategory}
     </select>
-=======
+
 	<select id="getLastOrderLists">
 		 SELECT * FROM orders
 		 WHERE faceid=#{faceid}
 		 ORDER BY oid DESC LIMIT 10
 	</select>
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
 </mapper>

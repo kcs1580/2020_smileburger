@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   Button,
@@ -105,15 +105,18 @@ const LastOrderModal = ({
   };
 
   // 주문 하는 함수
-  const orderDetail = () => {
-    reorderContent.map((ord, tIdx) => {
-      setOrder({
-        contents: [ord],
-        cnt: reorderCntList[tIdx],
-        price: reorderPriceList[tIdx]
-      });
-    });
-
+  const orderDetail = async () => {
+    reorderContent.map(
+      await function(order, tIdx) {
+        setOrder({
+          contents: order.split(",").map(item => {
+            return item.trim();
+          }),
+          cnt: reorderCntList[tIdx],
+          price: reorderPriceList[tIdx]
+        });
+      }
+    );
     handleClose();
   };
 
@@ -156,7 +159,6 @@ const LastOrderModal = ({
         setReorderPriceList(tempPriceList);
       }
     });
-
     handleClickOpen();
   };
 
@@ -165,19 +167,19 @@ const LastOrderModal = ({
       <Grid item xs={12}>
         <Paper className={classes.paper}>
           <Grid container>
-            <Grid itme xs={2} className={classes.paperContent}>
+            <Grid item xs={2} className={classes.paperContent}>
               {lastOrder.odate}
             </Grid>
-            <Grid itme xs={5}>
+            <Grid item xs={5}>
               {orderShowList[idx]}
             </Grid>
-            <Grid itme xs={1} className={classes.paperContent}>
+            <Grid item xs={1} className={classes.paperContent}>
               {totalCntSumList[idx]}
             </Grid>
-            <Grid itme xs={2} className={classes.paperContent}>
+            <Grid item xs={2} className={classes.paperContent}>
               {totalPriceSumList[idx]}
             </Grid>
-            <Grid itme xs={2} className={classes.paperContent}>
+            <Grid item xs={2} className={classes.paperContent}>
               <Button
                 variant="contained"
                 color="secondary"
@@ -226,7 +228,7 @@ const LastOrderModal = ({
               <TableBody>
                 {reorderContent.map((ord, tIdx) => {
                   return (
-                    <TableRow>
+                    <TableRow key={tIdx}>
                       <TableCell>{ord}</TableCell>
                       <TableCell style={{ textAlign: "center" }}>{reorderCntList[tIdx]}</TableCell>
                       <TableCell style={{ textAlign: "center" }}>

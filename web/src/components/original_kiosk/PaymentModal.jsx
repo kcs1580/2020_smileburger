@@ -131,7 +131,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
 
   const goHome = check => {
     if (check) {
-      window.location.replace("http://localhost:3000/");
+      window.location.replace("http://localhost:3000/auth");
     }
   };
 

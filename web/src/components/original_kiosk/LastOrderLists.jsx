@@ -66,7 +66,6 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
       const tempList = lastOrder.ocontent.split("contents");
       tempList.map((el, idx) => {
         if (idx !== 0) {
-          let tempOrderDetail = [];
           const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
           tempString.map((string, sIdx) => {
             if (sIdx === 1 && idx !== tempList.length - 1) {
@@ -75,11 +74,14 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
               orderSummary += string;
             }
           });
+          let tempOrderDetail = [];
           tempString.map((string, sIdx) => {
             if (sIdx % 2 === 1) {
               tempOrderDetail.push(string);
             }
           });
+          console.log(tempOrderDetail);
+          console.log(typeof tempOrderDetail);
           eachOrderDetail.push(tempOrderDetail);
         }
       });
@@ -103,19 +105,19 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
         </Typography>
       </Grid>
       <Grid container style={{ marginLeft: 180, marginRight: 180 }}>
-        <Grid itme xs={2} className={classes.orderHeader}>
+        <Grid item xs={2} className={classes.orderHeader}>
           날짜
         </Grid>
-        <Grid itme xs={5} className={classes.orderHeader}>
+        <Grid item xs={5} className={classes.orderHeader}>
           내용
         </Grid>
-        <Grid itme xs={1} className={classes.orderHeader}>
+        <Grid item xs={1} className={classes.orderHeader}>
           수량
         </Grid>
-        <Grid itme xs={2} className={classes.orderHeader}>
+        <Grid item xs={2} className={classes.orderHeader}>
           금액
         </Grid>
-        <Grid itme xs={2} className={classes.orderHeader}>
+        <Grid item xs={2} className={classes.orderHeader}>
           주문
         </Grid>
       </Grid>
