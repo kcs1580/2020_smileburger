@@ -146,4 +146,31 @@
 		 WHERE faceid=#{faceid}
 		 ORDER BY oid DESC LIMIT 10
 	</select>
+
+	<select id="getpreNumbers">
+    SELECT oid FROM orders
+      WHERE isready=0
+   </select>
+
+     <select id="getredNumbers">
+    SELECT oid FROM orders
+      WHERE isready=1
+   </select>
+
+   <select id="getinOrders">
+		SELECT * FROM orders
+		WHERE isready=0 or isready=1
+	</select>
+
+	<update id="ready2complete">
+		UPDATE orders
+		SET isready='1'
+		WHERE oid=#{oid}
+	</update>
+
+	<update id="complete2out">
+		UPDATE orders
+		SET isready='2'
+		WHERE oid=#{oid}
+	</update>
 </mapper>

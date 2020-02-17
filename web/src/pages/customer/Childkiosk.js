@@ -25,8 +25,9 @@ const useStyles = makeStyles(theme => ({
     },
     btnorder: {
         position: "relative",
-        zIndex: 1
-    }
+        
+    },
+
 
 
 }))
@@ -185,11 +186,12 @@ const Childkiosk = props => {
         <Fragment>
             <CssBaseline />
             <HeaderOrder />
+            
             <div className={classes.body}>
                 {/* <BottomNav select={select} setSelect={setSelect} /> */}
-
+                <Menutap select={select} setSelect={setSelect}  className={classes.Menutap} />
                 <SelectPage className={classes.selpage} />
-                <Menutap select={select} setSelect={setSelect} />
+                
                 <BodyOrderChoiceListDrawer
                     className={classes.btnorder}
                     orderList={orderList}

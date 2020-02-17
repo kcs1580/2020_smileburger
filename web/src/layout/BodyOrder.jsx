@@ -45,52 +45,52 @@ const BodyOrder = () => {
   const [beverages, setBeverages] = useState([]);
   const [burgerSets, setBurgerSets] = useState([]);
   const [waitingNum, setWaitingNum] = useState(101);
-  const [registered, setRegisterd] = useState("defaultUser"); // 페이스 인식에서 인증된 사용자 인지 아닌지 넘겨 받을 값
+  const [registered, setRegisterd] = useState(false); // 페이스 인식에서 인증된 사용자 인지 아닌지 넘겨 받을 값
   const [lastOrderLists, setLastOrderLists] = useState([]);
 
   // 제품 정보가져오기
   useEffect(() => {
     axios
-      .get("http://localhost:3001/base/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 0
         }
       })
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         setBurgers(res.data);
       })
       .catch(err => console.log(err));
     axios
-      .get("http://localhost:3001/base/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 1
         }
       })
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         setSides(res.data);
       })
       .catch(err => console.log(err));
     axios
-      .get("http://localhost:3001/base/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 2
         }
       })
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         setBeverages(res.data);
       })
       .catch(err => console.log(err));
     axios
-      .get("http://localhost:3001/base/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 3
         }
       })
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         setBurgerSets(res.data);
       })
       .catch(err => console.log(err));
@@ -99,7 +99,7 @@ const BodyOrder = () => {
   // 기존의 주문정보를 먼저 확인
   useEffect(() => {
     axios
-      .get("http://localhost:3001/base/getLatestOrder")
+      .get("http://localhost:3001/getLatestOrder")
       .then(res => {
         if (res.data.length !== 0) {
           console.log(res.data.length);
@@ -168,23 +168,25 @@ const BodyOrder = () => {
   }, [order]);
 
   // 인증된 사용자일 경우 사용자의 데이터 가져오기
-  // (데이터 넣기 수정 필요)
   useEffect(() => {
-    if (registered) {
+    if (localStorage.getItem("FaceID")) {
+      setRegisterd(true);
       setList(0);
       axios
-        .get("http://localhost:3001/base/getLastOrderLists", {
+        .get("http://localhost:3001/getLastOrderLists", {
           params: {
-            faceid: registered // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
+            faceid: localStorage.getItem("FaceID") // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
           }
         })
         .then(res => {
-          console.log(res);
-          console.log(res.data[0].odate);
-          console.log(typeof res.data);
+          // console.log(res);
+          // console.log(res.data[0].odate);
+          // console.log(typeof res.data);
           setLastOrderLists(res.data);
         })
         .catch(err => console.log(err));
+    } else {
+      console.log("비회원!!!!!!!!!!");
     }
   }, []);
 
