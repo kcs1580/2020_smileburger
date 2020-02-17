@@ -116,22 +116,26 @@ const PaymentModal = ({ orderList, waitingNum }) => {
   const orderComplete = type => {
     handleClickOpenWatingNum();
     handleClose();
+
     // DB에 주문저장 하는 부분
+
+    const faceID = localStorage.getItem("FaceID") ? localStorage.getItem("FaceID") : "defaultUser";
     axios
       .get("http://localhost:3001/insertOrder", {
         params: {
           waitingNum: waitingNum,
+          faceID: faceID,
           data: orderList,
           type: type
         }
       })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then(res => console.log("이거" + res))
+      .catch(err => console.log("이거" + err));
   };
 
   const goHome = check => {
     if (check) {
-      window.location.replace("http://localhost:3000/");
+      window.location.replace("http://localhost:3000/auth");
     }
   };
 
@@ -146,6 +150,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
     const timer = setTimeout(() => {
       handleCloseWatingNum();
       goHome(openWatingNum);
+      localStorage.removeItem("FaceID");
     }, 3000);
     return () => {
       clearTimeout(timer);

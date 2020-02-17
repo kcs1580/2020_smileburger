@@ -94,7 +94,6 @@
 			otype
 			)
 		values(
-			#{oid},
 			#{owaitingNum},
 			CURDATE(),
 			#{faceid},
@@ -141,10 +140,11 @@
         WHERE
             pcategory = #{pcategory}
     </select>
+
 	<select id="getLastOrderLists">
 		 SELECT * FROM orders
 		 WHERE faceid=#{faceid}
-		 ORDER BY oid DESC LIMIT 5
+		 ORDER BY oid DESC LIMIT 10
 	</select>
 
 	<select id="getpreNumbers">

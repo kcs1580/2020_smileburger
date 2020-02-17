@@ -122,6 +122,7 @@ app.get("/getLatestOrder", async (req, res) => {
 // 주문이 DB에 저장되는 부분
 app.get("/insertOrder", async (req, res) => {
   const waitingNum = req.query.waitingNum;
+  const faceID = req.query.faceID;
   const data = req.query.data;
   const type = req.query.type;
   console.log("================================================");
@@ -130,7 +131,7 @@ app.get("/insertOrder", async (req, res) => {
   console.log("================================================");
   const selectParams = {
     owaitingNum: waitingNum,
-    faceid: "defaultUser",
+    faceid: faceID,
     ocontent: data,
     otype: type
   };
@@ -141,11 +142,8 @@ app.get("/insertOrder", async (req, res) => {
   const query = mybatisMapper.getStatement("BASE", "insertOrder", selectParams, format);
   try {
     await connection.query(query);
-    console.log(results);
-    res.send(results);
-  } catch {
-    console.log(error);
-    res.send(error);
+  } catch (e) {
+    console.log(e);
   }
   res.json({ msg: "성공!!" });
 });
@@ -183,10 +181,8 @@ app.get("/getLastOrderLists", (req, res) => {
   connection.query(query, (error, results) => {
     if (error) {
       res.send(error);
-      console.log(error);
     } else {
       res.send(results);
-      console.log(results);
     }
   });
 });
@@ -201,10 +197,10 @@ app.get("/getpreNumbers", (req, res) => {
   connection.query(query, (error, results) => {
     if (error) {
       res.send(error);
-      console.log(error);
+      // console.log(error);
     } else {
       res.send(results);
-      console.log(results);
+      // console.log(results);
     }
   });
 });
@@ -219,10 +215,10 @@ app.get("/getredNumbers", (req, res) => {
   connection.query(query, (error, results) => {
     if (error) {
       res.send(error);
-      console.log(error);
+      // console.log(error);
     } else {
       res.send(results);
-      console.log(results);
+      // console.log(results);
     }
   });
 });
@@ -237,7 +233,7 @@ app.get("/getinOrders", (req, res) => {
   connection.query(query, (error, results) => {
     if (error) {
       res.send(error);
-      console.log(error);
+      // console.log(error);
     } else {
       res.send(results);
       // console.log(results);
@@ -249,7 +245,7 @@ app.get("/ready2complete", (req, res) => {
   const params = {
     oid: req.query.oid
   };
-  console.log(params.oid)
+  console.log(params.oid);
 
   const format = {
     language: "sql",
@@ -259,19 +255,19 @@ app.get("/ready2complete", (req, res) => {
   connection.query(query, (error, results) => {
     if (error) {
       res.send(error);
-      console.log(error);
+      // console.log(error);
     } else {
       res.send(results);
-      console.log(results)
+      // console.log(results)
     }
   });
-})
+});
 
 app.get("/complete2out", (req, res) => {
   const params = {
     oid: req.query.oid
   };
-  console.log(params.oid)
+  // console.log(params.oid)
 
   const format = {
     language: "sql",
@@ -281,13 +277,12 @@ app.get("/complete2out", (req, res) => {
   connection.query(query, (error, results) => {
     if (error) {
       res.send(error);
-      console.log(error);
+      // console.log(error);
     } else {
       res.send(results);
-      console.log(results)
+      // console.log(results)
     }
   });
-
-})
+});
 
 module.exports = app;

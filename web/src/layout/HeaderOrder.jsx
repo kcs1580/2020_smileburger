@@ -28,8 +28,6 @@ const HeaderOrder = props => {
         <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
           Head-Order
         </Typography>
-        <Fab className={classes.menuButton}>포장</Fab>
-        <Fab className={classes.menuButton}>매장</Fab>
         <Link to="/Auth" style={{ textDecoration: "none" }}>
           <Fab onClick={reset} className={classes.menuButton}>
             첫화면
