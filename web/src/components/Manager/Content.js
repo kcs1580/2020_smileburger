@@ -15,10 +15,9 @@ const socket = socketio.connect("http://localhost:3001/");
 
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
-  socket.emit("Front2Back", { data: "data" })
+  socket.emit("Front2Back", { data: "data" });
   console.log("h2");
 })();
-
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -43,34 +42,32 @@ const Content = () => {
 
   socket.on("Back2Front", data => {
     // console.log(data)
-    setOrder(data)
+    setOrder(data);
     // const ord = data.map((order) => {
     //   console.log(order)
     // })
-
   });
 
-  const readychange = (order) => {
-    if (order.isready === '0') {
-      order.isready = '1'
-      axios.get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
-        .then((res) => {
-          socket.emit("Front2Back", { data: "data" })
-          console.log(res)
-        })
-
-    } else if (order.isready === '1') {
-      order.isready = '2'
-      axios.get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
-        .then((res) => {
-          socket.emit("Front2Back", { data: "data" })
-          console.log(res)
-        })
+  const readychange = order => {
+    if (order.isready === "0") {
+      order.isready = "1";
+      axios
+        .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
+        .then(res => {
+          socket.emit("Front2Back", { data: "data" });
+          console.log(res);
+        });
+    } else if (order.isready === "1") {
+      order.isready = "2";
+      axios.get("http://localhost:3001/complete2out", { params: { oid: order.oid } }).then(res => {
+        socket.emit("Front2Back", { data: "data" });
+        console.log(res);
+      });
     }
 
-    console.log(order)
-    console.log(order.oid)
-  }
+    console.log(order);
+    console.log(order.oid);
+  };
 
   let temporder = [0, 0, 0, 0, 0, 0, 0, 0];
   const arrmake = () => {
@@ -89,8 +86,12 @@ const Content = () => {
       return <Card className={classes.Card} variant="outlined" display="inline" key={idx} />;
     } else {
       const MenuHTML = order.contents.map((menuidx, idx) => {
-        return (<h5 key={idx}>{menuidx.menu} X {menuidx.cnt}</h5>)
-      })
+        return (
+          <h5 key={idx}>
+            {menuidx.menu} X {menuidx.cnt}
+          </h5>
+        );
+      });
       return (
         <Card
           className={classes.Card}
@@ -98,7 +99,7 @@ const Content = () => {
           display="inline"
           key={idx}
           onClick={() => {
-            readychange(order)
+            readychange(order);
           }}
         >
           <CardContent>
