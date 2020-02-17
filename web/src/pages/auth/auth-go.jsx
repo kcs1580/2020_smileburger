@@ -126,6 +126,7 @@ const AuthPage = props => {
 
   /////////////
   var curImg;
+
   async function capture() {
     curImg = webcamRef.current.getScreenshot();
     imageSrc = getBinary(curImg);
@@ -293,6 +294,7 @@ const AuthPage = props => {
             onTimeout();
             return p.Smile.Value === true;
           } else {
+            setTimeout(capture, 2000);
             console.log("웃어달라고.. 웃어야 그래야 님 주문 할 수 있어 ㅋ");
             setBackdrop(false);
           }
@@ -337,11 +339,10 @@ const AuthPage = props => {
           screenshotFormat="image/jpeg"
           width={800}
           videoConstraints={videoConstraints}
+          onClick={capture}
         />
         <br></br>
-        <Button color="primary" variant="contained" onClick={capture}>
-          Capture photo
-        </Button>
+
         <Backdrop className={classes.backdrop} open={backdrop} onClick={handleCloseBackdrop}>
           <CircularProgress color="inherit" />
         </Backdrop>
