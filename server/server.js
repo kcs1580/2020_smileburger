@@ -47,7 +47,7 @@ io.on("connection", function (socket) {
   });
 
   socket.on("reqMsg", function (data) {
-    console.log(data);
+    // console.log(data);
     io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
   });
 
@@ -57,12 +57,12 @@ io.on("connection", function (socket) {
     // 준비중 준비완료 가져오기
     axios.get("http://localhost:3001/getinOrders")
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         const orderList = []
         for (var i in res.data) {
           orderList.push(dataProcess(res.data[i]))
         }
-        console.log(orderList)
+        // console.log(orderList)
 
         io.sockets.in("myroom").emit("Back2Front", orderList)
       })
@@ -106,7 +106,7 @@ const dataProcess = (data) => {
         tempmenu.push(temp[j].slice(1, temp[j].length - 1))
       }
       menu = tempmenu.join(', ')
-      console.log(menu)
+      // console.log(menu)
 
     } else if (data.ocontent.slice(i, i + 3) === "cnt") {
       s = i + 5
