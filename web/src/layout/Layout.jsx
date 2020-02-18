@@ -26,7 +26,6 @@ const Layout = props => {
       <div className={classes.content} style={{ width: "100%" }}>
         <div style={{ textAlign: "center" }}>{props.children}</div>
       </div>
-      <Footer />
     </Fragment>
   );
 };
