@@ -220,9 +220,9 @@ const BurgerModalSetRequests = props => {
     setRequests(temp);
   };
 
-  const sidesHtml = sides.map(side => {
+  const sidesHtml = sides.map((side, idx) => {
     return (
-      <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
+      <Grid key={idx} item xs={3} style={{ margin: 0, textAlign: "center" }}>
         <Card className={classes.root} onClick={() => pickSide(side.id)}>
           <CardActionArea>
             <CardMedia
@@ -246,9 +246,9 @@ const BurgerModalSetRequests = props => {
       </Grid>
     );
   });
-  const beveragesHtml = beverages.map(beverage => {
+  const beveragesHtml = beverages.map((beverage, idx) => {
     return (
-      <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
+      <Grid key={idx} item xs={3} style={{ margin: 0, textAlign: "center" }}>
         <Card className={classes.root} onClick={() => pickBeverage(beverage.id)}>
           <CardActionArea>
             <CardMedia
@@ -272,9 +272,9 @@ const BurgerModalSetRequests = props => {
       </Grid>
     );
   });
-  const requestsHtml = requests.map(request => {
+  const requestsHtml = requests.map((request, idx) => {
     return (
-      <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
+      <Grid key={idx} item xs={3} style={{ margin: 0, textAlign: "center" }}>
         <Card className={classes.root} onClick={() => pickRequest(request.id)}>
           <CardActionArea>
             <CardMedia
