@@ -37,14 +37,16 @@ const useStyles = makeStyles(theme => ({
   paper: {
     backgroundColor: "#f50057",
     color: "white",
-    padding: "20px"
+    padding: "10px"
   },
 
   des: {
-    fontSize: "25px"
+    fontSize: "25px",
+    padding: "10px"
   },
   title: {
-    fontSize: "35px"
+    fontSize: "35px",
+    padding: "10px"
   }
 }));
 

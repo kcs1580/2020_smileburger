@@ -52,17 +52,21 @@ const Content = () => {
     if (order.isready === "0") {
       order.isready = "1";
       axios
-        .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
+        .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
+          socket.emit("recMsg", { data: "data" });
           console.log(res);
         });
     } else if (order.isready === "1") {
       order.isready = "2";
-      axios.get("http://localhost:3001/complete2out", { params: { oid: order.oid } }).then(res => {
-        socket.emit("Front2Back", { data: "data" });
-        console.log(res);
-      });
+      axios
+        .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
+        .then(res => {
+          socket.emit("Front2Back", { data: "data" });
+          socket.emit("recMsg", { data: "data" });
+          console.log(res);
+        });
     }
 
     console.log(order);
@@ -92,26 +96,50 @@ const Content = () => {
           </h5>
         );
       });
-      return (
-        <Card
-          className={classes.Card}
-          variant="outlined"
-          display="inline"
-          key={idx}
-          onClick={() => {
-            readychange(order);
-          }}
-        >
-          <CardContent>
-            <Typography className={classes.numbering} color="textSecondary" align="center">
-              {order.orderNum}
-            </Typography>
-            {MenuHTML}
-            {/* <h3>{order.itemList.menu}</h3> */}
-            {/* <h4>{order.itemList.ea}</h4> */}
-          </CardContent>
-        </Card>
-      );
+      if (order.isready === "1") {
+        return (
+          <Card
+            className={classes.Card}
+            variant="outlined"
+            display="inline"
+            key={idx}
+            style={{ backgroundColor: "yellow" }}
+            onClick={() => {
+              readychange(order);
+            }}
+          >
+            <CardContent>
+              <Typography className={classes.numbering} color="textSecondary" align="center">
+                {order.orderNum}
+              </Typography>
+              {MenuHTML}
+              {/* <h3>{order.itemList.menu}</h3> */}
+              {/* <h4>{order.itemList.ea}</h4> */}
+            </CardContent>
+          </Card>
+        );
+      } else {
+        return (
+          <Card
+            className={classes.Card}
+            variant="outlined"
+            display="inline"
+            key={idx}
+            onClick={() => {
+              readychange(order);
+            }}
+          >
+            <CardContent>
+              <Typography className={classes.numbering} color="textSecondary" align="center">
+                {order.orderNum}
+              </Typography>
+              {MenuHTML}
+              {/* <h3>{order.itemList.menu}</h3> */}
+              {/* <h4>{order.itemList.ea}</h4> */}
+            </CardContent>
+          </Card>
+        );
+      }
     }
   });
   // orderCard 중 8개를 받아 하나의 페이지에 출력할 데이터만 뽑음

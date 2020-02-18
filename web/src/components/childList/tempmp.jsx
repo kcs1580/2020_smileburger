@@ -9,7 +9,7 @@ import {
   Typography
 } from "@material-ui/core";
 import BurgerModal from "./BurgerModal";
-​
+
 const useStyles = makeStyles(theme => ({
   cardGrid: {
     paddingTop: theme.spacing(8),
@@ -39,18 +39,18 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3)
   }
 }));
-​
+
 const BurgerList = ({ nextId, setNextId, setOrder }) => {
   const classes = useStyles();
   const [burgers, setBurgers] = useState([]);
-​
+
   useEffect(() => {
     axios
-      .get("http://localhost:3001/test")
+      .get("http://i02c103.p.ssafy.io:3001/test")
       .then(({ data }) => setBurgers(data))
       .catch(err => console.log(err));
   }, []);
-​
+
   return (
     <Container
       className={classes.cardGrid}
@@ -87,5 +87,5 @@ const BurgerList = ({ nextId, setNextId, setOrder }) => {
     </Container>
   );
 };
-​
+
 export default BurgerList;

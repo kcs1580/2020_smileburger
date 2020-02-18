@@ -13,9 +13,9 @@ const connection = mysql.createConnection({
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 ////////////////////////////////////////////////////////////////////
 
-app.get("/", async function(req, res) {});
+app.get("/", async function (req, res) { });
 
-app.get("/test/", function(req, res) {
+app.get("/test/", function (req, res) {
   var data = req.query.data;
   const jsondata = [];
   data.map(item => {
@@ -36,7 +36,7 @@ app.get("/test/", function(req, res) {
       indent: "  "
     };
     var query = mybatisMapper.getStatement("BASE", "insertTest", selectParams, format);
-    connection.query(query, function(error, results, fields) {
+    connection.query(query, function (error, results, fields) {
       if (error) {
         console.log(error);
       }
@@ -46,19 +46,19 @@ app.get("/test/", function(req, res) {
   connection.end();
   //res.send(req.query); res.json(req.query);  해당 값 다시 해당 페이지로 보내보기
 });
-app.post("/", function(req, res) {
+app.post("/", function (req, res) {
   res.json({ success: "post call succeed!", url: req.url, body: req.body });
 });
 
-app.put("/", function(req, res) {
+app.put("/", function (req, res) {
   res.json({ success: "put call succeed!", url: req.url, body: req.body });
 });
 
-app.delete("/", function(req, res) {
+app.delete("/", function (req, res) {
   res.json({ success: "delete call succeed!", url: req.url });
 });
 
-app.get("/getOrder", function(req, res) {
+app.get("/getOrder", function (req, res) {
   console.log("들어옴");
   //connection.connect(); 조회할 파라미터
   var param = {
@@ -81,7 +81,7 @@ app.get("/getOrder", function(req, res) {
   let query = mybatisMapper.getStatement("BASE", "getOrder", param, format);
   console.log(query); // 쿼리 출력
 
-  connection.query(query, function(error, results, fields) {
+  connection.query(query, function (error, results, fields) {
     if (error) {
       console.log(error);
     }
@@ -158,7 +158,7 @@ app.get("/getProducts", (req, res) => {
     indent: "  "
   };
   const query = mybatisMapper.getStatement("BASE", "getProducts", params, format);
-  connection.query(query, function(error, results) {
+  connection.query(query, function (error, results) {
     if (error) {
       console.log(error);
       res.send(error);

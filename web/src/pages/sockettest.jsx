@@ -1,46 +1,46 @@
-import React, { useState } from "react";
-import socketio from "socket.io-client";
+// import React, { useState } from "react";
+// import socketio from "socket.io-client";
 
-// let num = 1;
+// // let num = 1;
 
-const socket = socketio.connect("http://localhost:3001");
-(() => {
-  console.log("hi");
-  socket.emit("joinRoom", { roomName: "myroom" });
-  socket.on();
-})();
+// const socket = socketio.connect("http://localhost:3001");
+// (() => {
+//   console.log("hi");
+//   socket.emit("joinRoom", { roomName: "myroom" });
+//   socket.on();
+// })();
 
-const Sockettest = () => {
-  const [num, setNum] = useState(0);
+// const Sockettest = () => {
+//   const [num, setNum] = useState(0);
 
-  const handle = e => {
-    setNum(e.target.value);
-  };
+//   const handle = e => {
+//     setNum(e.target.value);
+//   };
 
-  const send = text => {
-    socket.emit("reqMsg", { orderNum: text, isReady: false });
-  };
+//   const send = text => {
+//     socket.emit("reqMsg", { orderNum: text, isReady: false });
+//   };
 
-  return (
-    <div>
-      <input
-        type="text"
-        onChange={e => {
-          handle(e);
-        }}
-      />
-      <button
-        onClick={() => {
-          send(num);
-        }}
-      >
-        {" "}
-        보내기{" "}
-      </button>
-      <div>{num}</div>
-      <br />
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <input
+//         type="text"
+//         onChange={e => {
+//           handle(e);
+//         }}
+//       />
+//       <button
+//         onClick={() => {
+//           send(num);
+//         }}
+//       >
+//         {" "}
+//         보내기{" "}
+//       </button>
+//       <div>{num}</div>
+//       <br />
+//     </div>
+//   );
+// };
 
-export default Sockettest;
+// export default Sockettest;
