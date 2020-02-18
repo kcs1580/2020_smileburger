@@ -23,11 +23,11 @@ const Layout = props => {
     <Fragment>
       <CssBaseline />
       <Header />
-      <Container className={classes.content} maxWidth="xl">
-        <div className={classes.container} style={{ textAlign: "center" }}>
+      <div className={classes.content} style={{ width: "100%" }}>
+        <div className={"sssr"} style={{ marginTop: "50px", textAlign: "center" }}>
           {props.children}
         </div>
-      </Container>
+      </div>
       <Footer />
     </Fragment>
   );
