@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import {Link} from "react-router-dom";
-import {makeStyles, Typography, AppBar, Toolbar, Fab} from "@material-ui/core";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { makeStyles, Typography, AppBar, Toolbar, Fab } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -24,8 +24,8 @@ const HeaderOrder = props => {
     return (
         <AppBar className={classes.appBar}>
             <Toolbar style={{
-                    height: "130px"
-                }}>
+                height: "130px"
+            }}>
                 <Typography
                     variant="h6"
                     className={classes.title}
@@ -34,8 +34,6 @@ const HeaderOrder = props => {
                     }}>
                     Head-Order
                 </Typography>
-                <Fab className={classes.menuButton}>포장</Fab>
-                <Fab className={classes.menuButton}>매장</Fab>
                 <Link
                     to="/"
                     style={{
