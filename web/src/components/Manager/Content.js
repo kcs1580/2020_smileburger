@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -22,6 +22,19 @@ const socket = socketio.connect("http://localhost:3001");
   socket.emit("Front2Back", { data: "data" });
   console.log("h2");
 })();
+
+const StyledBadge = withStyles(theme => ({
+  badge: {
+    right: -10,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    fontSize: 25
+  }
+}))(Badge);
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -106,62 +119,68 @@ const Content = () => {
           </h5>
         );
       });
-      if (order.isready === "1") {
-        return (
-          <Badge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
-            <div>
-
-              <Card
-                className={classes.Card}
-                variant="outlined"
-                display="inline"
-                style={{ backgroundColor: "yellow" }}
-                onClick={() => {
-                  readychange(order);
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h2" color="textSecondary" align="center">
-                    {order.orderNum}
-                  </Typography>
-                  <hr />
+      const CheckCard = () => {
+        if (order.isready == "1") {
+          return (
+            <Card
+              className={classes.Card}
+              variant="outlined"
+              display="inline"
+              style={{ backgroundColor: "yellow" }}
+              onClick={() => {
+                readychange(order);
+              }}
+            >
+              <CardContent>
+                <Typography variant="h2" align="center">
+                  {order.orderNum}
+                </Typography >
+                <hr />
+                <Typography variant="h3" color="textSecondary">
                   {MenuHTML}
-                  {/* <h3>{order.itemList.menu}</h3> */}
-                  {/* <h4>{order.itemList.ea}</h4> */}
-                </CardContent>
-              </Card>
-            </div>
-          </Badge>
+                </Typography>
+                {/* <h3>{order.itemList.menu}</h3> */}
+                {/* <h4>{order.itemList.ea}</h4> */}
+              </CardContent>
+            </Card>
+          )
+        } else {
+          return (
+            <Card
+              className={classes.Card}
+              variant="outlined"
+              display="inline"
+              onClick={() => {
+                readychange(order);
+              }}
+            >
+              <CardContent>
+                <Typography variant="h2" color="textSecondary" align="center">
+                  {order.orderNum}
+                </Typography>
+                <hr />
+                {MenuHTML}
+                {/* <h3>{order.itemList.menu}</h3> */}
+                {/* <h4>{order.itemList.ea}</h4> */}
+              </CardContent>
+            </Card>
+          )
 
-        );
-      } else {
-        return (
-          <Badge color="secondary" overlap="circle" badgeContent="포" key={idx} id="badge123">
-            <div>
-
-              <Card
-                className={classes.Card}
-                variant="outlined"
-                display="inline"
-                key={idx}
-                onClick={() => {
-                  readychange(order);
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h2" color="textSecondary" align="center">
-                    {order.orderNum}
-                  </Typography>
-                  <hr />
-                  {MenuHTML}
-                  {/* <h3>{order.itemList.menu}</h3> */}
-                  {/* <h4>{order.itemList.ea}</h4> */}
-                </CardContent>
-              </Card>
-            </div>
-          </Badge>
-        );
+        }
       }
+      const PackCheckCard = () => {
+        if (order.type === "포장") {
+          return (
+            <StyledBadge badgeContent={"포"} color="secondary" >
+              <CheckCard />
+            </StyledBadge>
+          )
+        } else {
+          return (<CheckCard />)
+        }
+
+      }
+      return (<PackCheckCard key={idx} />)
     }
   });
   // orderCard 중 8개를 받아 하나의 페이지에 출력할 데이터만 뽑음
