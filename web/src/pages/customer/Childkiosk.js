@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 const Childkiosk = props => {
     const classes = useStyles();
-    const [select, setSelect] = useState(0)
+    const [select, setSelect] = useState(1)
     const [order, setOrder] = useState({});
     const [orderList, setOrderList] = useState([]);
     const [nextId, setNextId] = useState(0);
@@ -46,10 +46,16 @@ const Childkiosk = props => {
     const [beverages, setBeverages] = useState([]);
     const [burgerSets, setBurgerSets] = useState([]);
 
+    const [requests, setRequests] = useState([]);
+    const [waitingNum, setWaitingNum] = useState(101);
+    const [registered, setRegisterd] = useState(false); // 페이스 인식에서 인증된 사용자 인지 아닌지 넘겨 받을 값
+    const [lastOrderLists, setLastOrderLists] = useState([]);
 
+    // 제품 정보가져오기
     useEffect(() => {
         axios
-            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+            .get("http://localhost:3001/getProducts", {
+                // .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 0
                 }
@@ -60,7 +66,8 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+            .get("http://localhost:3001/getProducts", {
+                // .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 1
                 }
@@ -71,7 +78,8 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+            // .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+            .get("http://localhost:3001/getProducts", {
                 params: {
                     pcategory: 2
                 }
@@ -82,7 +90,8 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+            // .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+            .get("http://localhost:3001/getProducts", {
                 params: {
                     pcategory: 3
                 }
@@ -93,6 +102,22 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
     }, []);
+
+    // 기존의 주문정보를 먼저 확인
+    useEffect(() => {
+        axios
+            // .get("http://i02c103.p.ssafy.io:3001/getLatestOrder")
+            .get("http://localhost:3001/getLatestOrder")
+            .then(res => {
+                if (res.data.length !== 0) {
+                    console.log(res.data.length);
+                    console.log(res.data);
+                    setWaitingNum(res.data[0].owaitingNum + 1);
+                }
+            })
+            .catch(err => console.log(err));
+    }, []);
+
     // 오더 리스트를 추가하는 부분
     useEffect(() => {
         if (order.contents) {
@@ -150,34 +175,51 @@ const Childkiosk = props => {
             // =======================================================
         }
     }, [order]);
+    // 인증된 사용자일 경우 사용자의 데이터 가져오기
+    useEffect(() => {
+        if (localStorage.getItem("FaceID")) {
+            setRegisterd(true);
+            setSelect(0);
+            axios
+                // .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
+                .get("http://localhost:3001/getLastOrderLists", {
+                    params: {
+                        faceid: localStorage.getItem("FaceID") // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
+                    }
+                })
+                .then(res => {
+                    // console.log(res);
+                    // console.log(res.data[0].odate);
+                    // console.log(typeof res.data);
+                    setLastOrderLists(res.data);
+                })
+                .catch(err => console.log(err));
+        } else {
+            console.log("비회원!!!!!!!!!!");
+        }
+    }, []);
 
 
     const SelectPage = () => {
         switch (select) {
             case 0:
-                return <BurgerList
-                    burgers={burgers}
-                    burgerSets={burgerSets}
-                    sides={sides}
-                    beverages={beverages}
-                    setOrder={setOrder}
-                />
-
+                // return <LastOrderLists lastOrderLists={lastOrderLists} setOrder={setOrder} />;
+                return <h1>test</h1>
             case 1:
-                return <SideList sides={sides} setOrder={setOrder} />;
+                return (
+                    <BurgerList
+                        burgers={burgers}
+                        burgerSets={burgerSets}
+                        sides={sides}
+                        beverages={beverages}
+                        requests={requests}
+                        setOrder={setOrder}
+                    />
+                );
             case 2:
-                return <BeverageList beverages={beverages} setOrder={setOrder} />
-            case 4:
-                return <h1>기타페이지</h1>
-            default:
-                return <BurgerList
-                    burgers={burgers}
-                    burgerSets={burgerSets}
-                    sides={sides}
-                    beverages={beverages}
-                    setOrder={setOrder}
-                />
-
+                return <SideList sides={sides} setOrder={setOrder} />;
+            case 3:
+                return <BeverageList beverages={beverages} setOrder={setOrder} />;
         }
 
     }
@@ -196,6 +238,7 @@ const Childkiosk = props => {
                     className={classes.btnorder}
                     orderList={orderList}
                     setOrderList={setOrderList}
+                    waitingNum={waitingNum}
                     style={{ marginRight: 20 }}
                 />
 

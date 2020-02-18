@@ -41,23 +41,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BodyOrderChoiceList = ({ orderList, setOrderList, setState }) => {
+const BodyOrderChoiceList = ({ orderList, setOrderList, setState, waitingNum }) => {
   const classes = useStyles();
-  const [waitingNum, setWaitingNum] = useState(101);
   // 기존의 주문정보를 먼저 확인
-  useEffect(() => {
-    axios
-      .get("http://i02c103.p.ssafy.io:3001/getLatestOrder")
-      .then(res => {
-        if (res.data.length !== 0) {
-          console.log(res.data.length);
-          console.log(res.data);
-          setWaitingNum(res.data[0].owaitingNum + 1);
-        }
-      })
-      .catch(err => console.log(err));
-  }, []);
-
   return (
     <Grid container className={classes.container}>
       <Grid item xs={12} style={{ background: grey[700], height: 20 }}></Grid>

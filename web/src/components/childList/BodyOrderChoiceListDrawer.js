@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 import zIndex from "@material-ui/core/styles/zIndex";
 
-const BodyOrderChoiceListDrawer = ({ orderList, setOrderList }) => {
+const BodyOrderChoiceListDrawer = ({ orderList, setOrderList, waitingNum }) => {
 
     const [state, setState] = useState({ bottom: false })
 
@@ -23,7 +23,7 @@ const BodyOrderChoiceListDrawer = ({ orderList, setOrderList }) => {
         <Grid container>
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
             <Grid justify="flex-end" container>
-                <Icon style={{ marginRight:20,fontSize: 100}} onClick={toggleDrawer('bottom', true)}>add_circle</Icon>
+                <Icon style={{ marginRight: 20, fontSize: 100 }} onClick={toggleDrawer('bottom', true)}>add_circle</Icon>
             </Grid>
 
 
@@ -31,7 +31,7 @@ const BodyOrderChoiceListDrawer = ({ orderList, setOrderList }) => {
                 anchor="bottom"
                 open={state.bottom}
                 onClose={toggleDrawer('bottom', false)}
-            ><BodyOrderChoiceList orderList={orderList} setOrderList={setOrderList} setState={setState} /></SwipeableDrawer>
+            ><BodyOrderChoiceList orderList={orderList} setOrderList={setOrderList} setState={setState} waitingNum={waitingNum} /></SwipeableDrawer>
         </Grid>
 
     )

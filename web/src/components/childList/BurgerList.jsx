@@ -9,8 +9,6 @@ import {
     Typography
 } from "@material-ui/core";
 import BurgerModal from "./BurgerModal";
-import InfoIcon from '@material-ui/icons/Info';
-import Menutap from "./Menutap"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -44,7 +42,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages }) => {
+const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages, requests }) => {
     const classes = useStyles();
 
     let burgerSetId = [];
@@ -81,6 +79,7 @@ const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages }) => {
                                 burgerSetImgurl={burgerSetImgurl[idx]}
                                 sides={sides}
                                 beverages={beverages}
+                                requests={requests}
                                 setOrder={setOrder}
                             />
                             <CardContent className={classes.cardContent}>

@@ -98,6 +98,7 @@ const BurgerMoal = ({
   burgerSetImgurl,
   sides,
   beverages,
+  requests,
   setOrder
 }) => {
   const classes = useStyles();
@@ -246,6 +247,7 @@ const BurgerMoal = ({
           setOrder={setOrder}
           count={count}
           total={total}
+          requests={requests}
         />
       </Dialog>
 
@@ -303,6 +305,7 @@ const BurgerMoal = ({
           total={total}
           sides={sides}
           beverages={beverages}
+          requests={requests}
         />
       </Dialog>
     </div>
