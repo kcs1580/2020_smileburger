@@ -1,39 +1,38 @@
-import React, { useState } from 'react';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Content from '../../components/Manager/Content';
-import Header from '../../components/Manager/Header';
-import { makeStyles } from '@material-ui/core/styles';
-
+import React, { useState } from "react";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Content from "../../components/manager/Content";
+import Header from "../../components/manager/Header";
+import { makeStyles } from "@material-ui/core/styles";
 
 let theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#63ccff',
-      main: '#009be5',
-      dark: '#006db3',
-    },
+      light: "#63ccff",
+      main: "#009be5",
+      dark: "#006db3"
+    }
   },
   typography: {
     h5: {
       fontWeight: 500,
       fontSize: 26,
-      letterSpacing: 0.5,
-    },
+      letterSpacing: 0.5
+    }
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 8
   },
   props: {
     MuiTab: {
-      disableRipple: true,
-    },
+      disableRipple: true
+    }
   },
   mixins: {
     toolbar: {
-      minHeight: 48,
-    },
-  },
+      minHeight: 48
+    }
+  }
 });
 
 theme = {
@@ -41,126 +40,126 @@ theme = {
   overrides: {
     MuiDrawer: {
       paper: {
-        backgroundColor: '#18202c',
-      },
+        backgroundColor: "#18202c"
+      }
     },
     MuiButton: {
       label: {
-        textTransform: 'none',
+        textTransform: "none"
       },
       contained: {
-        boxShadow: 'none',
-        '&:active': {
-          boxShadow: 'none',
-        },
-      },
+        boxShadow: "none",
+        "&:active": {
+          boxShadow: "none"
+        }
+      }
     },
     MuiTabs: {
       root: {
-        marginLeft: theme.spacing(1),
+        marginLeft: theme.spacing(1)
       },
       indicator: {
         height: 3,
         borderTopLeftRadius: 3,
         borderTopRightRadius: 3,
-        backgroundColor: theme.palette.common.white,
-      },
+        backgroundColor: theme.palette.common.white
+      }
     },
     MuiTab: {
       root: {
-        textTransform: 'none',
-        margin: '0 16px',
+        textTransform: "none",
+        margin: "0 16px",
         minWidth: 0,
         padding: 0,
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up("md")]: {
           padding: 0,
-          minWidth: 0,
-        },
-      },
+          minWidth: 0
+        }
+      }
     },
     MuiIconButton: {
       root: {
-        padding: theme.spacing(1),
-      },
+        padding: theme.spacing(1)
+      }
     },
     MuiTooltip: {
       tooltip: {
-        borderRadius: 4,
-      },
+        borderRadius: 4
+      }
     },
     MuiDivider: {
       root: {
-        backgroundColor: '#404854',
-      },
+        backgroundColor: "#404854"
+      }
     },
     MuiListItemText: {
       primary: {
-        fontWeight: theme.typography.fontWeightMedium,
-      },
+        fontWeight: theme.typography.fontWeightMedium
+      }
     },
     MuiListItemIcon: {
       root: {
-        color: 'inherit',
+        color: "inherit",
         marginRight: 0,
-        '& svg': {
-          fontSize: 20,
-        },
-      },
+        "& svg": {
+          fontSize: 20
+        }
+      }
     },
     MuiAvatar: {
       root: {
         width: 32,
-        height: 32,
-      },
-    },
-  },
+        height: 32
+      }
+    }
+  }
 };
 
 const drawerWidth = 256;
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    minHeight: '100vh',
+    display: "flex",
+    minHeight: "100vh"
   },
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
-      flexShrink: 0,
-    },
+      flexShrink: 0
+    }
   },
   app: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column"
   },
   main: {
     flex: 1,
     padding: theme.spacing(6, 4),
-    background: '#eaeff1',
+    background: "#eaeff1"
   },
   footer: {
     padding: theme.spacing(2),
-    background: '#eaeff1',
-  },
-}))
+    background: "#eaeff1"
+  }
+}));
 const SelectPage = ({ tapidx }) => {
   switch (tapidx) {
     case 0:
-      return <Content />
+      return <Content />;
     case 1:
-      return <h1>ddd</h1>
+      return <h1>ddd</h1>;
     case 2:
-      return <Content />
+      return <Content />;
     case 3:
-      return <Content />
+      return <Content />;
     default:
-      return <Content />
+      return <Content />;
   }
-}
+};
 
 const ManagerMain = () => {
   const classes = useStyles();
-  const [tapidx, setTapidx] = useState(0)
+  const [tapidx, setTapidx] = useState(0);
 
   return (
     <ThemeProvider theme={theme}>
@@ -171,10 +170,9 @@ const ManagerMain = () => {
           <main className={classes.main}>
             <SelectPage tapidx={tapidx} />
           </main>
-
         </div>
       </div>
     </ThemeProvider>
   );
-}
-export default ManagerMain
+};
+export default ManagerMain;
