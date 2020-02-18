@@ -49,7 +49,7 @@ const App = () => {
       <MuiThemeProvider theme={theme}>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" component={Auth} />
+            <Route exact path="/" component={Main} />
             <Route path="/Main" component={Main} />
             <Route path="/Auth" component={Auth} />
             <Route path="/Register" component={Register} />
