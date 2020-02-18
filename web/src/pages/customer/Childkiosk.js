@@ -49,7 +49,7 @@ const Childkiosk = props => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:3001/getProducts", {
+            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 0
                 }
@@ -60,7 +60,7 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://localhost:3001/getProducts", {
+            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 1
                 }
@@ -71,7 +71,7 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://localhost:3001/getProducts", {
+            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 2
                 }
@@ -82,7 +82,7 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://localhost:3001/getProducts", {
+            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 3
                 }

@@ -47,7 +47,7 @@ const BodyOrderChoiceList = ({ orderList, setOrderList, setState }) => {
   // 기존의 주문정보를 먼저 확인
   useEffect(() => {
     axios
-      .get("http://localhost:3001/getLatestOrder")
+      .get("http://i02c103.p.ssafy.io:3001/getLatestOrder")
       .then(res => {
         if (res.data.length !== 0) {
           console.log(res.data.length);
