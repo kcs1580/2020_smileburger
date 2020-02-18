@@ -38,22 +38,23 @@ const Header = props => {
       className={classes.appBar}
       style={{ backgroundColor: "red", height: "150px" }}
     >
-      <Toolbar style={{ height: "60px" }}>
+      {/* <Toolbar style={{ height: "60px" }}>
         <IconButton
           color="inherit"
           aria-label="open drawer"
           onClick={onClickDrawerOpenHandler}
           edge="start"
           className={classes.menuButton}
-        >
-          {/* <MenuIcon /> */}
+        >g
+          <MenuIcon />
         </IconButton>
 
         <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
           S M I L E ~ B U R G E R
           <SectionCarouselTop className={classes.title} style={{ height: "10px" }} />
         </Typography>
-      </Toolbar>
+      </Toolbar> */}
+      <SectionCarouselTop />
     </AppBar>
   );
 };
