@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Payment = ({ orderList, setOrderList, waitingNum }) => {
+const Payment = ({ orderList, setOrderList, waitingNum, setState }) => {
   const classes = useStyles();
 
   const getTotalCnt = () => {

@@ -25,8 +25,8 @@ const socket = socketio.connect("http://localhost:3001");
 
 const StyledBadge = withStyles(theme => ({
   badge: {
-    right: -10,
-    top: 13,
+    right: 0,
+    top: 15,
     border: `2px solid ${theme.palette.background.paper}`,
     padding: "0 4px",
     width: 50,
