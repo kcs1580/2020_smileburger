@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import {
@@ -49,26 +49,38 @@ const useStyles = makeStyles({
 
 const BurgerModalSetRequests = props => {
   const classes = useStyles();
+
   const [sides, setSides] = useState(
     props.sides.map((side, idx) => {
-      if (idx === 0) {
-        return {
-          id: side.pid,
-          name: side.pname,
-          check: true,
-          addPrice: 0,
-          img: check,
-          back: side.pimgurl
-        };
-      } else {
-        return {
-          id: side.pid,
-          name: side.pname,
-          check: false,
-          addPrice: side.pprice - 1500,
-          img: checkNone,
-          back: side.pimgurl
-        };
+      if (idx < 9) {
+        if (idx === 0) {
+          return {
+            id: side.pid,
+            name: side.pname,
+            check: true,
+            addPrice: 0,
+            img: check,
+            back: side.pimgurl
+          };
+        } else if (idx === 8) {
+          return {
+            id: side.pid,
+            name: side.pname,
+            check: false,
+            addPrice: 0,
+            img: checkNone,
+            back: side.pimgurl
+          };
+        } else {
+          return {
+            id: side.pid,
+            name: side.pname,
+            check: false,
+            addPrice: side.pprice - 1500,
+            img: checkNone,
+            back: side.pimgurl
+          };
+        }
       }
     })
   );
@@ -124,27 +136,29 @@ const BurgerModalSetRequests = props => {
 
   const pickSide = id => {
     let temp = [];
-    sides.map(side => {
-      if (side.id === id) {
-        temp.push({
-          id: side.id,
-          name: side.name,
-          check: true,
-          addPrice: side.addPrice,
-          back: side.back,
-          img: check
-        });
+    sides.map((side, idx) => {
+      if (idx < 9) {
+        if (side.id === id) {
+          temp.push({
+            id: side.id,
+            name: side.name,
+            check: true,
+            addPrice: side.addPrice,
+            back: side.back,
+            img: check
+          });
 
-        setSidePrice(side.addPrice);
-      } else {
-        temp.push({
-          id: side.id,
-          name: side.name,
-          check: false,
-          addPrice: side.addPrice,
-          back: side.back,
-          img: checkNone
-        });
+          setSidePrice(side.addPrice);
+        } else {
+          temp.push({
+            id: side.id,
+            name: side.name,
+            check: false,
+            addPrice: side.addPrice,
+            back: side.back,
+            img: checkNone
+          });
+        }
       }
     });
     setSides(temp);
@@ -152,7 +166,10 @@ const BurgerModalSetRequests = props => {
   const pickBeverage = id => {
     let temp = [];
     beverages.map(beverage => {
+      //console.log("####" + beverage.back);
       if (beverage.id === id) {
+        console.log("if 걸림=====================");
+        console.log(beverage.back);
         temp.push({
           id: beverage.id,
           name: beverage.name,
@@ -163,6 +180,8 @@ const BurgerModalSetRequests = props => {
         });
         setBeveragePrice(beverage.addPrice);
       } else {
+        console.log("else 걸림=====================");
+        console.log(beverage.back);
         temp.push({
           id: beverage.id,
           name: beverage.name,
@@ -200,30 +219,32 @@ const BurgerModalSetRequests = props => {
   };
 
   const sidesHtml = sides.map((side, idx) => {
-    return (
-      <Grid key={idx} item xs={3} style={{ margin: 0, textAlign: "center" }}>
-        <Card className={classes.root} onClick={() => pickSide(side.id)}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="140"
-              image={side.img}
-              style={{
-                height: 200,
-                width: 200,
-                backgroundImage: `url(${side.back})`
-              }}
-            />
-            <CardContent style={{ padding: 0 }}>
-              <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>{side.name}</p>
-                <p style={{ marginTop: 10, marginBottom: 10 }}>+{side.addPrice}</p>
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      </Grid>
-    );
+    if (idx < 9) {
+      return (
+        <Grid key={idx} item xs={3} style={{ margin: 0, textAlign: "center" }}>
+          <Card className={classes.root} onClick={() => pickSide(side.id)}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image={side.img}
+                style={{
+                  height: 200,
+                  width: 200,
+                  backgroundImage: `url(${side.back})`
+                }}
+              />
+              <CardContent style={{ padding: 0 }}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  <p style={{ marginTop: 10, marginBottom: 10 }}>{side.name}</p>
+                  <p style={{ marginTop: 10, marginBottom: 10 }}>+{side.addPrice}</p>
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      );
+    }
   });
   const beveragesHtml = beverages.map((beverage, idx) => {
     return (
