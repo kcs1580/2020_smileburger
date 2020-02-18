@@ -324,8 +324,8 @@ const BurgerModalSetRequests = props => {
     let pickSide = "";
     let pickBeverage = "";
     let pickRequest = "";
-    sides.map(side => {
-      if (side.check) {
+    sides.map((side, idx) => {
+      if (idx < 9 && side.check) {
         pickSide = side.name;
       }
     });
