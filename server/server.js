@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 const base = require("./route/base/base");
+const axios = require("axios");
 //mybatisMapper.createMapper(["./base/base.xml"]);
 
 var corsOptions = {
@@ -26,142 +27,110 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require(`${__dirname}/middleware/init`));
 app.use(require(`${__dirname}/middleware/db`));
 
-app.use("/base", require(`${__dirname}/route/base/base`));
+app.use("/", require(`${__dirname}/route/base/base`));
 
 const serverHandler = (req, res) => {
   console.log("socket server connected");
 };
 server.listen("3001", serverHandler);
 
-<<<<<<< HEAD
-=======
-// -----------------------------------------------------------------------------------
-// 임시 데이터
-app.get("/test/", function(req, res) {
-  res.json([
-    {
-      id: 1,
-      title: "싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170726381288.jpg",
-      price_single: 3400,
-      price_set: 5600,
-      cooking_time: "7~10",
-      description:
-        "달콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거"
-    },
-    {
-      id: 2,
-      title: "불싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170412442355.jpg",
-      price_single: 3600,
-      price_set: 5800,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거인 싸이버거에 매콤함을 추가한 버거"
-    },
-    {
-      id: 3,
-      title: "싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170726381288.jpg",
-      price_single: 3400,
-      price_set: 5600,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거"
-    },
-    {
-      id: 4,
-      title: "불싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170412442355.jpg",
-      price_single: 3600,
-      price_set: 5800,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거인 싸이버거에 매콤함을 추가한 버거"
-    },
-    {
-      id: 5,
-      title: "싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170726381288.jpg",
-      price_single: 3400,
-      price_set: 5600,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거"
-    },
-    {
-      id: 6,
-      title: "불싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170412442355.jpg",
-      price_single: 3600,
-      price_set: 5800,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거인 싸이버거에 매콤함을 추가한 버거"
-    },
-    {
-      id: 7,
-      title: "싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170726381288.jpg",
-      price_single: 3400,
-      price_set: 5600,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거"
-    },
-    {
-      id: 8,
-      title: "불싸이버거",
-      img: "src/image/products",
-      price_single: 3600,
-      price_set: 5800,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거인 싸이버거에 매콤함을 추가한 버거"
-    },
-    {
-      id: 9,
-      title: "싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170726381288.jpg",
-      price_single: 3400,
-      price_set: 5600,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거"
-    },
-    {
-      id: 10,
-      title: "불싸이버거",
-      img: "http://www.momstouch.co.kr/data/shopimages/xboard/menu/20170412442355.jpg",
-      price_single: 3600,
-      price_set: 5800,
-      cooking_time: "7~10",
-      description:
-        "매콤한 통다리살 패티를 신선한 양상추, 양파와 함께 즐길 수 있는 맘스터치 대표 버거인 싸이버거에 매콤함을 추가한 버거"
-    }
-  ]);
-});
->>>>>>> 4a6066afaab63659e3dfc64420b2d21416769ada
-
-io.on("connection", function (socket) {
+io.on("connection", function(socket) {
   console.log(socket.id + "a user connected");
 
   var instanceid = socket.id;
 
-  socket.on("joinRoom", function (data) {
+  socket.on("joinRoom", function(data) {
     console.log(instanceid + " : 접속");
     socket.join(data.roomName);
     roomName = data.roomName;
-  });
-
-  socket.on("reqMsg", function (data) {
-    console.log(data);
     io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
   });
-});
 
-app.get("/", function (req, res) {
+  socket.on("reqMsg", function(data) {
+    // console.log(data);
+    io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
+  });
+
+  socket.on("Front2Back", function(data) {
+    // console.log(data);
+    // console.log(data.contents)
+    // 준비중 준비완료 가져오기
+    axios
+      .get("http://localhost:3001/getinOrders")
+      .then(res => {
+        // console.log(res.data);
+        const orderList = [];
+        for (var i in res.data) {
+          orderList.push(dataProcess(res.data[i]));
+        }
+        console.log(orderList);
+
+        io.sockets.in("myroom").emit("Back2Front", orderList);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    // io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
+  });
+});
+app.get("/", function(req, res) {
   res.send("Hello Vote On~");
 });
+// Data Processing
+const dataProcess = data => {
+  var tempmenu;
+  var menu;
+  var cnt;
+  var price;
+  var contents = [];
+  for (var i = 0; i < data.ocontent.length; i++) {
+    if (data.ocontent[i] == "}") {
+      var obj = {
+        menu: menu,
+        cnt: Number(cnt),
+        price: Number(price)
+      };
+      contents.push(obj);
+    }
+
+    if (data.ocontent.slice(i, i + 8) === "contents") {
+      tempmenu = [];
+      var s = i + 11;
+      var e = s;
+      while (data.ocontent[e] != "]") {
+        e++;
+      }
+      temp = data.ocontent.slice(s, e).split(",");
+      for (var j = 0; j < temp.length; j++) {
+        tempmenu.push(temp[j].slice(1, temp[j].length - 1));
+      }
+      menu = tempmenu.join(", ");
+      console.log(menu);
+    } else if (data.ocontent.slice(i, i + 3) === "cnt") {
+      s = i + 5;
+      var e = i;
+      while (data.ocontent[e] != ",") {
+        e++;
+      }
+      cnt = data.ocontent.slice(s, e);
+    } else if (data.ocontent.slice(i, i + 5) === "price") {
+      var s = i + 7;
+      var e = s;
+      while (data.ocontent[e] != "}") {
+        e++;
+      }
+      price = data.ocontent.slice(s, e);
+    }
+  }
+  // console.log(contents)
+  // console.log(data)
+  return {
+    oid: data.oid,
+    orderNum: data.owaitingNum,
+    contents: contents,
+    isready: data.isready
+  };
+};
 
 module.exports = app;
