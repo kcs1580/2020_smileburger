@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-
+import SectionCarouselTop from "../components/slick/SectionCarouselTop";
 import * as Colors from "material-ui/styles/colors";
 import { makeStyles, Typography, AppBar, Toolbar, IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -36,7 +36,7 @@ const Header = props => {
     <AppBar
       position="fixed"
       className={classes.appBar}
-      style={{ backgroundColor: "red", height: "60px" }}
+      style={{ backgroundColor: "red", height: "150px" }}
     >
       <Toolbar style={{ height: "60px" }}>
         <IconButton
@@ -48,19 +48,11 @@ const Header = props => {
         >
           {/* <MenuIcon /> */}
         </IconButton>
+
         <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
           S M I L E ~ B U R G E R
+          <SectionCarouselTop className={classes.title} style={{ height: "10px" }} />
         </Typography>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          onClick={onClickSignInDialogOpenHandler}
-          color="inherit"
-          size="medium"
-        >
-          {/* <AccountCircle /> */}
-        </IconButton>
       </Toolbar>
     </AppBar>
   );
