@@ -284,9 +284,10 @@ const AuthPage = props => {
             onTimeout();
             return p.Smile.Value === true;
           } else {
-            setTimeout(capture, 2000);
             console.log("웃어달라고.. 웃어야 그래야 님 주문 할 수 있어 ㅋ");
             setBackdrop(false);
+            setTimeout(capture, 2000);
+            return true;
           }
         });
       }
@@ -330,7 +331,6 @@ const AuthPage = props => {
           width={"100%"}
           videoConstraints={videoConstraints}
           onClick={capture}
-          style={{ marginTop: 150 }}
         />
         <br></br>
 

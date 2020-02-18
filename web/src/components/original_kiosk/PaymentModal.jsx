@@ -24,8 +24,10 @@ const useStyles = makeStyles(theme => ({
   btnPayment: {
     color: "white",
     background: "red",
-    height: 100,
-    width: "100%"
+    height: 200,
+    width: "100%",
+    fontSize: 35,
+    borderRadius: 15
   },
   dialogTitle: {
     backgroundColor: "red",
@@ -109,10 +111,8 @@ const PaymentModal = ({ orderList, waitingNum }) => {
     } else {
       handleClickOpen();
     }
-    // console.log(orderList);
   };
 
-  // const [waitingNum, setWaitingNum] = useState(101);
   const orderComplete = type => {
     handleClickOpenWatingNum();
     handleClose();
