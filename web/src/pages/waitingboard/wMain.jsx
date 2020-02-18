@@ -8,7 +8,7 @@ import Waiting from "../../components/wBoard/Waiting";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "black",
+    backgroundColor: "#232020",
     height: "1080px",
     width: "1900spx",
     padding: "15px"
