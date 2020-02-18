@@ -120,6 +120,8 @@ const PaymentModal = ({ orderList, waitingNum }) => {
         // DB에 주문저장 하는 부분
 
         const faceID = localStorage.getItem("FaceID") ? localStorage.getItem("FaceID") : "defaultUser";
+        console.log(waitingNum)
+        console.log(orderList)
         axios
             .get("http://i02c103.p.ssafy.io:3001/insertOrder", {
                 params: {
