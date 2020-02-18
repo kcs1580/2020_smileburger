@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SectionCarousel from "../../components/slick/SectionCarousel";
+
 import styled from "styled-components";
 import Layout from "../../layout/Layout";
 import Backdrop from "@material-ui/core/Backdrop";
