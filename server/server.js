@@ -62,6 +62,7 @@ io.on("connection", function (socket) {
         const orderList = [];
         for (var i in res.data) {
           orderList.push(dataProcess(res.data[i]));
+          // console.log(res.data[i])
         }
         console.log(orderList);
 
@@ -89,7 +90,7 @@ const dataProcess = data => {
       var obj = {
         menu: menu,
         cnt: Number(cnt),
-        price: Number(price)
+        price: Number(price),
       };
       contents.push(obj);
     }
@@ -106,7 +107,7 @@ const dataProcess = data => {
         tempmenu.push(temp[j].slice(1, temp[j].length - 1));
       }
       menu = tempmenu.join(", ");
-      console.log(menu);
+      // console.log(menu);
     } else if (data.ocontent.slice(i, i + 3) === "cnt") {
       s = i + 5;
       var e = i;
@@ -129,7 +130,8 @@ const dataProcess = data => {
     oid: data.oid,
     orderNum: data.owaitingNum,
     contents: contents,
-    isready: data.isready
+    isready: data.isready,
+    type: data.otype
   };
 };
 
