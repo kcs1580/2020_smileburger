@@ -62,7 +62,9 @@ const Waiting = () => {
     li.map((nu2, idx) => {
       return (
         <Grid item xs={4} key={idx}>
-          <Paper className={classes.paper}>{nu2}</Paper>
+          <Paper className={classes.paper}>
+            <span className={classes.papercontent}>{nu2}</span>
+          </Paper>
         </Grid>
       );
     });

@@ -64,8 +64,10 @@ const Done = () => {
     li.map((nu2, idx) => {
       return (
         <Grid item xs={6} key={idx}>
-          <Paper className={classes.paper} elevation={2}>
-            {nu2}
+          <Paper className={classes.paper}>
+            <span className={classes.papercontent} style={{ fontSize: "80px" }}>
+              {nu2}
+            </span>
           </Paper>
         </Grid>
       );
