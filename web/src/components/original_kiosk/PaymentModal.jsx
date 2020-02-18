@@ -121,7 +121,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
 
     const faceID = localStorage.getItem("FaceID") ? localStorage.getItem("FaceID") : "defaultUser";
     axios
-      .get("http://localhost:3001/insertOrder", {
+      .get("http://i02c103.p.ssafy.io:3001/insertOrder", {
         params: {
           waitingNum: waitingNum,
           faceID: faceID,
@@ -148,9 +148,9 @@ const PaymentModal = ({ orderList, waitingNum }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      if (openWatingNum) localStorage.removeItem("FaceID");
       handleCloseWatingNum();
       goHome(openWatingNum);
-      localStorage.removeItem("FaceID");
     }, 3000);
     return () => {
       clearTimeout(timer);

@@ -11,7 +11,7 @@ import Pagination from "material-ui-flat-pagination";
 import socketio from "socket.io-client";
 import axios from "axios";
 
-const socket = socketio.connect("http://localhost:3001/");
+const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
