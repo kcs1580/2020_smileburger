@@ -148,9 +148,9 @@ const PaymentModal = ({ orderList, waitingNum }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      if (openWatingNum) localStorage.removeItem("FaceID");
       handleCloseWatingNum();
       goHome(openWatingNum);
-      localStorage.removeItem("FaceID");
     }, 3000);
     return () => {
       clearTimeout(timer);

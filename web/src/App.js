@@ -10,7 +10,7 @@ import Auth from "./pages/auth/auth-go";
 import Register from "./pages/auth/auth-register";
 import Order from "./pages/customer/kiosk-order";
 import Admin_order_list from "./pages/admin/Admin_order_list";
-import Childkiosk from "./pages/customer/Childkiosk"
+import Childkiosk from "./pages/customer/Childkiosk";
 // import BugerList from "./components/BugerList";
 import wBoard from "./pages/waitingboard/wMain";
 
