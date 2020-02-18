@@ -185,7 +185,7 @@ const BodyOrder = () => {
       setRegisterd(true);
       setList(0);
       axios
-        .get("http://i02c103.p.ssafy.io:3001getLastOrderLists", {
+        .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
           params: {
             faceid: localStorage.getItem("FaceID") // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
           }

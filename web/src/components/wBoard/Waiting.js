@@ -38,27 +38,23 @@ const Waiting = () => {
   // const list = li.map(nu2 => {   return <div>{nu2}</div>; });
 
   socket.on("recMsg", data => {
-    console.log("메세지 받았따")
-    Axios.get("http://localhost:3001/getpreNumbers")
-      .then((res) => {
-        console.log(res.data)
-        const li2 = []
-        const test = res.data.map((id) => {
-          console.log(id.oid)
-          li2.push(id.oid)
+    console.log("메세지 받았따");
+    Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
+      .then(res => {
+        console.log(res.data);
+        const li2 = [];
+        const test = res.data.map(id => {
+          console.log(id.owaitingNum);
+          li2.push(id.owaitingNum);
           //setLi(li.concat(id.oid))
-        })
-        setLi(li2)
+        });
+        setLi(li2);
         // setLi(res.data);
-
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(err => {
+        console.log(err);
       });
-
-
   });
-
 
   const getList = () =>
     li.map(nu2 => {

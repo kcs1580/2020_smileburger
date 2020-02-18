@@ -148,12 +148,12 @@
 	</select>
 
 	<select id="getpreNumbers">
-    SELECT oid FROM orders
+    SELECT owaitingNum FROM orders
       WHERE isready=0
    </select>
 
      <select id="getredNumbers">
-    SELECT oid FROM orders
+    SELECT owaitingNum FROM orders
       WHERE isready=1
    </select>
 
