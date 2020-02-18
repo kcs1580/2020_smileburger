@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   makeStyles,
   CardMedia,
@@ -14,6 +14,7 @@ import {
 import { CancelOutlined, AddBox, IndeterminateCheckBox } from "@material-ui/icons";
 import BurgerModalSingleRequests from "./BurgerModalSingleRequests";
 import BurgerModalSetRequests from "./BurgerModalSetRequests";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   cardMedia: {
@@ -98,6 +99,7 @@ const BurgerMoal = ({
   burgerSetImgurl,
   sides,
   beverages,
+  requests,
   setOrder
 }) => {
   const classes = useStyles();
@@ -149,6 +151,21 @@ const BurgerMoal = ({
   const handleCloseSet = () => {
     setOpenSet(false);
   };
+
+  // const [requests, setRequests] = useState([]);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:3001/getProducts", {
+  //       params: {
+  //         pcategory: 4
+  //       }
+  //     })
+  //     .then(res => {
+  //       console.log(res.data);
+  //       setRequests(res.data);
+  //     })
+  //     .catch(err => console.log(err));
+  // }, []);
 
   return (
     <div>
@@ -245,6 +262,7 @@ const BurgerMoal = ({
           setOrder={setOrder}
           count={count}
           total={total}
+          requests={requests}
         />
       </Dialog>
 
@@ -302,6 +320,7 @@ const BurgerMoal = ({
           total={total}
           sides={sides}
           beverages={beverages}
+          requests={requests}
         />
       </Dialog>
     </div>
