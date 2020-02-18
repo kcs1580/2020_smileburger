@@ -12,12 +12,10 @@ const useStyles = makeStyles(theme => ({
     margin: "20px"
   },
   paper: {
-    padding: theme.spacing(9),
+    padding: theme.spacing(8),
     textAlign: "center",
-    color: "yellow",
-    borderBottom: "solid",
-
-    background: "black"
+    color: "hsl(0,0%,45%)",
+    borderBottom: "solid"
   }
 }));
 
@@ -60,9 +58,9 @@ const Done = () => {
   });
 
   const getList = () =>
-    li.map(nu2 => {
+    li.map((nu2, idx) => {
       return (
-        <Grid item xs={6}>
+        <Grid item xs={6} key={idx}>
           <Paper className={classes.paper}>{nu2}</Paper>
         </Grid>
       );
@@ -73,7 +71,7 @@ const Done = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
+      <Grid container spacing={5}>
         {list}
       </Grid>
     </div>

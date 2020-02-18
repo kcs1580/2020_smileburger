@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: "black",
-    height: "1050px",
+    height: "1080px",
     width: "1900spx",
     padding: "15px"
   },
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "40px",
     color: "yellow",
     textAlign: "center",
-    fontWeight: "bold",
+
     height: "1050px"
   },
   waiting: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: "40px",
     color: "white",
     textAlign: "center",
-    fontWeight: "bold",
+
     height: "1050px"
   },
   paper: {
@@ -42,11 +42,13 @@ const useStyles = makeStyles(theme => ({
 
   des: {
     fontSize: "25px",
-    padding: "10px"
+    padding: "10px",
+    fontWeight: "ligther"
   },
   title: {
-    fontSize: "35px",
-    padding: "10px"
+    fontSize: "25px",
+    padding: "10px",
+    fontWeight: "bold"
   }
 }));
 
