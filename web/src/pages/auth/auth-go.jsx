@@ -324,12 +324,13 @@ const AuthPage = props => {
       <Layout>
         <Webcam
           audio={false}
-          height={400}
+          // height={400}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          width={800}
+          width={"100%"}
           videoConstraints={videoConstraints}
           onClick={capture}
+          style={{ marginTop: 150 }}
         />
         <br></br>
 

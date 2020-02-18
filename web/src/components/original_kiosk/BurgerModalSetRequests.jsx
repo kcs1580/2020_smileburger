@@ -12,20 +12,6 @@ import {
 } from "@material-ui/core";
 import check from "../../img/burgerModal/check.png";
 import checkNone from "../../img/burgerModal/check-none.png";
-import chips1 from "../../img/burgerModal/chips1.png";
-import chips2 from "../../img/burgerModal/chips2.png";
-import cheese from "../../img/burgerModal/cheese.png";
-import onion from "../../img/burgerModal/onion.png";
-import coke from "../../img/burgerModal/coke.png";
-import sprite from "../../img/burgerModal/sprite.png";
-import orange from "../../img/burgerModal/orange.png";
-import blackberry from "../../img/burgerModal/blackberry.png";
-import lemon from "../../img/burgerModal/lemon.png";
-import muscat from "../../img/burgerModal/muscat.png";
-import nothing from "../../img/burgerModal/nothing.png";
-import noPickle from "../../img/burgerModal/n_pickle.png";
-import noOnion from "../../img/burgerModal/n_onion.png";
-import noBoth from "../../img/burgerModal/n_both.png";
 
 const useStyles = makeStyles({
   root: {
@@ -109,36 +95,29 @@ const BurgerModalSetRequests = props => {
       }
     })
   );
-  const [requests, setRequests] = useState([
-    {
-      id: "request1",
-      name: "요청없음",
-      check: true,
-      back: nothing,
-      img: check
-    },
-    {
-      id: "request2",
-      name: "피클제거",
-      check: false,
-      back: noPickle,
-      img: checkNone
-    },
-    {
-      id: "request3",
-      name: "양파제거",
-      check: false,
-      back: noOnion,
-      img: checkNone
-    },
-    {
-      id: "request4",
-      name: "피클, 양파제거",
-      check: false,
-      back: noBoth,
-      img: checkNone
-    }
-  ]);
+  const [requests, setRequests] = useState(
+    props.requests.map((request, idx) => {
+      if (idx === 0) {
+        return {
+          id: request.pid,
+          name: request.pname,
+          check: true,
+          addPrice: 0,
+          img: check,
+          back: request.pimgurl
+        };
+      } else {
+        return {
+          id: request.pid,
+          name: request.pname,
+          check: false,
+          addPrice: request.pprice,
+          img: checkNone,
+          back: request.pimgurl
+        };
+      }
+    })
+  );
 
   const [sidePrice, setSidePrice] = useState(0);
   const [beveragePrice, setBeveragePrice] = useState(0);

@@ -24,9 +24,7 @@ const Layout = props => {
       <CssBaseline />
       <Header />
       <div className={classes.content} style={{ width: "100%" }}>
-        <div className={"sssr"} style={{ marginTop: "50px", textAlign: "center" }}>
-          {props.children}
-        </div>
+        <div style={{ textAlign: "center" }}>{props.children}</div>
       </div>
       <Footer />
     </Fragment>
