@@ -10,8 +10,12 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Pagination from "material-ui-flat-pagination";
 import socketio from "socket.io-client";
 import axios from "axios";
+import Badge from '@material-ui/core/Badge';
+import Paper from '@material-ui/core/Paper';
 
-const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
+
+// const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
+const socket = socketio.connect("http://localhost:3001");
 
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
@@ -32,6 +36,9 @@ const useStyles = makeStyles(theme => ({
     height: 360,
     width: 270,
     margin: "15px 0px"
+  },
+  numbering: {
+    fontSize: "20px"
   }
 }));
 
@@ -41,7 +48,7 @@ const Content = () => {
   const [orders, setOrder] = useState([]);
 
   socket.on("Back2Front", data => {
-    // console.log(data)
+    console.log(data)
     setOrder(data);
     // const ord = data.map((order) => {
     //   console.log(order)
@@ -52,16 +59,19 @@ const Content = () => {
     if (order.isready === "0") {
       order.isready = "1";
       axios
-        .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
+        // .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
+        .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
           socket.emit("recMsg", { data: "data" });
+          console.log("update success")
           console.log(res);
         });
     } else if (order.isready === "1") {
       order.isready = "2";
       axios
-        .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
+        // .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
+        .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
           socket.emit("recMsg", { data: "data" });
@@ -69,8 +79,8 @@ const Content = () => {
         });
     }
 
-    console.log(order);
-    console.log(order.oid);
+    // console.log(order);
+    // console.log(order.oid);
   };
 
   let temporder = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -98,46 +108,58 @@ const Content = () => {
       });
       if (order.isready === "1") {
         return (
-          <Card
-            className={classes.Card}
-            variant="outlined"
-            display="inline"
-            key={idx}
-            style={{ backgroundColor: "yellow" }}
-            onClick={() => {
-              readychange(order);
-            }}
-          >
-            <CardContent>
-              <Typography className={classes.numbering} color="textSecondary" align="center">
-                {order.orderNum}
-              </Typography>
-              {MenuHTML}
-              {/* <h3>{order.itemList.menu}</h3> */}
-              {/* <h4>{order.itemList.ea}</h4> */}
-            </CardContent>
-          </Card>
+          <Badge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
+            <div>
+
+              <Card
+                className={classes.Card}
+                variant="outlined"
+                display="inline"
+                style={{ backgroundColor: "yellow" }}
+                onClick={() => {
+                  readychange(order);
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h2" color="textSecondary" align="center">
+                    {order.orderNum}
+                  </Typography>
+                  <hr />
+                  {MenuHTML}
+                  {/* <h3>{order.itemList.menu}</h3> */}
+                  {/* <h4>{order.itemList.ea}</h4> */}
+                </CardContent>
+              </Card>
+            </div>
+          </Badge>
+
         );
       } else {
         return (
-          <Card
-            className={classes.Card}
-            variant="outlined"
-            display="inline"
-            key={idx}
-            onClick={() => {
-              readychange(order);
-            }}
-          >
-            <CardContent>
-              <Typography className={classes.numbering} color="textSecondary" align="center">
-                {order.orderNum}
-              </Typography>
-              {MenuHTML}
-              {/* <h3>{order.itemList.menu}</h3> */}
-              {/* <h4>{order.itemList.ea}</h4> */}
-            </CardContent>
-          </Card>
+          <Badge color="secondary" overlap="circle" badgeContent="포" key={idx} id="badge123">
+            <div>
+
+              <Card
+                className={classes.Card}
+                variant="outlined"
+                display="inline"
+                key={idx}
+                onClick={() => {
+                  readychange(order);
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h2" color="textSecondary" align="center">
+                    {order.orderNum}
+                  </Typography>
+                  <hr />
+                  {MenuHTML}
+                  {/* <h3>{order.itemList.menu}</h3> */}
+                  {/* <h4>{order.itemList.ea}</h4> */}
+                </CardContent>
+              </Card>
+            </div>
+          </Badge>
         );
       }
     }
