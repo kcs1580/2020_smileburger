@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SectionCarousel from "../../components/slick/SectionCarousel";
+
 import styled from "styled-components";
 import Layout from "../../layout/Layout";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -323,12 +324,13 @@ const AuthPage = props => {
       <Layout>
         <Webcam
           audio={false}
-          height={400}
+          // height={400}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          width={800}
+          width={"100%"}
           videoConstraints={videoConstraints}
           onClick={capture}
+          style={{ marginTop: 150 }}
         />
         <br></br>
 

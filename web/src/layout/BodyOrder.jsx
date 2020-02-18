@@ -43,6 +43,7 @@ const BodyOrder = () => {
   const [burgers, setBurgers] = useState([]);
   const [sides, setSides] = useState([]);
   const [beverages, setBeverages] = useState([]);
+  const [requests, setRequests] = useState([]);
   const [burgerSets, setBurgerSets] = useState([]);
   const [waitingNum, setWaitingNum] = useState(101);
   const [registered, setRegisterd] = useState(false); // 페이스 인식에서 인증된 사용자 인지 아닌지 넘겨 받을 값
@@ -96,6 +97,17 @@ const BodyOrder = () => {
       .then(res => {
         console.log(res.data);
         setBurgerSets(res.data);
+      })
+      .catch(err => console.log(err));
+    axios
+      .get("http://localhost:3001/getProducts", {
+        params: {
+          pcategory: 4
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        setRequests(res.data);
       })
       .catch(err => console.log(err));
   }, []);
@@ -207,6 +219,7 @@ const BodyOrder = () => {
             burgerSets={burgerSets}
             sides={sides}
             beverages={beverages}
+            requests={requests}
             setOrder={setOrder}
           />
         );

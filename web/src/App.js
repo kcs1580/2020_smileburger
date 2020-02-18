@@ -24,7 +24,7 @@ import sockettest from "./pages/sockettest";
 const theme = createMuiTheme({
   drawerWidth: 320,
   typography: {
-    fontFamily: ["Noto Sans KR"].join(","),
+    fontFamily: ["yg-jalnan"].join(","),
     button: {
       fontFamily: "Noto Sans KR"
     },
