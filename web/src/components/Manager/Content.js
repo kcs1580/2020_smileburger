@@ -52,19 +52,21 @@ const Content = () => {
     if (order.isready === "0") {
       order.isready = "1";
       axios
-        .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
+        .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
-          socket.emit("recMsg", { data: "data" })
+          socket.emit("recMsg", { data: "data" });
           console.log(res);
         });
     } else if (order.isready === "1") {
       order.isready = "2";
-      axios.get("http://localhost:3001/complete2out", { params: { oid: order.oid } }).then(res => {
-        socket.emit("Front2Back", { data: "data" });
-        socket.emit("recMsg", { data: "data" })
-        console.log(res);
-      });
+      axios
+        .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
+        .then(res => {
+          socket.emit("Front2Back", { data: "data" });
+          socket.emit("recMsg", { data: "data" });
+          console.log(res);
+        });
     }
 
     console.log(order);
@@ -115,7 +117,7 @@ const Content = () => {
               {/* <h4>{order.itemList.ea}</h4> */}
             </CardContent>
           </Card>
-        )
+        );
       } else {
         return (
           <Card
@@ -136,7 +138,7 @@ const Content = () => {
               {/* <h4>{order.itemList.ea}</h4> */}
             </CardContent>
           </Card>
-        )
+        );
       }
     }
   });

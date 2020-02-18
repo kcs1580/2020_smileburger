@@ -39,7 +39,7 @@ const Waiting = () => {
 
   socket.on("recMsg", data => {
     console.log("메세지 받았따");
-    Axios.get("http://localhost:3001/getpreNumbers")
+    Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
       .then(res => {
         console.log(res.data);
         const li2 = [];
