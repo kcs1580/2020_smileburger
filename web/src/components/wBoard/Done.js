@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(8),
     textAlign: "center",
-    color: "hsl(0,0%,45%)",
+    color: "black",
+    background: "#ff7315",
     borderBottom: "solid"
   }
 }));
@@ -63,7 +64,9 @@ const Done = () => {
     li.map((nu2, idx) => {
       return (
         <Grid item xs={6} key={idx}>
-          <Paper className={classes.paper}>{nu2}</Paper>
+          <Paper className={classes.paper} elevation={2}>
+            {nu2}
+          </Paper>
         </Grid>
       );
     });
