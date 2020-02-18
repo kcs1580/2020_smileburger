@@ -101,6 +101,17 @@ const Childkiosk = props => {
                 setBurgerSets(res.data);
             })
             .catch(err => console.log(err));
+        axios
+            .get("http://localhost:3001/getProducts", {
+                params: {
+                    pcategory: 4
+                }
+            })
+            .then(res => {
+                console.log(res.data);
+                setRequests(res.data);
+            })
+            .catch(err => console.log(err));
     }, []);
 
     // 기존의 주문정보를 먼저 확인
