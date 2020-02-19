@@ -273,7 +273,7 @@ const AuthPage = props => {
         console.log(err);
       } else {
         // console.log(data.FaceDetails[0].Smile);
-        var smile = data.FaceDetails[0].Smile;
+        //var smile = data.FaceDetails[0].Smile;
         // console.log(smile.Value);
         console.log("인식된 얼굴 전부 출력");
         console.log(data.FaceDetails);
