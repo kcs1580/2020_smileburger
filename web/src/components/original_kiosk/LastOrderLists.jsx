@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Paper, Container, Grid, Typography } from "@material-ui/core";
 import { ShoppingCartOutlined } from "@material-ui/icons";
@@ -38,6 +38,7 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
   const [orderDetailList, setOrderDetailList] = useState([]);
 
   useEffect(() => {
+    console.log("ASAS" + lastOrderLists.length);
     const tempCntList = [];
     const tempCntSumList = [];
     const tempPriceList = [];
@@ -106,32 +107,32 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
     setTotalPriceSumList(tempPriceSumList);
   }, []);
 
-  const ShowList = () => {
-    if (lastOrderLists.length > 0) {
-      lastOrderLists.map((lastOrder, idx) => {
-        return (
-          <LastOrderModal
-            key={lastOrder.oid}
-            idx={idx}
-            lastOrder={lastOrder}
-            setOrder={setOrder}
-            totalCntList={totalCntList}
-            totalCntSumList={totalCntSumList}
-            totalPriceList={totalPriceList}
-            totalPriceSumList={totalPriceSumList}
-            orderShowList={orderShowList}
-            orderDetailList={orderDetailList}
-          />
-        );
-      });
-    } else {
-      return (
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>주문을 안했는데 뜰리가 있나</Paper>
-        </Grid>
-      );
-    }
-  };
+  // const ShowList = useMemo(() => {
+  //   if (lastOrderLists.length > 0) {
+  //     lastOrderLists.map((lastOrder, idx) => {
+  //       return (
+  //         <LastOrderModal
+  //           key={lastOrder.oid}
+  //           idx={idx}
+  //           lastOrder={lastOrder}
+  //           setOrder={setOrder}
+  //           totalCntList={totalCntList}
+  //           totalCntSumList={totalCntSumList}
+  //           totalPriceList={totalPriceList}
+  //           totalPriceSumList={totalPriceSumList}
+  //           orderShowList={orderShowList}
+  //           orderDetailList={orderDetailList}
+  //         />
+  //       );
+  //     });
+  //   } else {
+  //     return (
+  //       <Grid item xs={12}>
+  //         <Paper className={classes.paper}>주문을 안했는데 뜰리가 있나</Paper>
+  //       </Grid>
+  //     );
+  //   }
+  // }, []);
 
   return (
     <Grid container style={{ height: 1060, overflow: "auto" }} alignContent="flex-start">
@@ -157,7 +158,23 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
           주문
         </Grid>
       </Grid>
-      <ShowList />
+      {/* <ShowList /> */}
+      {lastOrderLists.map((lastOrder, idx) => {
+        return (
+          <LastOrderModal
+            key={lastOrder.oid}
+            idx={idx}
+            lastOrder={lastOrder}
+            setOrder={setOrder}
+            totalCntList={totalCntList}
+            totalCntSumList={totalCntSumList}
+            totalPriceList={totalPriceList}
+            totalPriceSumList={totalPriceSumList}
+            orderShowList={orderShowList}
+            orderDetailList={orderDetailList}
+          />
+        );
+      })}
     </Grid>
   );
 };

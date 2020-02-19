@@ -100,7 +100,7 @@ const BodyOrder = () => {
       })
       .catch(err => console.log(err));
     axios
-      .get("localhost:3001/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 4
         }
@@ -186,43 +186,23 @@ const BodyOrder = () => {
 
   // 인증된 사용자일 경우 사용자의 데이터 가져오기
   useEffect(() => {
-    // ==============================================================
-    setRegisterd(true);
-    setList(0);
-    axios
-      // .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
-      .get("http://localhost:3001/getLastOrderLists", {
-        params: {
-          // faceid: localStorage.getItem("FaceID")
-          faceid: "asdf"
-        }
-      })
-      .then(res => {
-        setLastOrderLists(res.data);
-      })
-      .catch(err => console.log(err));
-    // ==============================================================
-
-    // if (localStorage.getItem("FaceID")) {
-    //   setRegisterd(true);
-    //   setList(0);
-    //   axios
-    //     // .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
-    //     .get("http://localhost:3001/getLastOrderLists", {
-    //       params: {
-    //         faceid: localStorage.getItem("FaceID")
-    //       }
-    //     })
-    //     .then(res => {
-    //       // console.log(res);
-    //       // console.log(res.data[0].odate);
-    //       // console.log(typeof res.data);
-    //       setLastOrderLists(res.data);
-    //     })
-    //     .catch(err => console.log(err));
-    // } else {
-    //   console.log("비회원!!!!!!!!!!");
-    // }
+    if (localStorage.getItem("FaceID")) {
+      setRegisterd(true);
+      setList(0);
+      axios
+        // .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
+        .get("http://localhost:3001/getLastOrderLists", {
+          params: {
+            faceid: localStorage.getItem("FaceID")
+          }
+        })
+        .then(res => {
+          setLastOrderLists(res.data);
+        })
+        .catch(err => console.log("실패ㅠㅠ" + err));
+    } else {
+      console.log("비회원!!!!!!!!!!");
+    }
   }, []);
 
   const BodyControl = () => {
