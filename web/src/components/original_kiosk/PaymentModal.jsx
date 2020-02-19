@@ -24,8 +24,10 @@ const useStyles = makeStyles(theme => ({
   btnPayment: {
     color: "white",
     background: "red",
-    height: 100,
-    width: "100%"
+    height: 200,
+    width: "100%",
+    fontSize: 35,
+    borderRadius: 15
   },
   dialogTitle: {
     backgroundColor: "red",
@@ -109,29 +111,31 @@ const PaymentModal = ({ orderList, waitingNum }) => {
     } else {
       handleClickOpen();
     }
-    // console.log(orderList);
   };
 
-  // const [waitingNum, setWaitingNum] = useState(101);
   const orderComplete = type => {
     handleClickOpenWatingNum();
     handleClose();
+
     // DB에 주문저장 하는 부분
+
+    const faceID = localStorage.getItem("FaceID") ? localStorage.getItem("FaceID") : "defaultUser";
     axios
-      .get("http://localhost:3001/base/insertOrder", {
+      .get("http://i02c103.p.ssafy.io:3001/insertOrder", {
         params: {
           waitingNum: waitingNum,
+          faceID: faceID,
           data: orderList,
           type: type
         }
       })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .then(res => console.log("이거" + res))
+      .catch(err => console.log("이거" + err));
   };
 
   const goHome = check => {
     if (check) {
-      window.location.replace("http://localhost:3000/");
+      window.location.replace("http://localhost:3000/auth");
     }
   };
 
@@ -144,6 +148,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      if (openWatingNum) localStorage.removeItem("FaceID");
       handleCloseWatingNum();
       goHome(openWatingNum);
     }, 3000);

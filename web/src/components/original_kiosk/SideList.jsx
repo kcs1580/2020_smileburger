@@ -52,10 +52,7 @@ const SideList = ({ setOrder, sides }) => {
                 <Typography gutterBottom variant="h5" component="h2">
                   {side.pname}
                 </Typography>
-                <Typography>
-                  <span style={{ marginRight: "10px" }}>단품: {side.pprice}</span>
-                  <span>세트: {side.pprice}</span>
-                </Typography>
+                <Typography>가격: {side.pprice}</Typography>
               </CardContent>
             </Card>
           </Grid>

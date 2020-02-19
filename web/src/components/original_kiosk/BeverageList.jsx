@@ -52,10 +52,7 @@ const BeverageList = ({ setOrder, beverages }) => {
                 <Typography gutterBottom variant="h5" component="h2">
                   {beverage.pname}
                 </Typography>
-                <Typography>
-                  <span style={{ marginRight: "10px" }}>단품: {beverage.pprice}</span>
-                  <span>세트: {beverage.pprice}</span>
-                </Typography>
+                <Typography>가격: {beverage.pprice}</Typography>
               </CardContent>
             </Card>
           </Grid>

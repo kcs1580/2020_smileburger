@@ -9,11 +9,13 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Pagination from "material-ui-flat-pagination";
 import socketio from "socket.io-client";
+import axios from "axios";
 
-const socket = socketio.connect("http://localhost:3001");
+const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
+  socket.emit("Front2Back", { data: "data" });
   console.log("h2");
 })();
 
@@ -38,30 +40,38 @@ const Content = () => {
   const [pageidx, setPageidx] = useState(0);
   const [orders, setOrder] = useState([]);
 
-  socket.on("recMsg", data => {
-    console.log(data);
-    const or = data.map(burger => {
-      return {
-        orderNum: burger.oid,
-        itemList: {
-          menu: burger.oproducts,
-          ea: burger.ea
-        },
-        isReady: false
-      };
-    });
-    console.log(or);
-    // const or = {
-    //   orderNum: data.oid,
-    //   itemList: {
-    //     menu: data.oproducts,
-    //     ea: data.ostore
-    //   },
-    //   isReady: data.isReady
-    // }
-    setOrder(orders.concat(or));
-    console.log(orders);
+  socket.on("Back2Front", data => {
+    // console.log(data)
+    setOrder(data);
+    // const ord = data.map((order) => {
+    //   console.log(order)
+    // })
   });
+
+  const readychange = order => {
+    if (order.isready === "0") {
+      order.isready = "1";
+      axios
+        .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
+        .then(res => {
+          socket.emit("Front2Back", { data: "data" });
+          socket.emit("recMsg", { data: "data" });
+          console.log(res);
+        });
+    } else if (order.isready === "1") {
+      order.isready = "2";
+      axios
+        .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
+        .then(res => {
+          socket.emit("Front2Back", { data: "data" });
+          socket.emit("recMsg", { data: "data" });
+          console.log(res);
+        });
+    }
+
+    console.log(order);
+    console.log(order.oid);
+  };
 
   let temporder = [0, 0, 0, 0, 0, 0, 0, 0];
   const arrmake = () => {
@@ -79,25 +89,57 @@ const Content = () => {
     if (order === 0) {
       return <Card className={classes.Card} variant="outlined" display="inline" key={idx} />;
     } else {
-      return (
-        <Card
-          className={classes.Card}
-          variant="outlined"
-          display="inline"
-          key={idx}
-          onClick={() => {
-            console.log("aa");
-          }}
-        >
-          <CardContent>
-            <Typography className={classes.numbering} color="textSecondary" align="center">
-              {order.orderNum}
-            </Typography>
-            <h3>{order.itemList.menu}</h3>
-            <h4>{order.itemList.ea}</h4>
-          </CardContent>
-        </Card>
-      );
+      const MenuHTML = order.contents.map((menuidx, idx) => {
+        return (
+          <h5 key={idx}>
+            {menuidx.menu} X {menuidx.cnt}
+          </h5>
+        );
+      });
+      if (order.isready === "1") {
+        return (
+          <Card
+            className={classes.Card}
+            variant="outlined"
+            display="inline"
+            key={idx}
+            style={{ backgroundColor: "yellow" }}
+            onClick={() => {
+              readychange(order);
+            }}
+          >
+            <CardContent>
+              <Typography className={classes.numbering} color="textSecondary" align="center">
+                {order.orderNum}
+              </Typography>
+              {MenuHTML}
+              {/* <h3>{order.itemList.menu}</h3> */}
+              {/* <h4>{order.itemList.ea}</h4> */}
+            </CardContent>
+          </Card>
+        );
+      } else {
+        return (
+          <Card
+            className={classes.Card}
+            variant="outlined"
+            display="inline"
+            key={idx}
+            onClick={() => {
+              readychange(order);
+            }}
+          >
+            <CardContent>
+              <Typography className={classes.numbering} color="textSecondary" align="center">
+                {order.orderNum}
+              </Typography>
+              {MenuHTML}
+              {/* <h3>{order.itemList.menu}</h3> */}
+              {/* <h4>{order.itemList.ea}</h4> */}
+            </CardContent>
+          </Card>
+        );
+      }
     }
   });
   // orderCard 중 8개를 받아 하나의 페이지에 출력할 데이터만 뽑음
@@ -113,17 +155,6 @@ const Content = () => {
         </Grid>
       </>
     );
-  };
-
-  const testinput = () => {
-    const or = {
-      orderNum: 114,
-      itemList: {
-        menu: "감자튀김",
-        ea: 5
-      }
-    };
-    setOrder(orders.concat(or));
   };
 
   const pageClick = isForward => {

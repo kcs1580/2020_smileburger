@@ -106,15 +106,7 @@ function Admin_order_list() {
                                 )
                             }
                         </tb>
-                        <tb>
-                            {
-                                state.boards.map(row =>
-                                    (<BoardItem key={row.brdno} row={row} onRemove={handleRemove} onSelectRow={handleSelectRow} />)
-                                )
-                            }
-                        </tb>
                     </tr>
-
                 </tbody>
             </table>
         </div>

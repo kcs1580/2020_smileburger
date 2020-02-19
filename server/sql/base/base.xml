@@ -157,6 +157,33 @@
 	<select id="getLastOrderLists">
 		 SELECT * FROM orders
 		 WHERE faceid=#{faceid}
-		 ORDER BY oid DESC LIMIT 5
+		 ORDER BY oid DESC LIMIT 10
 	</select>
+
+	<select id="getpreNumbers">
+    SELECT owaitingNum FROM orders
+      WHERE isready=0
+   </select>
+
+     <select id="getredNumbers">
+    SELECT owaitingNum FROM orders
+      WHERE isready=1
+   </select>
+
+   <select id="getinOrders">
+		SELECT * FROM orders
+		WHERE isready=0 or isready=1
+	</select>
+
+	<update id="ready2complete">
+		UPDATE orders
+		SET isready='1'
+		WHERE oid=#{oid}
+	</update>
+
+	<update id="complete2out">
+		UPDATE orders
+		SET isready='2'
+		WHERE oid=#{oid}
+	</update>
 </mapper>

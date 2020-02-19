@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Grid } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import OrderList from "./OrderList";
 import Payment from "./Payment";
+import axios from "axios";
 
 
 const useStyles = makeStyles(theme => ({
@@ -42,6 +43,20 @@ const useStyles = makeStyles(theme => ({
 
 const BodyOrderChoiceList = ({ orderList, setOrderList, setState }) => {
   const classes = useStyles();
+  const [waitingNum, setWaitingNum] = useState(101);
+  // 기존의 주문정보를 먼저 확인
+  useEffect(() => {
+    axios
+      .get("http://i02c103.p.ssafy.io:3001/getLatestOrder")
+      .then(res => {
+        if (res.data.length !== 0) {
+          console.log(res.data.length);
+          console.log(res.data);
+          setWaitingNum(res.data[0].owaitingNum + 1);
+        }
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   return (
     <Grid container className={classes.container}>
@@ -49,7 +64,7 @@ const BodyOrderChoiceList = ({ orderList, setOrderList, setState }) => {
       {/* 왼쪽 주문목록정보======================================== */}
       <OrderList orderList={orderList} setOrderList={setOrderList} />
       {/* 오른쪽 결제확인======================================== */}
-      <Payment orderList={orderList} setOrderList={setOrderList} setState={setState} />
+      <Payment orderList={orderList} setOrderList={setOrderList} setState={setState} waitingNum={waitingNum} />
     </Grid>
   );
 };

@@ -97,6 +97,7 @@ const OrderList = ({ orderList, setOrderList }) => {
   };
 
   useEffect(() => {
+    // console.log("OrderList.jsx 의 orderList");
     console.log(orderList);
   }, [orderList]);
 
@@ -120,6 +121,8 @@ const OrderList = ({ orderList, setOrderList }) => {
             </TableHead>
             <TableBody>
               {orderList.map(order => {
+                // console.log(typeof order.contents);
+                // console.log(order.contents);
                 return (
                   <TableRow key={order.id}>
                     {/* 제품목록 보여주는 cell */}

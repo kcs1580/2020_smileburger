@@ -25,8 +25,9 @@ const useStyles = makeStyles(theme => ({
     },
     btnorder: {
         position: "relative",
-        zIndex: 1
-    }
+
+    },
+
 
 
 }))
@@ -48,7 +49,7 @@ const Childkiosk = props => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:3001/base/getProducts", {
+            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 0
                 }
@@ -59,7 +60,7 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://localhost:3001/base/getProducts", {
+            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 1
                 }
@@ -70,7 +71,7 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://localhost:3001/base/getProducts", {
+            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 2
                 }
@@ -81,7 +82,7 @@ const Childkiosk = props => {
             })
             .catch(err => console.log(err));
         axios
-            .get("http://localhost:3001/base/getProducts", {
+            .get("http://i02c103.p.ssafy.io:3001/getProducts", {
                 params: {
                     pcategory: 3
                 }
@@ -185,11 +186,12 @@ const Childkiosk = props => {
         <Fragment>
             <CssBaseline />
             <HeaderOrder />
+
             <div className={classes.body}>
                 {/* <BottomNav select={select} setSelect={setSelect} /> */}
-
+                <Menutap select={select} setSelect={setSelect} className={classes.Menutap} />
                 <SelectPage className={classes.selpage} />
-                <Menutap select={select} setSelect={setSelect} />
+
                 <BodyOrderChoiceListDrawer
                     className={classes.btnorder}
                     orderList={orderList}

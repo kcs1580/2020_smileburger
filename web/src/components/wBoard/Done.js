@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import socketio from "socket.io-client";
+import Axios from "axios";
 
 // let num = 1;
 const useStyles = makeStyles(theme => ({
@@ -20,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const socket = socketio.connect("http://localhost:3001");
+const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
@@ -40,12 +41,22 @@ const Done = () => {
   // const list = li.map(nu2 => {   return <div>{nu2}</div>; });
 
   socket.on("recMsg", data => {
-    const oid = data.map(burgeridx => {
-      return burgeridx.oid;
-    });
-    console.log(data);
-    // console.log(data.isReady);
-    setLi(li.concat(oid));
+    console.log("메세지 받았따");
+    Axios.get("http://i02c103.p.ssafy.io:3001/getredNumbers")
+      .then(res => {
+        console.log(res.data);
+        const li2 = [];
+        const test = res.data.map(id => {
+          console.log(id.owaitingNum);
+          li2.push(id.owaitingNum);
+          //setLi(li.concat(id.oid))
+        });
+        setLi(li2);
+        // setLi(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   });
 
   const getList = () =>

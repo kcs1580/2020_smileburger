@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { makeStyles, Grid, Paper, Typography, Button } from "@material-ui/core";
 import { grey } from "@material-ui/core/colors";
 import PaymentModal from "./PaymentModal";
-import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -23,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Payment = ({ orderList, setOrderList, setState }) => {
+const Payment = ({ orderList, setOrderList, waitingNum }) => {
   const classes = useStyles();
 
   const getTotalCnt = () => {
@@ -59,17 +58,8 @@ const Payment = ({ orderList, setOrderList, setState }) => {
           전체취소
         </Button>
       </div>
-      <PaymentModal
-        className={classes.btnPayment}
-        orderList={orderList}
-        totalCnt={totalCnt}
-        totalPrice={totalPrice}
-      />
-      <Grid justify="flex-end" container>
-
-        <Icon style={{ fontSize: 100, marginTop: 70, }} onClick={() => { setState({ bottom: false }) }} >add_circle</Icon>
-      </Grid>
-    </Grid >
+      <PaymentModal className={classes.btnPayment} orderList={orderList} waitingNum={waitingNum} />
+    </Grid>
   );
 };
 

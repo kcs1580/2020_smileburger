@@ -136,28 +136,6 @@ app.get("/getOrder", function (req, res) {
   res.json({ success: query + " load succeed!", url: req.url });
 });
 
-// SD back test =================================
-// 날짜 구하는 부분 ********************************
-// const addingZero = n => {
-//   if (n < 10) return "0" + n;
-//   else return n;
-// };
-
-// let today = new Date();
-
-// let date =
-//   today.getFullYear() + "-" + addingZero(today.getMonth() + 1) + "-" + addingZero(today.getDate());
-
-// let time =
-//   addingZero(today.getHours()) +
-//   ":" +
-//   addingZero(today.getMinutes()) +
-//   ":" +
-//   addingZero(today.getSeconds());
-
-// let dateTime = date + " " + time;
-// // *************************************************
-
 // 최근에 저장한 주문 정보 불러오기
 app.get("/getLatestOrder", async (req, res) => {
   const params = {};
@@ -185,6 +163,7 @@ app.get("/getLatestOrder", async (req, res) => {
 // 주문이 DB에 저장되는 부분
 app.get("/insertOrder", async (req, res) => {
   const waitingNum = req.query.waitingNum;
+  const faceID = req.query.faceID;
   const data = req.query.data;
   const type = req.query.type;
   console.log("================================================");
@@ -193,7 +172,7 @@ app.get("/insertOrder", async (req, res) => {
   console.log("================================================");
   const selectParams = {
     owaitingNum: waitingNum,
-    faceid: "defaultUser",
+    faceid: faceID,
     ocontent: data,
     otype: type
   };
@@ -204,11 +183,8 @@ app.get("/insertOrder", async (req, res) => {
   const query = mybatisMapper.getStatement("BASE", "insertOrder", selectParams, format);
   try {
     await connection.query(query);
-    console.log(results);
-    res.send(results);
-  } catch {
-    console.log(error);
-    res.send(error);
+  } catch (e) {
+    console.log(e);
   }
   res.json({ msg: "성공!!" });
 });
@@ -246,10 +222,106 @@ app.get("/getLastOrderLists", (req, res) => {
   connection.query(query, (error, results) => {
     if (error) {
       res.send(error);
-      console.log(error);
     } else {
       res.send(results);
-      console.log(results);
+    }
+  });
+});
+
+app.get("/getpreNumbers", (req, res) => {
+  const params = {};
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "getpreNumbers", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      // console.log(error);
+    } else {
+      res.send(results);
+      // console.log(results);
+    }
+  });
+});
+
+app.get("/getredNumbers", (req, res) => {
+  const params = {};
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "getredNumbers", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      // console.log(error);
+    } else {
+      res.send(results);
+      // console.log(results);
+    }
+  });
+});
+
+app.get("/getinOrders", (req, res) => {
+  const params = {};
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "getinOrders", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      // console.log(error);
+    } else {
+      res.send(results);
+      // console.log(results);
+    }
+  });
+});
+
+app.get("/ready2complete", (req, res) => {
+  const params = {
+    oid: req.query.oid
+  };
+  console.log(params.oid);
+
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "ready2complete", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      // console.log(error);
+    } else {
+      res.send(results);
+      // console.log(results)
+    }
+  });
+});
+
+app.get("/complete2out", (req, res) => {
+  const params = {
+    oid: req.query.oid
+  };
+  // console.log(params.oid)
+
+  const format = {
+    language: "sql",
+    indent: "  "
+  };
+  const query = mybatisMapper.getStatement("BASE", "complete2out", params, format);
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.send(error);
+      // console.log(error);
+    } else {
+      res.send(results);
+      // console.log(results)
     }
   });
 });

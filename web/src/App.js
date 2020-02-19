@@ -16,7 +16,7 @@ import Admin_order_list from "./pages/admin/Admin_order_list";
 import Admin_store from "./pages/admin/Admin_store";
 import Admin_kiosk from "./pages/admin/Admin_kiosk";
 
-import Childkiosk from "./pages/customer/Childkiosk"
+import Childkiosk from "./pages/customer/Childkiosk";
 // import BugerList from "./components/BugerList";
 import wBoard from "./pages/waitingboard/wMain";
 
@@ -30,7 +30,7 @@ import sockettest from "./pages/sockettest";
 const theme = createMuiTheme({
   drawerWidth: 320,
   typography: {
-    fontFamily: ["Noto Sans KR"].join(","),
+    fontFamily: ["yg-jalnan"].join(","),
     button: {
       fontFamily: "Noto Sans KR"
     },

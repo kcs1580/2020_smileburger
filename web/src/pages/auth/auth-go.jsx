@@ -1,5 +1,7 @@
 import React, { useState, useMemo } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SectionCarousel from "../../components/slick/SectionCarousel";
+
 import styled from "styled-components";
 import Layout from "../../layout/Layout";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -83,6 +85,7 @@ const AuthPage = props => {
   const [backdrop, setBackdrop] = React.useState(false);
   const [gotoOrder, setGotoOrder] = React.useState(false);
   const [gotoMain, setGotoMain] = React.useState(false);
+  var curImg;
   function handleGotoMainPage() {
     setGotoMain(true);
   }
@@ -106,7 +109,7 @@ const AuthPage = props => {
   const webcamRef = React.useRef(null);
   const registerWebcamRef = React.useRef(null);
 
-  /////////////
+  ///////알림 창 띄우는 부분//////
   function TransitionLeft(props) {
     return <Slide {...props} direction="left" />;
   }
@@ -122,13 +125,11 @@ const AuthPage = props => {
     console.log("closeAlert메소드");
     setAlert(false);
   }
-
   /////////////
-  var curImg;
+
   async function capture() {
     curImg = webcamRef.current.getScreenshot();
     imageSrc = getBinary(curImg);
-
     if (isSmile === false) {
       await trackEmotions();
     } else {
@@ -170,12 +171,10 @@ const AuthPage = props => {
             },
             function(err, data) {
               if (err) {
-                //container.error("There was an error uploading your photo : ", err.message);
+                console.log(err);
               }
               image_url = data.Location;
-              console.log("자 업로드 성공했다. 콘테이너 실행되니?");
-              // container.success("Successfully upload your face on S3.");
-
+              console.log("Completed!! to upload img to S3 ");
               openAlert(TransitionLeft);
 
               var params = {
@@ -271,14 +270,12 @@ const AuthPage = props => {
     };
     await rekognition.detectFaces(params, function(err, data) {
       if (err) {
-        console.log("얼굴 인식 ERROR");
         console.log(err);
       } else {
         // console.log(data.FaceDetails[0].Smile);
         var smile = data.FaceDetails[0].Smile;
-
         // console.log(smile.Value);
-        console.log("========인식된 얼굴 다 가져와라===========");
+        console.log("인식된 얼굴 전부 출력");
         console.log(data.FaceDetails);
         //반복문 전부 돌면서 한명이라도 웃고 있으면 이제 faceSearchByImage.
         data.FaceDetails.some(p => {
@@ -289,6 +286,8 @@ const AuthPage = props => {
           } else {
             console.log("웃어달라고.. 웃어야 그래야 님 주문 할 수 있어 ㅋ");
             setBackdrop(false);
+            setTimeout(capture, 2000);
+            return true;
           }
         });
       }
@@ -326,17 +325,14 @@ const AuthPage = props => {
       <Layout>
         <Webcam
           audio={false}
-          height={400}
+          // height={400}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          width={800}
+          width={"100%"}
           videoConstraints={videoConstraints}
+          onClick={capture}
         />
         <br></br>
-
-        <Button color="primary" variant="contained" onClick={capture}>
-          Capture photo
-        </Button>
 
         <Backdrop className={classes.backdrop} open={backdrop} onClick={handleCloseBackdrop}>
           <CircularProgress color="inherit" />
@@ -376,6 +372,7 @@ const AuthPage = props => {
         </Dialog>
         {/* 여기까지 */}
       </Layout>
+      <SectionCarousel />
     </Container>
   );
 };

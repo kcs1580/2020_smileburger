@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { makeStyles, Container, Grid, Card, CardContent, Typography } from "@material-ui/core";
 import BurgerModal from "./BurgerModal";
 
@@ -33,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages }) => {
+const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages, requests }) => {
   const classes = useStyles();
 
   let burgerSetId = [];
@@ -70,6 +69,7 @@ const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages }) => {
                 burgerSetImgurl={burgerSetImgurl[idx]}
                 sides={sides}
                 beverages={beverages}
+                requests={requests}
                 setOrder={setOrder}
               />
               <CardContent className={classes.cardContent}>
