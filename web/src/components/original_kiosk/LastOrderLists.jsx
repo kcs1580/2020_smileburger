@@ -14,8 +14,17 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     borderTop: "2px solid black",
     borderBottom: "2px solid black",
-    height: 50
-    // align: "center"
+    height: 50,
+    fontSize: 25,
+    paddingTop: 5
+  },
+  paper: {
+    marginTop: 30,
+    marginBottom: 10,
+    marginLeft: 180,
+    marginRight: 180,
+    height: 120,
+    padding: theme.spacing(2)
   }
 }));
 
@@ -97,8 +106,35 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
     setTotalPriceSumList(tempPriceSumList);
   }, []);
 
+  const ShowList = () => {
+    if (lastOrderLists.length > 0) {
+      lastOrderLists.map((lastOrder, idx) => {
+        return (
+          <LastOrderModal
+            key={lastOrder.oid}
+            idx={idx}
+            lastOrder={lastOrder}
+            setOrder={setOrder}
+            totalCntList={totalCntList}
+            totalCntSumList={totalCntSumList}
+            totalPriceList={totalPriceList}
+            totalPriceSumList={totalPriceSumList}
+            orderShowList={orderShowList}
+            orderDetailList={orderDetailList}
+          />
+        );
+      });
+    } else {
+      return (
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>주문을 안했는데 뜰리가 있나</Paper>
+        </Grid>
+      );
+    }
+  };
+
   return (
-    <Grid container style={{ height: 1060, overflow: "auto" }}>
+    <Grid container style={{ height: 1060, overflow: "auto" }} alignContent="flex-start">
       <Grid item xs={12}>
         <Typography variant="h3" className={classes.title}>
           최근 주문 내역
@@ -121,22 +157,7 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
           주문
         </Grid>
       </Grid>
-      {lastOrderLists.map((lastOrder, idx) => {
-        return (
-          <LastOrderModal
-            key={lastOrder.oid}
-            idx={idx}
-            lastOrder={lastOrder}
-            setOrder={setOrder}
-            totalCntList={totalCntList}
-            totalCntSumList={totalCntSumList}
-            totalPriceList={totalPriceList}
-            totalPriceSumList={totalPriceSumList}
-            orderShowList={orderShowList}
-            orderDetailList={orderDetailList}
-          />
-        );
-      })}
+      <ShowList />
     </Grid>
   );
 };
