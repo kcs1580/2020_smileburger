@@ -85,6 +85,7 @@ const AuthPage = props => {
   const [backdrop, setBackdrop] = React.useState(false);
   const [gotoOrder, setGotoOrder] = React.useState(false);
   const [gotoMain, setGotoMain] = React.useState(false);
+  const [isGrandParents, setIsGrandParents] = React.useState(false);
   var curImg;
   function handleGotoMainPage() {
     setGotoMain(true);
@@ -312,7 +313,9 @@ const AuthPage = props => {
       setNewFace(true);
     }
   }, [isMatched]);
-
+  if (isGrandParents) {
+    return <Redirect to="/Childkiosk" />;
+  }
   if (isMatched || gotoOrder) {
     return <Redirect to="/order" />;
   }
