@@ -43,14 +43,30 @@ const useStyles = makeStyles(theme => ({
   block: {
     display: "block"
   },
+
+  Cardcomplete: {
+    height: 360,
+    width: 270,
+    margin: "15px 0px",
+    background: "linear-gradient(60deg, #43a012, #66FF66 )",
+    color: "white"
+  },
+  Cardready: {
+    height: 360,
+    width: 270,
+    margin: "15px 0px",
+    background: "linear-gradient(60deg, #FFA726, #FB8C00);",
+    color: "white"
+  },
   Card: {
     height: 360,
     width: 270,
-    margin: "15px 0px"
+    margin: "15px 0px",
   },
   numbering: {
     fontSize: "20px"
   }
+
 }));
 
 const Content = () => {
@@ -175,10 +191,9 @@ const Content = () => {
           return (
             <StyledBadge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
               <Card
-                className={classes.Card}
+                className={classes.Cardcomplete}
                 variant="outlined"
                 display="inline"
-                style={{ backgroundColor: "yellow" }}
                 onClick={() => {
                   readychange(order);
                 }}
@@ -199,10 +214,9 @@ const Content = () => {
         } else {
           return (
             <Card
-              className={classes.Card}
+              className={classes.Cardcomplete}
               variant="outlined"
               display="inline"
-              style={{ backgroundColor: "yellow" }}
               key={idx}
               onClick={() => {
                 readychange(order);
@@ -226,7 +240,7 @@ const Content = () => {
           return (
             <StyledBadge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
               <Card
-                className={classes.Card}
+                className={classes.Cardready}
                 variant="outlined"
                 display="inline"
                 onClick={() => {
@@ -250,7 +264,7 @@ const Content = () => {
         } else {
           return (
             <Card
-              className={classes.Card}
+              className={classes.Cardready}
               variant="outlined"
               display="inline"
               key={idx}
