@@ -23,14 +23,14 @@ import axios from "axios";
 const useStyles = makeStyles(theme => ({
   btnPayment: {
     color: "white",
-    background: "red",
+    background: "#f50057",
     height: 200,
     width: "100%",
     fontSize: 35,
     borderRadius: 15
   },
   dialogTitle: {
-    backgroundColor: "red",
+    backgroundColor: "#f50057",
     width: "840px",
     height: 69,
     color: "white",

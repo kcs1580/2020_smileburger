@@ -12,6 +12,7 @@ import socketio from "socket.io-client";
 import axios from "axios";
 import Badge from '@material-ui/core/Badge';
 
+<<<<<<< HEAD
 const StyledBadge = withStyles(theme => ({
   badge: {
     right: 0,
@@ -25,6 +26,8 @@ const StyledBadge = withStyles(theme => ({
   }
 }))(Badge);
 
+=======
+>>>>>>> 0ba729607eea45f1f6c65dc29c49c7a4f414e467
 // const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 const socket = socketio.connect("http://localhost:3001");
 
@@ -151,6 +154,10 @@ const Content = () => {
     } else if (order.isready === "1") {
       order.isready = "2";
       axios
+<<<<<<< HEAD
+=======
+        // .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
+>>>>>>> 0ba729607eea45f1f6c65dc29c49c7a4f414e467
         .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });

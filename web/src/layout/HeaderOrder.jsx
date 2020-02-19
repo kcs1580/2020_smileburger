@@ -23,7 +23,7 @@ const HeaderOrder = props => {
     localStorage.clear();
   }
   return (
-    <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "red" }}>
+    <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#f50057" }}>
       <Toolbar style={{ height: "120px" }}>
         <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
           Head-Order

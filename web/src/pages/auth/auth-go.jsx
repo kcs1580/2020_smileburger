@@ -343,6 +343,8 @@ const AuthPage = props => {
           TransitionComponent={transition}
           message="등록 완료되었습니다!!"
         />
+
+        {/* 새로운 회원 등록완료시 보여지는 다이얼로그 */}
         <Dialog
           open={newFace}
           onClose={handleClose}

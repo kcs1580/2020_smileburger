@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: "56.25%" // 16:9
   },
   dialogTitle1: {
-    backgroundColor: "red",
+    backgroundColor: "#f50057",
     width: "840px",
     height: 69,
     color: "white",
@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   dialogTitle2: {
-    backgroundColor: "red",
+    backgroundColor: "#f50057",
     width: "900px",
     height: 69,
     color: "white",
@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
   },
   btnSingle: {
     color: "white",
-    background: "red",
+    background: "#f50057",
     height: 100,
     width: 200
   },
@@ -151,21 +151,6 @@ const BurgerMoal = ({
   const handleCloseSet = () => {
     setOpenSet(false);
   };
-
-  // const [requests, setRequests] = useState([]);
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3001/getProducts", {
-  //       params: {
-  //         pcategory: 4
-  //       }
-  //     })
-  //     .then(res => {
-  //       console.log(res.data);
-  //       setRequests(res.data);
-  //     })
-  //     .catch(err => console.log(err));
-  // }, []);
 
   return (
     <div>

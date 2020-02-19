@@ -42,8 +42,13 @@ const Done = () => {
 
   socket.on("recMsg", data => {
     console.log("메세지 받았따");
+<<<<<<< HEAD
     Axios.get("http://localhost:3001/getredNumbers")
       // Axios.get("http://i02c103.p.ssafy.io:3001/getredNumbers")
+=======
+    // Axios.get("http://i02c103.p.ssafy.io:3001/getredNumbers")
+    Axios.get("http://localhost:3001/getredNumbers")
+>>>>>>> 0ba729607eea45f1f6c65dc29c49c7a4f414e467
       .then(res => {
         console.log(res.data);
         const li2 = [];

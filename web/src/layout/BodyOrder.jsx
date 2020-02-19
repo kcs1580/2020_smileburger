@@ -193,16 +193,13 @@ const BodyOrder = () => {
         // .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
         .get("http://localhost:3001/getLastOrderLists", {
           params: {
-            faceid: localStorage.getItem("FaceID") // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
+            faceid: localStorage.getItem("FaceID")
           }
         })
         .then(res => {
-          // console.log(res);
-          // console.log(res.data[0].odate);
-          // console.log(typeof res.data);
           setLastOrderLists(res.data);
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log("실패ㅠㅠ" + err));
     } else {
       console.log("비회원!!!!!!!!!!");
     }
