@@ -3,13 +3,27 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Pagination from "material-ui-flat-pagination";
 import socketio from "socket.io-client";
 import axios from "axios";
+import Badge from "@material-ui/core/Badge";
+
+const StyledBadge = withStyles(theme => ({
+  badge: {
+    right: 0,
+    top: 25,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    fontSize: 20
+  }
+}))(Badge);
 
 // const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 const socket = socketio.connect("http://localhost:3001");
@@ -17,7 +31,7 @@ const socket = socketio.connect("http://localhost:3001");
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
   socket.emit("Front2Back", { data: "data" });
-  console.log("h2");
+  // console.log("h2");
 })();
 
 const useStyles = makeStyles(theme => ({
@@ -29,10 +43,28 @@ const useStyles = makeStyles(theme => ({
   block: {
     display: "block"
   },
+
+  Cardcomplete: {
+    height: 360,
+    width: 270,
+    margin: "15px 0px",
+    background: "linear-gradient(60deg, #43a012, #66FF66 )",
+    color: "white"
+  },
+  Cardready: {
+    height: 360,
+    width: 270,
+    margin: "15px 0px",
+    background: "linear-gradient(60deg, #FFA726, #FB8C00);",
+    color: "white"
+  },
   Card: {
     height: 360,
     width: 270,
     margin: "15px 0px"
+  },
+  numbering: {
+    fontSize: "20px"
   }
 }));
 
@@ -42,11 +74,64 @@ const Content = () => {
   const [orders, setOrder] = useState([]);
 
   socket.on("Back2Front", data => {
-    // console.log(data)
-    setOrder(data);
-    // const ord = data.map((order) => {
-    //   console.log(order)
-    // })
+    const tempCntList = [];
+    const tempOrderDetailList = [];
+
+    data.map(order => {
+      // console.log(order)
+      let totalCnt = [];
+      // 주문 수량
+      order.ocontent.split("cnt").map((el, idx) => {
+        if (idx !== 0) {
+          totalCnt.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf(","))));
+        }
+      });
+      tempCntList.push(totalCnt);
+      // console.log(tempCntList)
+
+      // 주문내용
+      let eachOrderDetail = [];
+      const tempList = order.ocontent.split("contents");
+      tempList.map((el, idx) => {
+        if (idx !== 0) {
+          const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
+
+          let tempOrderDetail = [];
+          tempString.map((string, sIdx) => {
+            if (sIdx % 2 === 1) {
+              tempOrderDetail.push(string);
+            }
+          });
+          eachOrderDetail.push(tempOrderDetail);
+        }
+      });
+
+      tempOrderDetailList.push(eachOrderDetail);
+    });
+
+    // console.log(tempCntList)
+    // console.log(tempOrderDetailList)
+
+    const ord = [];
+    for (var i = 0; i < tempOrderDetailList.length; i++) {
+      const tempMenuList = [];
+      for (var j = 0; j < tempOrderDetailList[i].length; j++) {
+        tempMenuList.push({
+          menu: tempOrderDetailList[i][j].join(" / "),
+          cnt: tempCntList[i][j]
+        });
+      }
+      // console.log(data[i].owaitingNum)
+      ord.push({
+        oid: data[i].oid,
+        orderNum: data[i].owaitingNum,
+        contents: tempMenuList,
+        isready: data[i].isready,
+        type: data[i].otype
+      });
+    }
+    setOrder(ord);
+    // console.log(ord)
   });
 
   const readychange = order => {
@@ -58,7 +143,8 @@ const Content = () => {
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
           socket.emit("recMsg", { data: "data" });
-          console.log(res);
+          // console.log("update success")
+          // console.log(res);
         });
     } else if (order.isready === "1") {
       order.isready = "2";
@@ -68,12 +154,12 @@ const Content = () => {
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
           socket.emit("recMsg", { data: "data" });
-          console.log(res);
+          // console.log(res);
         });
     }
 
-    console.log(order);
-    console.log(order.oid);
+    // console.log(order);
+    // console.log(order.oid);
   };
 
   let temporder = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -86,7 +172,6 @@ const Content = () => {
     }
   };
   arrmake();
-
   // 데이터 전부를 받아 전부 card로 만듬
   const orderCard = temporder.map((order, idx) => {
     if (order === 0) {
@@ -99,49 +184,101 @@ const Content = () => {
           </h5>
         );
       });
+
       if (order.isready === "1") {
-        return (
-          <Card
-            className={classes.Card}
-            variant="outlined"
-            display="inline"
-            key={idx}
-            style={{ backgroundColor: "yellow" }}
-            onClick={() => {
-              readychange(order);
-            }}
-          >
-            <CardContent>
-              <Typography className={classes.numbering} color="textSecondary" align="center">
-                {order.orderNum}
-              </Typography>
-              {MenuHTML}
-              {/* <h3>{order.itemList.menu}</h3> */}
-              {/* <h4>{order.itemList.ea}</h4> */}
-            </CardContent>
-          </Card>
-        );
+        if (order.type == "포장") {
+          return (
+            <StyledBadge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
+              <Card
+                className={classes.Cardcomplete}
+                variant="outlined"
+                display="inline"
+                onClick={() => {
+                  readychange(order);
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h2" color="textSecondary" align="center">
+                    {order.orderNum}
+                  </Typography>
+                  <hr />
+                  {MenuHTML}
+                  {/* <h3>{order.itemList.menu}</h3> */}
+                  {/* <h4>{order.itemList.ea}</h4> */}
+                </CardContent>
+              </Card>
+            </StyledBadge>
+          );
+        } else {
+          return (
+            <Card
+              className={classes.Cardcomplete}
+              variant="outlined"
+              display="inline"
+              key={idx}
+              onClick={() => {
+                readychange(order);
+              }}
+            >
+              <CardContent>
+                <Typography variant="h2" color="textSecondary" align="center">
+                  {order.orderNum}
+                </Typography>
+                <hr />
+                {MenuHTML}
+                {/* <h3>{order.itemList.menu}</h3> */}
+                {/* <h4>{order.itemList.ea}</h4> */}
+              </CardContent>
+            </Card>
+          );
+        }
       } else {
-        return (
-          <Card
-            className={classes.Card}
-            variant="outlined"
-            display="inline"
-            key={idx}
-            onClick={() => {
-              readychange(order);
-            }}
-          >
-            <CardContent>
-              <Typography className={classes.numbering} color="textSecondary" align="center">
-                {order.orderNum}
-              </Typography>
-              {MenuHTML}
-              {/* <h3>{order.itemList.menu}</h3> */}
-              {/* <h4>{order.itemList.ea}</h4> */}
-            </CardContent>
-          </Card>
-        );
+        if (order.type == "포장") {
+          return (
+            <StyledBadge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
+              <Card
+                className={classes.Cardready}
+                variant="outlined"
+                display="inline"
+                onClick={() => {
+                  readychange(order);
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h2" color="textSecondary" align="center">
+                    {order.orderNum}
+                  </Typography>
+                  <hr />
+                  {MenuHTML}
+                  {/* <h3>{order.itemList.menu}</h3> */}
+                  {/* <h4>{order.itemList.ea}</h4> */}
+                </CardContent>
+              </Card>
+            </StyledBadge>
+          );
+        } else {
+          return (
+            <Card
+              className={classes.Cardready}
+              variant="outlined"
+              display="inline"
+              key={idx}
+              onClick={() => {
+                readychange(order);
+              }}
+            >
+              <CardContent>
+                <Typography variant="h2" color="textSecondary" align="center">
+                  {order.orderNum}
+                </Typography>
+                <hr />
+                {MenuHTML}
+                {/* <h3>{order.itemList.menu}</h3> */}
+                {/* <h4>{order.itemList.ea}</h4> */}
+              </CardContent>
+            </Card>
+          );
+        }
       }
     }
   });

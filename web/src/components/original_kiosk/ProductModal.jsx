@@ -163,9 +163,9 @@ const ProductModal = ({ product, setOrder }) => {
         </DialogTitle>
         <DialogContent className={classes.dialogBody1}>
           <img src={product.pimgurl} alt={product.pname} className={classes.img} />
-          <Typography component="h6" variant="h6" className={classes.details}>
+          <Typography component="h6" variant="h4" className={classes.details}>
             {/* <p>조리시간: {product.cooking_time}분</p> */}
-            <p>{product.pdesc}</p>
+            {product.pdesc}
           </Typography>
         </DialogContent>
         <Grid container>
@@ -178,7 +178,7 @@ const ProductModal = ({ product, setOrder }) => {
           </Grid>
           <Grid item xs={5}>
             <Paper elevation={0} style={{ textAlign: "Right" }}>
-              <Typography variant="h5">{total}</Typography>
+              <Typography variant="h3">{total}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={1} />
@@ -186,12 +186,12 @@ const ProductModal = ({ product, setOrder }) => {
         <Grid container className={classes.btnGridHeight}>
           <Grid item xs={6} className={classes.btnPosition}>
             <Button className={classes.btnCancel} variant="contained" onClick={handleClose}>
-              <Typography variant="h5">취소</Typography>
+              <Typography variant="h3">취소</Typography>
             </Button>
           </Grid>
           <Grid item xs={6} className={classes.btnPosition}>
             <Button className={classes.btnCommit} variant="contained" onClick={orderDetail}>
-              <Typography variant="h5">확인</Typography>
+              <Typography variant="h3">확인</Typography>
             </Button>
           </Grid>
         </Grid>

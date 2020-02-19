@@ -49,10 +49,10 @@ const BeverageList = ({ setOrder, beverages }) => {
             <Card className={classes.card}>
               <ProductModal product={beverage} setOrder={setOrder} />
               <CardContent className={classes.cardContent}>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h4" component="h2">
                   {beverage.pname}
                 </Typography>
-                <Typography>가격: {beverage.pprice}</Typography>
+                <Typography variant="h4">가격: {beverage.pprice}</Typography>
               </CardContent>
             </Card>
           </Grid>

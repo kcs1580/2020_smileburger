@@ -49,10 +49,10 @@ const SideList = ({ setOrder, sides }) => {
             <Card className={classes.card}>
               <ProductModal product={side} setOrder={setOrder} />
               <CardContent className={classes.cardContent}>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h4" component="h2">
                   {side.pname}
                 </Typography>
-                <Typography>가격: {side.pprice}</Typography>
+                <Typography variant="h4">가격: {side.pprice}</Typography>
               </CardContent>
             </Card>
           </Grid>

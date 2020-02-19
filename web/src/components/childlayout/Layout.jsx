@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import Carousel from "../components/main/SectionCarousel"
+import Carousel from "../components/main/SectionCarousel";
 import { CssBaseline, Container, makeStyles } from "@material-ui/core";
 import { CommonContext } from "../context/CommonContext";
 
@@ -13,9 +13,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: "120px",
     marginBottom: "30px"
   },
-  adcontent:{
-    width:1080,
-    height:400
+  adcontent: {
+    width: 1080,
+    height: 400
   }
 }));
 
@@ -25,19 +25,17 @@ const Layout = props => {
 
   return (
     <Fragment>
-     
-      <CssBaseline />
-      <Header />
-      <Container className={classes.content} maxWidth="xl">
-        <div className={classes.container} style={{ textAlign: "center" }}>
-          {props.children}
-        </div>
-      </Container>
-      <Container className={classes.adcontent}>
-      
-      </Container>
-      <Footer />
-      
+      <div>
+        <CssBaseline />
+        <Header />
+        <Container className={classes.content} maxWidth="xl">
+          <div className={classes.container} style={{ textAlign: "center" }}>
+            {props.children}
+          </div>
+        </Container>
+        <Container className={classes.adcontent}></Container>
+        <Footer />
+      </div>
     </Fragment>
   );
 };
