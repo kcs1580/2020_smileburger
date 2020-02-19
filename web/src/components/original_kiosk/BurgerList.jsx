@@ -73,12 +73,13 @@ const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages, requests 
                 setOrder={setOrder}
               />
               <CardContent className={classes.cardContent}>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h4" component="h2">
                   {burger.pname}
                 </Typography>
-                <Typography>
-                  <span style={{ marginRight: "10px" }}>단품: {burger.pprice}</span>
-                  <span>세트: {burgerSetPrice[idx]} </span>
+                <Typography variant="h4" component="h2" style={{ marginRight: "10px" }}>
+                  단품: {burger.pprice}
+                  <br />
+                  세트: {burgerSetPrice[idx]}
                 </Typography>
               </CardContent>
             </Card>

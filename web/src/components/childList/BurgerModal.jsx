@@ -188,12 +188,12 @@ const BurgerMoal = ({
               variant="contained"
               onClick={handleClickOpenSingle}
             >
-              <Typography variant="h3">단품: {burger.pprice}</Typography>
+              <Typography variant="h4">단품: {burger.pprice}</Typography>
             </Button>
           </Grid>
           <Grid item xs={6} className={classes.btnPosition}>
             <Button className={classes.btnSet} variant="contained" onClick={handleClickOpenSet}>
-              <Typography variant="h3">세트: {burgerSetPrice}</Typography>
+              <Typography variant="h4">세트: {burgerSetPrice}</Typography>
             </Button>
           </Grid>
         </Grid>
