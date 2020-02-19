@@ -14,19 +14,6 @@ const connection = mysql.createConnection({
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 ////////////////////////////////////////////////////////////////////
 
-
-/*
-///////////////////////////DB Config_admin_s////////////////////////////////
-const connection = mysql.createConnection({
-  host: "host",
-  user: "root",
-  password: "root",
-  database: "kiosk"
-});
-mybatisMapper.createMapper(["./sql/base/base.xml"]);
-//////////////////////////////////////e//////////////////////////////
-*/
-
 //////////////////////////admin_order_list select  s
 app.get("/adminOrderList", async (req, res) => {
   const params = {};
@@ -211,6 +198,7 @@ app.get("/getProducts", (req, res) => {
 });
 
 app.get("/getLastOrderLists", (req, res) => {
+  console.log("아이디 받아오니?" + req.query.faceid);
   const params = {
     faceid: req.query.faceid
   };
@@ -223,6 +211,7 @@ app.get("/getLastOrderLists", (req, res) => {
     if (error) {
       res.send(error);
     } else {
+      console.log(results)
       res.send(results);
     }
   });

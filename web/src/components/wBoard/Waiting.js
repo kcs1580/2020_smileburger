@@ -12,14 +12,15 @@ const useStyles = makeStyles(theme => ({
     margin: "20px"
   },
   paper: {
-    padding: theme.spacing(9),
+    padding: theme.spacing(8),
     textAlign: "center",
     color: "white",
-    borderBottom: "solid",
-    background: "black"
+    background: "#232020",
+    borderBottom: "solid"
   }
 }));
-const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
+// const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
+const socket = socketio.connect("http://localhost:3001");
 
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
@@ -39,7 +40,8 @@ const Waiting = () => {
 
   socket.on("recMsg", data => {
     console.log("메세지 받았따");
-    Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
+    // Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
+    Axios.get("http://localhost:3001/getpreNumbers")
       .then(res => {
         console.log(res.data);
         const li2 = [];
@@ -57,10 +59,12 @@ const Waiting = () => {
   });
 
   const getList = () =>
-    li.map(nu2 => {
+    li.map((nu2, idx) => {
       return (
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>{nu2}</Paper>
+        <Grid item xs={4} key={idx}>
+          <Paper className={classes.paper}>
+            <span className={classes.papercontent}>{nu2}</span>
+          </Paper>
         </Grid>
       );
     });
@@ -70,7 +74,7 @@ const Waiting = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
+      <Grid container spacing={5}>
         {list}
       </Grid>
     </div>

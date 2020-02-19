@@ -98,6 +98,7 @@ const BurgerMoal = ({
   burgerSetImgurl,
   sides,
   beverages,
+  requests,
   setOrder
 }) => {
   const classes = useStyles();
@@ -175,9 +176,9 @@ const BurgerMoal = ({
         </DialogTitle>
         <DialogContent className={classes.dialogBody1}>
           <img src={burger.pimgurl} alt={burger.pname} className={classes.img} />
-          <Typography component="h6" variant="h6" className={classes.details}>
+          <Typography component="h6" variant="h3" className={classes.details}>
             {/* <p>조리시간: {burger.cooking_time}분</p> */}
-            <p>{burger.pdesc}</p>
+            {burger.pdesc}
           </Typography>
         </DialogContent>
         <Grid container className={classes.btnGridHeight}>
@@ -187,12 +188,12 @@ const BurgerMoal = ({
               variant="contained"
               onClick={handleClickOpenSingle}
             >
-              <Typography variant="h5">단품: {burger.pprice}</Typography>
+              <Typography variant="h4">단품: {burger.pprice}</Typography>
             </Button>
           </Grid>
           <Grid item xs={6} className={classes.btnPosition}>
             <Button className={classes.btnSet} variant="contained" onClick={handleClickOpenSet}>
-              <Typography variant="h5">세트: {burgerSetPrice}</Typography>
+              <Typography variant="h4">세트: {burgerSetPrice}</Typography>
             </Button>
           </Grid>
         </Grid>
@@ -205,7 +206,7 @@ const BurgerMoal = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         maxWidth="xl"
-      // style={{ height: "800px" }}
+        // style={{ height: "800px" }}
       >
         <DialogTitle
           id="customized-dialog-title"
@@ -219,7 +220,7 @@ const BurgerMoal = ({
         </DialogTitle>
         <DialogContent dividers className={classes.dialogBody2}>
           <img src={burger.pimgurl} alt={burger.pname} className={classes.img} />
-          <Typography component="h6" variant="h6" className={classes.details}>
+          <Typography component="h3" variant="h3" className={classes.details}>
             {/* <p>조리시간: {burger.cooking_time}분</p> */}
             <p>{burger.pdesc}</p>
             <p></p>
@@ -235,7 +236,7 @@ const BurgerMoal = ({
           </Grid>
           <Grid item xs={5}>
             <Paper elevation={0} style={{ textAlign: "Right" }}>
-              <Typography variant="h5">{total}</Typography>
+              <Typography variant="h3">{total}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={1} />
@@ -246,6 +247,7 @@ const BurgerMoal = ({
           setOrder={setOrder}
           count={count}
           total={total}
+          requests={requests}
         />
       </Dialog>
 
@@ -269,7 +271,7 @@ const BurgerMoal = ({
         </DialogTitle>
         <DialogContent dividers className={classes.dialogBody2}>
           {/* <img src={burgerSetImgurl} alt={burgerSetName} className={classes.img} /> */}
-          <Typography component="h6" variant="h6" className={classes.details}>
+          <Typography component="h6" variant="h3" className={classes.details}>
             {/* <p>조리시간: {burger.cooking_time}분</p> */}
             {/* <p>{burgerSetDesc}</p> */}
             <p></p>
@@ -285,7 +287,7 @@ const BurgerMoal = ({
           </Grid>
           <Grid item xs={5}>
             <Paper elevation={0} style={{ textAlign: "Right" }}>
-              <Typography variant="h5">{total}</Typography>
+              <Typography variant="h3">{total}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={1} />
@@ -303,6 +305,7 @@ const BurgerMoal = ({
           total={total}
           sides={sides}
           beverages={beverages}
+          requests={requests}
         />
       </Dialog>
     </div>

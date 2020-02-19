@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
   btnCommit: {
     color: "white",
-    background: "red",
+    background: "#f50057",
     height: 100,
     width: 200
   },
@@ -83,8 +83,13 @@ const BurgerModalSingleRequests = props => {
               }}
             />
             <CardContent style={{ padding: 0 }}>
-              <Typography gutterBottom variant="h5" component="h2">
-                <p style={{ marginTop: 10, marginBottom: 10 }}>{request.name}</p>
+              <Typography
+                gutterBottom
+                variant="h4"
+                component="h2"
+                style={{ marginTop: 10, marginBottom: 10 }}
+              >
+                {request.name}
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -153,12 +158,12 @@ const BurgerModalSingleRequests = props => {
             variant="contained"
             onClick={props.handleCloseSingle}
           >
-            <Typography variant="h5">취소</Typography>
+            <Typography variant="h3">취소</Typography>
           </Button>
         </Grid>
         <Grid item xs={6} className={classes.btnPosition}>
           <Button className={classes.btnCommit} variant="contained" onClick={orderDetail}>
-            <Typography variant="h5">확인</Typography>
+            <Typography variant="h3">확인</Typography>
           </Button>
         </Grid>
       </Grid>

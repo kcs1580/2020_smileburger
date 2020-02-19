@@ -5,21 +5,40 @@ import BurgerList from "../components/original_kiosk/BurgerList";
 import SideList from "../components/original_kiosk/SideList";
 import BeverageList from "../components/original_kiosk/BeverageList";
 import { makeStyles, AppBar, Toolbar, Grid, Paper } from "@material-ui/core";
+import { purple } from "@material-ui/core/colors";
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
     marginTop: "120px",
-    height: "120px"
+    height: "100px"
   },
   menuButton: {
-    marginLeft: theme.spacing(2),
+    // marginLeft: 100,
+    // marginRight: 100,
     height: "80px",
     width: "80px"
   },
   paper: {
     textAlign: "center",
-    fontSize: "50px"
+    fontSize: "50px",
+    color: "white",
+    marginRight: "50px",
+    // backgroundColor: "#f50057",
+    backgroundColor: purple[900],
+    width: "200px",
+    height: 72
+  },
+  paper0: {
+    textAlign: "center",
+    fontSize: "40px",
+    color: "white",
+    marginRight: "50px",
+    // backgroundColor: "#f50057",
+    backgroundColor: purple[900],
+    width: "200px",
+    height: 72,
+    paddingTop: 5
   },
   menuContext: {
     marginTop: "240px",
@@ -52,7 +71,8 @@ const BodyOrder = () => {
   // 제품 정보가져오기
   useEffect(() => {
     axios
-      .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+      // .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 0
         }
@@ -63,7 +83,8 @@ const BodyOrder = () => {
       })
       .catch(err => console.log(err));
     axios
-      .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+      // .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 1
         }
@@ -74,7 +95,8 @@ const BodyOrder = () => {
       })
       .catch(err => console.log(err));
     axios
-      .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+      // .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 2
         }
@@ -85,7 +107,8 @@ const BodyOrder = () => {
       })
       .catch(err => console.log(err));
     axios
-      .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+      // .get("http://i02c103.p.ssafy.io:3001/getProducts", {
+      .get("http://localhost:3001/getProducts", {
         params: {
           pcategory: 3
         }
@@ -111,7 +134,8 @@ const BodyOrder = () => {
   // 기존의 주문정보를 먼저 확인
   useEffect(() => {
     axios
-      .get("http://i02c103.p.ssafy.io:3001/getLatestOrder")
+      // .get("http://i02c103.p.ssafy.io:3001/getLatestOrder")
+      .get("http://localhost:3001/getLatestOrder")
       .then(res => {
         if (res.data.length !== 0) {
           console.log(res.data.length);
@@ -185,18 +209,16 @@ const BodyOrder = () => {
       setRegisterd(true);
       setList(0);
       axios
-        .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
+        // .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
+        .get("http://localhost:3001/getLastOrderLists", {
           params: {
-            faceid: localStorage.getItem("FaceID") // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
+            faceid: localStorage.getItem("FaceID")
           }
         })
         .then(res => {
-          // console.log(res);
-          // console.log(res.data[0].odate);
-          // console.log(typeof res.data);
           setLastOrderLists(res.data);
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log("실패ㅠㅠ" + err));
     } else {
       console.log("비회원!!!!!!!!!!");
     }
@@ -229,42 +251,40 @@ const BodyOrder = () => {
     if (menu.id === 0) {
       if (registered) {
         return (
-          <Grid item xs={2} key={menu.id}>
-            <Paper
-              className={classes.paper}
-              onClick={() => {
-                setList(menu.id);
-              }}
-            >
-              {menu.text}
-            </Paper>
-          </Grid>
-        );
-      }
-    } else {
-      return (
-        <Grid item xs={2} key={menu.id}>
           <Paper
-            className={classes.paper}
+            style={{
+              marginLeft: 25,
+              marginRight: 25,
+              justifyContent: "center"
+            }}
+            className={classes.paper0}
             onClick={() => {
               setList(menu.id);
             }}
           >
             {menu.text}
           </Paper>
-        </Grid>
+        );
+      }
+    } else {
+      return (
+        <Paper
+          style={{ marginLeft: 25, marginRight: 25 }}
+          className={classes.paper}
+          onClick={() => {
+            setList(menu.id);
+          }}
+        >
+          {menu.text}
+        </Paper>
       );
     }
   });
 
   return (
     <Fragment>
-      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "yellow" }}>
-        <Toolbar style={{ height: "120px" }}>
-          <Grid container spacing={4} justify="center">
-            {menuList}
-          </Grid>
-        </Toolbar>
+      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#f50057" }}>
+        <Toolbar style={{ height: "120px", placeContent: "center" }}>{menuList}</Toolbar>
       </AppBar>
       <div className={classes.menuContext}>
         <BodyControl></BodyControl>

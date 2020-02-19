@@ -186,4 +186,5 @@
 		SET isready='2'
 		WHERE oid=#{oid}
 	</update>
+
 </mapper>

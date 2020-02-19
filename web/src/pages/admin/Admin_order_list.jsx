@@ -92,21 +92,17 @@ function Admin_order_list() {
                 <tbody>
                     <tr>
                         <td width="60">번호</td>
-                        <td width="60">지점</td>
-                        <td width="100">주문자</td>
+                        <td width="80">포장여부</td>
                         <td width="500">주문건</td>
                         <td width="100">총 금액</td>
                         <td width="200">구매 시각</td>
                     </tr>
-                    <tr>
-                        <tb>
-                            {
-                                state.boards.map(row =>
-                                    (<BoardItem key={row.brdno} row={row} onRemove={handleRemove} onSelectRow={handleSelectRow} />)
-                                )
-                            }
-                        </tb>
-                    </tr>
+                    {
+                        state.boards.map(row =>
+                            (<BoardItem key={row.brdno} row={row} onRemove={handleRemove} onSelectRow={handleSelectRow} />)
+                        )
+                    }
+
                 </tbody>
             </table>
         </div>

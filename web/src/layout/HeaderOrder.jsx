@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles, Typography, AppBar, Toolbar, Fab } from "@material-ui/core";
+import topImg from "../components/slick/topBanner2.jpg";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -23,16 +24,17 @@ const HeaderOrder = props => {
     localStorage.clear();
   }
   return (
-    <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "red" }}>
-      <Toolbar style={{ height: "120px" }}>
-        <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
+    <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#f50057" }}>
+      <Toolbar style={{ height: "120px", padding: 0 }}>
+        {/* <Typography variant="h6" className={classes.title} style={{ textAlign: "center" }}>
           Head-Order
         </Typography>
         <Link to="/Auth" style={{ textDecoration: "none" }}>
           <Fab onClick={reset} className={classes.menuButton}>
             첫화면
           </Fab>
-        </Link>
+        </Link> */}
+        <img src={topImg} />
       </Toolbar>
     </AppBar>
   );

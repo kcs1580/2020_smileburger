@@ -1,5 +1,5 @@
-import React, { useEffect, useState, Fragment } from "./node_modules/react";
-import axios from "./node_modules/axios";
+import React, { useEffect, useState, Fragment } from "react";
+import axios from "axios";
 import {
   makeStyles,
   Container,
@@ -12,9 +12,9 @@ import {
   Card,
   CardContent,
   Typography
-} from "./node_modules/@material-ui/core";
+} from "@material-ui/core";
 import BurgerModal from "./BurgerModal";
-import InfoIcon from "./node_modules/@material-ui/icons/Info";
+import InfoIcon from "@material-ui/icons/Info";
 
 const useStyles = makeStyles(theme => ({
   root: {},
