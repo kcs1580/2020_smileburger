@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
   btnCommit: {
     color: "white",
-    background: "red",
+    background: "#f50057",
     height: 100,
     width: 200
   },
