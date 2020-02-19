@@ -34,7 +34,7 @@ export default function SectionCarousel() {
     autoplaySpeed: 3000
   };
   return (
-    <div className={classes.section} id="jy123">
+    <div className={classes.section}>
       <Carousel {...settings}>
         <div>
           <img src={image1} alt="First slide" className="slick-image" />

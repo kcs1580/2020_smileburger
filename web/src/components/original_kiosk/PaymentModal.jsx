@@ -23,14 +23,14 @@ import axios from "axios";
 const useStyles = makeStyles(theme => ({
   btnPayment: {
     color: "white",
-    background: "red",
+    background: "#f50057",
     height: 200,
     width: "100%",
     fontSize: 35,
     borderRadius: 15
   },
   dialogTitle: {
-    backgroundColor: "red",
+    backgroundColor: "#f50057",
     width: "840px",
     height: 69,
     color: "white",
@@ -121,7 +121,8 @@ const PaymentModal = ({ orderList, waitingNum }) => {
 
     const faceID = localStorage.getItem("FaceID") ? localStorage.getItem("FaceID") : "defaultUser";
     axios
-      .get("http://i02c103.p.ssafy.io:3001/insertOrder", {
+      // .get("http://i02c103.p.ssafy.io:3001/insertOrder", {
+      .get("http://localhost:3001/insertOrder", {
         params: {
           waitingNum: waitingNum,
           faceID: faceID,
