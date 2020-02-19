@@ -30,6 +30,7 @@ const BodyOrderChoiceListDrawer = ({ orderList, setOrderList, waitingNum }) => {
             <SwipeableDrawer
                 anchor="bottom"
                 open={state.bottom}
+                onOpen={toggleDrawer('bottom', true)}
                 onClose={toggleDrawer('bottom', false)}
             ><BodyOrderChoiceList orderList={orderList} setOrderList={setOrderList} setState={setState} waitingNum={waitingNum} /></SwipeableDrawer>
         </Grid>

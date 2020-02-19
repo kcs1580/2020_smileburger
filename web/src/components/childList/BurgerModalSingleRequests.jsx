@@ -67,9 +67,9 @@ const BurgerModalSingleRequests = props => {
     })
   );
 
-  const requestsHtml = requests.map(request => {
+  const requestsHtml = requests.map((request, idx) => {
     return (
-      <Grid item xs={3} style={{ margin: 0, textAlign: "center" }}>
+      <Grid key={idx} item xs={3} style={{ margin: 0, textAlign: "center" }}>
         <Card className={classes.root} onClick={() => pickRequest(request.id)}>
           <CardActionArea>
             <CardMedia

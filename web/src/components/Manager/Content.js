@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -22,19 +22,6 @@ const socket = socketio.connect("http://localhost:3001");
   socket.emit("Front2Back", { data: "data" });
   console.log("h2");
 })();
-
-const StyledBadge = withStyles(theme => ({
-  badge: {
-    right: 0,
-    top: 15,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "0 4px",
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    fontSize: 25
-  }
-}))(Badge);
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -61,8 +48,54 @@ const Content = () => {
   const [orders, setOrder] = useState([]);
 
   socket.on("Back2Front", data => {
-    console.log(data)
-    setOrder(data);
+    const tempCntList = [];
+    const tempOrderDetailList = [];
+    const tempObj = []
+
+    // console.log(data)
+
+    data.map((order) => {
+      let totalCnt = [];
+      // 주문 수량
+      order.ocontent.split("cnt").map((el, idx) => {
+        if (idx !== 0) {
+          totalCnt.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf(","))));
+        }
+
+      });
+      tempCntList.push(totalCnt);
+      console.log(tempCntList)
+
+      // 주문내용
+      let eachOrderDetail = [];
+      const tempList = order.ocontent.split("contents");
+      tempList.map((el, idx) => {
+        if (idx !== 0) {
+          const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
+
+          let tempOrderDetail = [];
+          tempString.map((string, sIdx) => {
+            if (sIdx % 2 === 1) {
+              tempOrderDetail.push(string);
+            }
+          });
+          eachOrderDetail.push(tempOrderDetail);
+        }
+      });
+
+      tempOrderDetailList.push(eachOrderDetail);
+    })
+
+    console.log(tempCntList)
+    console.log(tempOrderDetailList)
+    const ord = data.map((order, idx) => {
+
+      tempObj.push({
+        orderNum: order.owaitingNum,
+
+      })
+    })
+    // setOrder(data);
     // const ord = data.map((order) => {
     //   console.log(order)
     // })
@@ -77,18 +110,17 @@ const Content = () => {
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
           socket.emit("recMsg", { data: "data" });
-          console.log("update success")
-          console.log(res);
+          // console.log("update success")
+          // console.log(res);
         });
     } else if (order.isready === "1") {
       order.isready = "2";
       axios
-        // .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
         .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
           socket.emit("recMsg", { data: "data" });
-          console.log(res);
+          // console.log(res);
         });
     }
 
@@ -119,37 +151,39 @@ const Content = () => {
           </h5>
         );
       });
-      const CheckCard = () => {
-        if (order.isready == "1") {
+      if (order.is)
+        if (order.isready === "1") {
           return (
-            <Card
-              className={classes.Card}
-              variant="outlined"
-              display="inline"
-              style={{ backgroundColor: "yellow" }}
-              onClick={() => {
-                readychange(order);
-              }}
-            >
-              <CardContent>
-                <Typography variant="h2" align="center">
-                  {order.orderNum}
-                </Typography >
-                <hr />
-                <Typography variant="h3" color="textSecondary">
+            <Badge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
+              <Card
+                className={classes.Card}
+                variant="outlined"
+                display="inline"
+                style={{ backgroundColor: "yellow" }}
+                onClick={() => {
+                  readychange(order);
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h2" color="textSecondary" align="center">
+                    {order.orderNum}
+                  </Typography>
+                  <hr />
                   {MenuHTML}
-                </Typography>
-                {/* <h3>{order.itemList.menu}</h3> */}
-                {/* <h4>{order.itemList.ea}</h4> */}
-              </CardContent>
-            </Card>
-          )
+                  {/* <h3>{order.itemList.menu}</h3> */}
+                  {/* <h4>{order.itemList.ea}</h4> */}
+                </CardContent>
+              </Card>
+            </Badge>
+
+          );
         } else {
           return (
             <Card
               className={classes.Card}
               variant="outlined"
               display="inline"
+              key={idx}
               onClick={() => {
                 readychange(order);
               }}
@@ -164,23 +198,8 @@ const Content = () => {
                 {/* <h4>{order.itemList.ea}</h4> */}
               </CardContent>
             </Card>
-          )
-
+          );
         }
-      }
-      const PackCheckCard = () => {
-        if (order.type === "포장") {
-          return (
-            <StyledBadge badgeContent={"포"} color="secondary" >
-              <CheckCard />
-            </StyledBadge>
-          )
-        } else {
-          return (<CheckCard />)
-        }
-
-      }
-      return (<PackCheckCard key={idx} />)
     }
   });
   // orderCard 중 8개를 받아 하나의 페이지에 출력할 데이터만 뽑음

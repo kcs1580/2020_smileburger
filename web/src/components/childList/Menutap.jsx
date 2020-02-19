@@ -33,7 +33,7 @@ export default function Menutap({ select, setSelect }) {
     };
 
     return (
-        <Paper square="square" className={classes.root}>
+        <Paper className={classes.root}>
             <Tabs
                 value={select}
                 onChange={handleChange}

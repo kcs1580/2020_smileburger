@@ -365,7 +365,7 @@ const BurgerModalSetRequests = props => {
                   {props.burgerSetName}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  <p>{props.burgerSetDesc}</p>
+                  {props.burgerSetDesc}
                 </Typography>
               </CardContent>
             </CardActionArea>
