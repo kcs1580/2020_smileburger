@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -11,8 +11,19 @@ import Pagination from "material-ui-flat-pagination";
 import socketio from "socket.io-client";
 import axios from "axios";
 import Badge from '@material-ui/core/Badge';
-import Paper from '@material-ui/core/Paper';
 
+const StyledBadge = withStyles(theme => ({
+  badge: {
+    right: 0,
+    top: 25,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    fontSize: 20
+  }
+}))(Badge);
 
 // const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 const socket = socketio.connect("http://localhost:3001");
@@ -20,7 +31,7 @@ const socket = socketio.connect("http://localhost:3001");
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
   socket.emit("Front2Back", { data: "data" });
-  console.log("h2");
+  // console.log("h2");
 })();
 
 const useStyles = makeStyles(theme => ({
@@ -50,11 +61,9 @@ const Content = () => {
   socket.on("Back2Front", data => {
     const tempCntList = [];
     const tempOrderDetailList = [];
-    const tempObj = []
-
-    // console.log(data)
 
     data.map((order) => {
+      // console.log(order)
       let totalCnt = [];
       // 주문 수량
       order.ocontent.split("cnt").map((el, idx) => {
@@ -64,7 +73,7 @@ const Content = () => {
 
       });
       tempCntList.push(totalCnt);
-      console.log(tempCntList)
+      // console.log(tempCntList)
 
       // 주문내용
       let eachOrderDetail = [];
@@ -86,19 +95,29 @@ const Content = () => {
       tempOrderDetailList.push(eachOrderDetail);
     })
 
-    console.log(tempCntList)
-    console.log(tempOrderDetailList)
-    const ord = data.map((order, idx) => {
+    // console.log(tempCntList)
+    // console.log(tempOrderDetailList)
 
-      tempObj.push({
-        orderNum: order.owaitingNum,
-
+    const ord = []
+    for (var i = 0; i < tempOrderDetailList.length; i++) {
+      const tempMenuList = []
+      for (var j = 0; j < tempOrderDetailList[i].length; j++) {
+        tempMenuList.push({
+          menu: tempOrderDetailList[i][j].join(' / '),
+          cnt: tempCntList[i][j]
+        })
+      }
+      // console.log(data[i].owaitingNum)
+      ord.push({
+        oid: data[i].oid,
+        orderNum: data[i].owaitingNum,
+        contents: tempMenuList,
+        isready: data[i].isready,
+        type: data[i].otype
       })
-    })
-    // setOrder(data);
-    // const ord = data.map((order) => {
-    //   console.log(order)
-    // })
+    }
+    setOrder(ord);
+    // console.log(ord)
   });
 
   const readychange = order => {
@@ -138,7 +157,6 @@ const Content = () => {
     }
   };
   arrmake();
-
   // 데이터 전부를 받아 전부 card로 만듬
   const orderCard = temporder.map((order, idx) => {
     if (order === 0) {
@@ -151,10 +169,11 @@ const Content = () => {
           </h5>
         );
       });
-      if (order.is)
-        if (order.isready === "1") {
+
+      if (order.isready === "1") {
+        if (order.type == "포장") {
           return (
-            <Badge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
+            <StyledBadge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
               <Card
                 className={classes.Card}
                 variant="outlined"
@@ -174,9 +193,60 @@ const Content = () => {
                   {/* <h4>{order.itemList.ea}</h4> */}
                 </CardContent>
               </Card>
-            </Badge>
+            </StyledBadge>
 
           );
+        } else {
+          return (
+            <Card
+              className={classes.Card}
+              variant="outlined"
+              display="inline"
+              style={{ backgroundColor: "yellow" }}
+              key={idx}
+              onClick={() => {
+                readychange(order);
+              }}
+            >
+              <CardContent>
+                <Typography variant="h2" color="textSecondary" align="center">
+                  {order.orderNum}
+                </Typography>
+                <hr />
+                {MenuHTML}
+                {/* <h3>{order.itemList.menu}</h3> */}
+                {/* <h4>{order.itemList.ea}</h4> */}
+              </CardContent>
+            </Card>
+          )
+        }
+
+      } else {
+        if (order.type == "포장") {
+          return (
+            <StyledBadge color="secondary" overlap="rectangle" badgeContent="포" key={idx}>
+              <Card
+                className={classes.Card}
+                variant="outlined"
+                display="inline"
+                onClick={() => {
+                  readychange(order);
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h2" color="textSecondary" align="center">
+                    {order.orderNum}
+                  </Typography>
+                  <hr />
+                  {MenuHTML}
+                  {/* <h3>{order.itemList.menu}</h3> */}
+                  {/* <h4>{order.itemList.ea}</h4> */}
+                </CardContent>
+              </Card>
+            </StyledBadge>
+
+          );
+
         } else {
           return (
             <Card
@@ -200,6 +270,7 @@ const Content = () => {
             </Card>
           );
         }
+      }
     }
   });
   // orderCard 중 8개를 받아 하나의 페이지에 출력할 데이터만 뽑음
