@@ -18,12 +18,11 @@ const useStyles = makeStyles({
   root: {
     width: 200,
     maxWidth: 345,
-    boxShadow: 0,
-
+    boxShadow: 0
   },
   root1: {
     maxWidth: 400,
-    margin: 'auto auto'
+    margin: "auto auto"
   },
   media1: {
     height: 220
@@ -55,8 +54,8 @@ const useStyles = makeStyles({
     overflow: "auto"
   },
   burgerinfo: {
-    background: 'yellow',
-    height: '100%'
+    background: "yellow",
+    height: "100%"
   },
   name: {
     marginTop: 10,
@@ -252,14 +251,14 @@ const BurgerModalSetRequests = props => {
                 }}
               />
               <CardContent style={{ padding: 0 }}>
-                <Typography gutterBottom variant="h5" component="h2">
-                  <p className={classes.name} >{side.name}</p>
+                <Typography gutterBottom variant="h3" component="h2">
+                  <p className={classes.name}>{side.name}</p>
                   <p className={classes.price}>+{side.addPrice}</p>
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Card>
-        </Grid >
+        </Grid>
       );
     }
   });
@@ -279,9 +278,11 @@ const BurgerModalSetRequests = props => {
               }}
             />
             <CardContent style={{ padding: 0 }}>
-              <Typography gutterBottom variant="h5" component="h2">
-                <p className={classes.name} >{beverage.name}</p>
-                <p className={classes.price} >+{beverage.addPrice}</p>
+              <Typography gutterBottom variant="h3" component="h2" className={classes.name}>
+                {beverage.name}
+              </Typography>
+              <Typography gutterBottom variant="h3" component="h2" className={classes.price}>
+                {beverage.addPrice}
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -305,8 +306,8 @@ const BurgerModalSetRequests = props => {
               }}
             />
             <CardContent style={{ padding: 0 }}>
-              <Typography gutterBottom variant="h5" component="h2">
-                <p className={classes.name}>{request.name}</p>
+              <Typography gutterBottom variant="h3" component="h2" className={classes.name}>
+                {request.name}
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -351,7 +352,7 @@ const BurgerModalSetRequests = props => {
 
   return (
     <div>
-      <Grid container >
+      <Grid container>
         <Grid item xs={6}>
           <Card className={classes.root1}>
             <CardActionArea>
@@ -361,7 +362,7 @@ const BurgerModalSetRequests = props => {
                 title={props.burgerSetName}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h3" component="h2">
                   {props.burgerSetName}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
@@ -369,15 +370,13 @@ const BurgerModalSetRequests = props => {
                 </Typography>
               </CardContent>
             </CardActionArea>
-
           </Card>
-
         </Grid>
         <Grid container item xs={6}>
           <Grid item xs={1} style={{ background: red[500] }}></Grid>
           <Grid item xs={11} style={{ background: red[100] }}>
             사이드
-        </Grid>
+          </Grid>
 
           <Grid container className={classes.eachRequestGroup}>
             {sidesHtml}
@@ -388,7 +387,7 @@ const BurgerModalSetRequests = props => {
           <Grid item xs={1} style={{ background: red[500] }}></Grid>
           <Grid item xs={11} style={{ background: red[100] }}>
             음료
-        </Grid>
+          </Grid>
 
           <Grid container className={classes.eachRequestGroup}>
             {beveragesHtml}
@@ -399,7 +398,7 @@ const BurgerModalSetRequests = props => {
           <Grid item xs={1} style={{ background: red[500] }}></Grid>
           <Grid item xs={11} style={{ background: red[100] }}>
             요청사항
-        </Grid>
+          </Grid>
 
           <Grid container className={classes.eachRequestGroup}>
             {requestsHtml}
@@ -410,16 +409,16 @@ const BurgerModalSetRequests = props => {
       <Grid container className={classes.btnGridHeight}>
         <Grid item xs={6} className={classes.btnPosition}>
           <Button className={classes.btnCancel} variant="contained" onClick={props.handleCloseSet}>
-            <Typography variant="h5">취소</Typography>
+            <Typography variant="h3">취소</Typography>
           </Button>
         </Grid>
         <Grid item xs={6} className={classes.btnPosition}>
           <Button className={classes.btnCommit} variant="contained" onClick={orderDetail}>
-            <Typography variant="h5">확인</Typography>
+            <Typography variant="h3">확인</Typography>
           </Button>
         </Grid>
       </Grid>
-    </div >
+    </div>
   );
 };
 

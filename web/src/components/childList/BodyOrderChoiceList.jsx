@@ -5,7 +5,6 @@ import OrderList from "./OrderList";
 import Payment from "./Payment";
 import axios from "axios";
 
-
 const useStyles = makeStyles(theme => ({
   container: {
     flexGrow: 1,
@@ -50,7 +49,12 @@ const BodyOrderChoiceList = ({ orderList, setOrderList, setState, waitingNum }) 
       {/* 왼쪽 주문목록정보======================================== */}
       <OrderList orderList={orderList} setOrderList={setOrderList} />
       {/* 오른쪽 결제확인======================================== */}
-      <Payment orderList={orderList} setOrderList={setOrderList} setState={setState} waitingNum={waitingNum} />
+      <Payment
+        orderList={orderList}
+        setOrderList={setOrderList}
+        setState={setState}
+        waitingNum={waitingNum}
+      />
     </Grid>
   );
 };
