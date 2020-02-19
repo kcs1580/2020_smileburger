@@ -186,36 +186,9 @@ const Childkiosk = props => {
             // =======================================================
         }
     }, [order]);
-    // 인증된 사용자일 경우 사용자의 데이터 가져오기
-    useEffect(() => {
-        if (localStorage.getItem("FaceID")) {
-            setRegisterd(true);
-            setSelect(0);
-            axios
-                // .get("http://i02c103.p.ssafy.io:3001/getLastOrderLists", {
-                .get("http://localhost:3001/getLastOrderLists", {
-                    params: {
-                        faceid: localStorage.getItem("FaceID") // 나중에 인증된 사용자의 faceid를 넘겨 받아 그 값으로 바꿔준다.
-                    }
-                })
-                .then(res => {
-                    // console.log(res);
-                    // console.log(res.data[0].odate);
-                    // console.log(typeof res.data);
-                    setLastOrderLists(res.data);
-                })
-                .catch(err => console.log(err));
-        } else {
-            console.log("비회원!!!!!!!!!!");
-        }
-    }, []);
-
 
     const SelectPage = () => {
         switch (select) {
-            case 0:
-                // return <LastOrderLists lastOrderLists={lastOrderLists} setOrder={setOrder} />;
-                return <h1>test</h1>
             case 1:
                 return (
                     <BurgerList
