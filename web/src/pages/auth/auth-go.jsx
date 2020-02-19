@@ -13,6 +13,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Webcam from "react-webcam";
@@ -323,15 +324,18 @@ const AuthPage = props => {
   return (
     <Container>
       <Layout>
-        <Webcam
-          audio={false}
-          // height={400}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={"100%"}
-          videoConstraints={videoConstraints}
-          onClick={capture}
-        />
+        <Paper style={{ backgroundColor: "#333333" }}>
+          <Webcam
+            style={{ marginTop: 200, marginBottom: 40 }}
+            audio={false}
+            // height={400}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width={"91%"}
+            videoConstraints={videoConstraints}
+            onClick={capture}
+          />
+        </Paper>
         <br></br>
 
         <Backdrop className={classes.backdrop} open={backdrop} onClick={handleCloseBackdrop}>
