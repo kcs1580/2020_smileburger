@@ -10,9 +10,8 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Pagination from "material-ui-flat-pagination";
 import socketio from "socket.io-client";
 import axios from "axios";
-import Badge from '@material-ui/core/Badge';
+import Badge from "@material-ui/core/Badge";
 
-<<<<<<< HEAD
 const StyledBadge = withStyles(theme => ({
   badge: {
     right: 0,
@@ -26,8 +25,6 @@ const StyledBadge = withStyles(theme => ({
   }
 }))(Badge);
 
-=======
->>>>>>> 0ba729607eea45f1f6c65dc29c49c7a4f414e467
 // const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 const socket = socketio.connect("http://localhost:3001");
 
@@ -64,12 +61,11 @@ const useStyles = makeStyles(theme => ({
   Card: {
     height: 360,
     width: 270,
-    margin: "15px 0px",
+    margin: "15px 0px"
   },
   numbering: {
     fontSize: "20px"
   }
-
 }));
 
 const Content = () => {
@@ -81,7 +77,7 @@ const Content = () => {
     const tempCntList = [];
     const tempOrderDetailList = [];
 
-    data.map((order) => {
+    data.map(order => {
       // console.log(order)
       let totalCnt = [];
       // 주문 수량
@@ -89,7 +85,6 @@ const Content = () => {
         if (idx !== 0) {
           totalCnt.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf(","))));
         }
-
       });
       tempCntList.push(totalCnt);
       // console.log(tempCntList)
@@ -112,19 +107,19 @@ const Content = () => {
       });
 
       tempOrderDetailList.push(eachOrderDetail);
-    })
+    });
 
     // console.log(tempCntList)
     // console.log(tempOrderDetailList)
 
-    const ord = []
+    const ord = [];
     for (var i = 0; i < tempOrderDetailList.length; i++) {
-      const tempMenuList = []
+      const tempMenuList = [];
       for (var j = 0; j < tempOrderDetailList[i].length; j++) {
         tempMenuList.push({
-          menu: tempOrderDetailList[i][j].join(' / '),
+          menu: tempOrderDetailList[i][j].join(" / "),
           cnt: tempCntList[i][j]
-        })
+        });
       }
       // console.log(data[i].owaitingNum)
       ord.push({
@@ -133,7 +128,7 @@ const Content = () => {
         contents: tempMenuList,
         isready: data[i].isready,
         type: data[i].otype
-      })
+      });
     }
     setOrder(ord);
     // console.log(ord)
@@ -154,10 +149,7 @@ const Content = () => {
     } else if (order.isready === "1") {
       order.isready = "2";
       axios
-<<<<<<< HEAD
-=======
         // .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
->>>>>>> 0ba729607eea45f1f6c65dc29c49c7a4f414e467
         .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
@@ -216,7 +208,6 @@ const Content = () => {
                 </CardContent>
               </Card>
             </StyledBadge>
-
           );
         } else {
           return (
@@ -239,9 +230,8 @@ const Content = () => {
                 {/* <h4>{order.itemList.ea}</h4> */}
               </CardContent>
             </Card>
-          )
+          );
         }
-
       } else {
         if (order.type == "포장") {
           return (
@@ -265,9 +255,7 @@ const Content = () => {
                 </CardContent>
               </Card>
             </StyledBadge>
-
           );
-
         } else {
           return (
             <Card
