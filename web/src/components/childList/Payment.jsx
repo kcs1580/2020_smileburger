@@ -67,7 +67,7 @@ const Payment = ({ orderList, setOrderList, waitingNum, setState }) => {
           닫기
         </Grid>
         <Grid item xs={12}>
-          <Icon style={{ top: 0, fontSize: 100 }}>cancel</Icon>
+          <Icon onClick={() => { setState({ bottom: false }) }} style={{ top: 0, fontSize: 100 }}>cancel</Icon>
         </Grid>
       </Grid>
     </Grid>
