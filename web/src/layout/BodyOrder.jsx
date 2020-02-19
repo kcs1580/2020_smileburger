@@ -5,21 +5,40 @@ import BurgerList from "../components/original_kiosk/BurgerList";
 import SideList from "../components/original_kiosk/SideList";
 import BeverageList from "../components/original_kiosk/BeverageList";
 import { makeStyles, AppBar, Toolbar, Grid, Paper } from "@material-ui/core";
+import { purple } from "@material-ui/core/colors";
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
     marginTop: "120px",
-    height: "120px"
+    height: "100px"
   },
   menuButton: {
-    marginLeft: theme.spacing(2),
+    // marginLeft: 100,
+    // marginRight: 100,
     height: "80px",
     width: "80px"
   },
   paper: {
     textAlign: "center",
-    fontSize: "50px"
+    fontSize: "50px",
+    color: "white",
+    marginRight: "50px",
+    // backgroundColor: "#f50057",
+    backgroundColor: purple[900],
+    width: "200px",
+    height: 72
+  },
+  paper0: {
+    textAlign: "center",
+    fontSize: "40px",
+    color: "white",
+    marginRight: "50px",
+    // backgroundColor: "#f50057",
+    backgroundColor: purple[900],
+    width: "200px",
+    height: 72,
+    paddingTop: 5
   },
   menuContext: {
     marginTop: "240px",
@@ -232,42 +251,40 @@ const BodyOrder = () => {
     if (menu.id === 0) {
       if (registered) {
         return (
-          <Grid item xs={2} key={menu.id}>
-            <Paper
-              className={classes.paper}
-              onClick={() => {
-                setList(menu.id);
-              }}
-            >
-              {menu.text}
-            </Paper>
-          </Grid>
-        );
-      }
-    } else {
-      return (
-        <Grid item xs={2} key={menu.id}>
           <Paper
-            className={classes.paper}
+            style={{
+              marginLeft: 25,
+              marginRight: 25,
+              justifyContent: "center"
+            }}
+            className={classes.paper0}
             onClick={() => {
               setList(menu.id);
             }}
           >
             {menu.text}
           </Paper>
-        </Grid>
+        );
+      }
+    } else {
+      return (
+        <Paper
+          style={{ marginLeft: 25, marginRight: 25 }}
+          className={classes.paper}
+          onClick={() => {
+            setList(menu.id);
+          }}
+        >
+          {menu.text}
+        </Paper>
       );
     }
   });
 
   return (
     <Fragment>
-      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "yellow" }}>
-        <Toolbar style={{ height: "120px" }}>
-          <Grid container spacing={4} justify="center">
-            {menuList}
-          </Grid>
-        </Toolbar>
+      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#f50057" }}>
+        <Toolbar style={{ height: "120px", placeContent: "center" }}>{menuList}</Toolbar>
       </AppBar>
       <div className={classes.menuContext}>
         <BodyControl></BodyControl>
