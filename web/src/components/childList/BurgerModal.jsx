@@ -176,7 +176,7 @@ const BurgerMoal = ({
         </DialogTitle>
         <DialogContent className={classes.dialogBody1}>
           <img src={burger.pimgurl} alt={burger.pname} className={classes.img} />
-          <Typography component="h6" variant="h3" className={classes.details}>
+          <Typography component="h6" variant="h4" className={classes.details}>
             {/* <p>조리시간: {burger.cooking_time}분</p> */}
             {burger.pdesc}
           </Typography>
@@ -220,10 +220,8 @@ const BurgerMoal = ({
         </DialogTitle>
         <DialogContent dividers className={classes.dialogBody2}>
           <img src={burger.pimgurl} alt={burger.pname} className={classes.img} />
-          <Typography component="h3" variant="h3" className={classes.details}>
-            {/* <p>조리시간: {burger.cooking_time}분</p> */}
-            <p>{burger.pdesc}</p>
-            <p></p>
+          <Typography component="h4" variant="h3" className={classes.details}>
+            {burger.pdesc}
           </Typography>
         </DialogContent>
         <Grid container>

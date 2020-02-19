@@ -12,6 +12,7 @@ import BeverageList from "../../components/childList/BeverageList";
 import SideList from "../../components/childList/SideList";
 
 import BodyOrderChoiceListDrawer from "../../components/childList/BodyOrderChoiceListDrawer";
+import BodyOrderChoiceList from "../../components/childList/BodyOrderChoiceList";
 
 import axios from "axios";
 const useStyles = makeStyles(theme => ({
@@ -210,13 +211,10 @@ const Childkiosk = props => {
         {/* <BottomNav select={select} setSelect={setSelect} /> */}
         <Menutap select={select} setSelect={setSelect} className={classes.Menutap} />
         <SelectPage className={classes.selpage} />
-
-        <BodyOrderChoiceListDrawer
-          className={classes.btnorder}
+        <BodyOrderChoiceList
           orderList={orderList}
           setOrderList={setOrderList}
           waitingNum={waitingNum}
-          style={{ marginRight: 20 }}
         />
       </div>
     </Fragment>
