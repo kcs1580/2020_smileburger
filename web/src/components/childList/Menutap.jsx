@@ -33,7 +33,7 @@ export default function Menutap({ select, setSelect }) {
     };
 
     return (
-        <Paper square="square" className={classes.root}>
+        <Paper className={classes.root}>
             <Tabs
                 value={select}
                 onChange={handleChange}
@@ -41,9 +41,9 @@ export default function Menutap({ select, setSelect }) {
                 textColor="secondary"
                 aria-label="icon label tabs example"
                 className={classes.tabs}>
-                <Tab label="버거" className={classes.tab} value={0} />
-                <Tab label="사이드" className={classes.tab} value={1} />
-                <Tab label="음료" className={classes.tab} value={2} />
+                <Tab label="버거" className={classes.tab} value={1} />
+                <Tab label="사이드" className={classes.tab} value={2} />
+                <Tab label="음료" className={classes.tab} value={3} />
             </Tabs>
         </Paper>
     );

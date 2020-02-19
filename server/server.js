@@ -58,14 +58,7 @@ io.on("connection", function (socket) {
     axios
       .get("http://localhost:3001/getinOrders")
       .then(res => {
-        // console.log(res.data);
-        const orderList = [];
-        for (var i in res.data) {
-          orderList.push(dataProcess(res.data[i]));
-        }
-        console.log(orderList);
-
-        io.sockets.in("myroom").emit("Back2Front", orderList);
+        io.sockets.in("myroom").emit("Back2Front", res.data);
       })
       .catch(err => {
         console.log(err);
@@ -77,60 +70,5 @@ io.on("connection", function (socket) {
 app.get("/", function (req, res) {
   res.send("Hello Vote On~");
 });
-// Data Processing
-const dataProcess = data => {
-  var tempmenu;
-  var menu;
-  var cnt;
-  var price;
-  var contents = [];
-  for (var i = 0; i < data.ocontent.length; i++) {
-    if (data.ocontent[i] == "}") {
-      var obj = {
-        menu: menu,
-        cnt: Number(cnt),
-        price: Number(price)
-      };
-      contents.push(obj);
-    }
-
-    if (data.ocontent.slice(i, i + 8) === "contents") {
-      tempmenu = [];
-      var s = i + 11;
-      var e = s;
-      while (data.ocontent[e] != "]") {
-        e++;
-      }
-      temp = data.ocontent.slice(s, e).split(",");
-      for (var j = 0; j < temp.length; j++) {
-        tempmenu.push(temp[j].slice(1, temp[j].length - 1));
-      }
-      menu = tempmenu.join(", ");
-      console.log(menu);
-    } else if (data.ocontent.slice(i, i + 3) === "cnt") {
-      s = i + 5;
-      var e = i;
-      while (data.ocontent[e] != ",") {
-        e++;
-      }
-      cnt = data.ocontent.slice(s, e);
-    } else if (data.ocontent.slice(i, i + 5) === "price") {
-      var s = i + 7;
-      var e = s;
-      while (data.ocontent[e] != "}") {
-        e++;
-      }
-      price = data.ocontent.slice(s, e);
-    }
-  }
-  // console.log(contents)
-  // console.log(data)
-  return {
-    oid: data.oid,
-    orderNum: data.owaitingNum,
-    contents: contents,
-    isready: data.isready
-  };
-};
 
 module.exports = app;

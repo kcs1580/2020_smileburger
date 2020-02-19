@@ -183,6 +183,7 @@ app.get("/getLastOrderLists", (req, res) => {
     if (error) {
       res.send(error);
     } else {
+      console.log(results)
       res.send(results);
     }
   });

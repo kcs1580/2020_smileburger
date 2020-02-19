@@ -263,7 +263,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
         maxWidth="xl"
       >
         <DialogContent>
-          <Typography variant="h3">대기번호: {waitingNum}</Typography>
+          <Typography variant="h2">대기번호: {waitingNum}</Typography>
         </DialogContent>
       </Dialog>
     </div>

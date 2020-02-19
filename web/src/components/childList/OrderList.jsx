@@ -97,6 +97,7 @@ const OrderList = ({ orderList, setOrderList }) => {
   };
 
   useEffect(() => {
+    // console.log("OrderList.jsx 의 orderList");
     console.log(orderList);
   }, [orderList]);
 
@@ -104,66 +105,55 @@ const OrderList = ({ orderList, setOrderList }) => {
     <Grid item xs={9} className={classes.listPaper}>
       <Paper style={{ height: 560 }}>
         <TableContainer style={{ height: 560 }}>
-          <TableHead>
-            <TableRow style={{ background: grey[400] }}>
-              <TableCell
-                style={{ minWidth: 390 }}
-                className={classes.tableHeadCell}
-              >
-                제품명
-              </TableCell>
-              <TableCell
-                style={{ minWidth: 200 }}
-                className={classes.tableHeadCell}
-              >
-                수량
-              </TableCell>
-              <TableCell
-                style={{ minWidth: 200 }}
-                className={classes.tableHeadCell}
-              >
-                금액
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orderList.map(order => {
-              return (
-                <TableRow key={order.id}>
-                  {/* 제품목록 보여주는 cell */}
-                  <TableCell>
-                    {order.contents.map((content, idx) => {
-                      if (idx === order.contents.length - 1) {
-                        return content;
-                      } else {
-                        return content + ", ";
-                      }
-                    })}
-                  </TableCell>
-                  {/* 제품수량 보여주는 cell */}
-                  <TableCell style={{ textAlign: "center" }}>
-                    <IndeterminateCheckBox
-                      style={{ color: "red" }}
-                      onClick={() => decCnt(order.id)}
-                    />
-                    {order.cnt}
-                    <AddBox
-                      style={{ color: "red" }}
-                      onClick={() => incCnt(order.id)}
-                    />
-                  </TableCell>
-                  {/* 제품가격 보여주는 cell */}
-                  <TableCell style={{ textAlign: "center" }}>
-                    {order.price}
-                    <Close
-                      style={{ color: "red" }}
-                      onClick={() => deleteList(order.id)}
-                    />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
+          <Table>
+            <TableHead>
+              <TableRow style={{ background: grey[400] }}>
+                <TableCell style={{ minWidth: 390 }} className={classes.tableHeadCell}>
+                  제품명
+                </TableCell>
+                <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
+                  수량
+                </TableCell>
+                <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
+                  금액
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {orderList.map(order => {
+                // console.log(typeof order.contents);
+                // console.log(order.contents);
+                return (
+                  <TableRow key={order.id}>
+                    {/* 제품목록 보여주는 cell */}
+                    <TableCell>
+                      {order.contents.map((content, idx) => {
+                        if (idx === order.contents.length - 1) {
+                          return content;
+                        } else {
+                          return content + ", ";
+                        }
+                      })}
+                    </TableCell>
+                    {/* 제품수량 보여주는 cell */}
+                    <TableCell style={{ textAlign: "center" }}>
+                      <IndeterminateCheckBox
+                        style={{ color: "red" }}
+                        onClick={() => decCnt(order.id)}
+                      />
+                      {order.cnt}
+                      <AddBox style={{ color: "red" }} onClick={() => incCnt(order.id)} />
+                    </TableCell>
+                    {/* 제품가격 보여주는 cell */}
+                    <TableCell style={{ textAlign: "center" }}>
+                      {order.price}
+                      <Close style={{ color: "red" }} onClick={() => deleteList(order.id)} />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
         </TableContainer>
       </Paper>
     </Grid>
