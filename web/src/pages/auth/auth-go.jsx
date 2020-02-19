@@ -281,7 +281,11 @@ const AuthPage = props => {
         console.log(data.FaceDetails);
         //반복문 전부 돌면서 한명이라도 웃고 있으면 이제 faceSearchByImage.
         data.FaceDetails.some(p => {
-          if (p.Smile.Value === true) {
+          if (p.AgeRange.High >= 50) {
+            console.log("할아버지 오셨어요 ㅠㅠ");
+            setIsGrandParents(true);
+            return true;
+          } else if (p.Smile.Value === true) {
             setIssmile(true);
             onTimeout();
             return p.Smile.Value === true;
