@@ -41,11 +41,11 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     color: "black",
     margin: 20,
-    fontSize: 25
+    fontSize: 35
   },
   dialogTitle: {
-    backgroundColor: "red",
-    width: "840px",
+    backgroundColor: "#f50057",
+    // width: "840px",
     height: 69,
     color: "white",
     padding: 0
@@ -63,7 +63,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2)
   },
   paperContent: {
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 20
   },
   tableHeadCell: {
     textAlign: "center",
@@ -167,10 +168,10 @@ const LastOrderModal = ({
       <Grid item xs={12}>
         <Paper className={classes.paper}>
           <Grid container>
-            <Grid item xs={2} className={classes.paperContent}>
+            <Grid item xs={3} className={classes.paperContent}>
               {lastOrder.odate}
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={4} style={{ fontSize: 20 }}>
               {orderShowList[idx]}
             </Grid>
             <Grid item xs={1} className={classes.paperContent}>
@@ -229,9 +230,11 @@ const LastOrderModal = ({
                 {reorderContent.map((ord, tIdx) => {
                   return (
                     <TableRow key={tIdx}>
-                      <TableCell>{ord}</TableCell>
-                      <TableCell style={{ textAlign: "center" }}>{reorderCntList[tIdx]}</TableCell>
-                      <TableCell style={{ textAlign: "center" }}>
+                      <TableCell style={{ fontSize: 25 }}>{ord}</TableCell>
+                      <TableCell style={{ textAlign: "center", fontSize: 25 }}>
+                        {reorderCntList[tIdx]}
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center", fontSize: 25 }}>
                         {reorderPriceList[tIdx]}
                       </TableCell>
                     </TableRow>

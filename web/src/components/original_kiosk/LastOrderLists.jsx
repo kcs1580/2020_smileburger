@@ -109,32 +109,37 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
     setTotalPriceSumList(tempPriceSumList);
   }, []);
 
-  function ShowList() {
-    if (lastOrderLists.length > 0) {
-      lastOrderLists.map((lastOrder, idx) => {
-        return (
-          <LastOrderModal
-            key={lastOrder.oid}
-            idx={idx}
-            lastOrder={lastOrder}
-            setOrder={setOrder}
-            totalCntList={totalCntList}
-            totalCntSumList={totalCntSumList}
-            totalPriceList={totalPriceList}
-            totalPriceSumList={totalPriceSumList}
-            orderShowList={orderShowList}
-            orderDetailList={orderDetailList}
-          />
-        );
-      });
-    } else {
-      return (
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>주문 내역이 없습니다..</Paper>
-        </Grid>
-      );
-    }
-  }
+  // const asdfasdf = useMemo(() => {
+  //   getShowList();
+  // }, []);
+
+  // function getShowList() {
+  //   console.log("이거 안되냐???");
+  //   if (lastOrderLists.length > 0) {
+  //     lastOrderLists.map((lastOrder, idx) => {
+  //       return (
+  //         <LastOrderModal
+  //           key={lastOrder.oid}
+  //           idx={idx}
+  //           lastOrder={lastOrder}
+  //           setOrder={setOrder}
+  //           totalCntList={totalCntList}
+  //           totalCntSumList={totalCntSumList}
+  //           totalPriceList={totalPriceList}
+  //           totalPriceSumList={totalPriceSumList}
+  //           orderShowList={orderShowList}
+  //           orderDetailList={orderDetailList}
+  //         />
+  //       );
+  //     });
+  //   } else {
+  //     return (
+  //       <Grid item xs={12}>
+  //         <Paper className={classes.paper}>주문 내역이 없습니다..</Paper>
+  //       </Grid>
+  //     );
+  //   }
+  // }
 
   return (
     <Grid container style={{ height: 1060, overflow: "auto" }} alignContent="flex-start">
@@ -160,23 +165,28 @@ const LastOrderLists = ({ lastOrderLists, setOrder }) => {
           주문
         </Grid>
       </Grid>
-      {ShowList()}
-      {/* {lastOrderLists.map((lastOrder, idx) => {
-        return (
-          <LastOrderModal
-            key={lastOrder.oid}
-            idx={idx}
-            lastOrder={lastOrder}
-            setOrder={setOrder}
-            totalCntList={totalCntList}
-            totalCntSumList={totalCntSumList}
-            totalPriceList={totalPriceList}
-            totalPriceSumList={totalPriceSumList}
-            orderShowList={orderShowList}
-            orderDetailList={orderDetailList}
-          />
-        );
-      })} */}
+      {lastOrderLists.length !== 0 ? (
+        lastOrderLists.map((lastOrder, idx) => {
+          return (
+            <LastOrderModal
+              key={lastOrder.oid}
+              idx={idx}
+              lastOrder={lastOrder}
+              setOrder={setOrder}
+              totalCntList={totalCntList}
+              totalCntSumList={totalCntSumList}
+              totalPriceList={totalPriceList}
+              totalPriceSumList={totalPriceSumList}
+              orderShowList={orderShowList}
+              orderDetailList={orderDetailList}
+            />
+          );
+        })
+      ) : (
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>주문 내역이 없습니다..</Paper>
+        </Grid>
+      )}
     </Grid>
   );
 };
