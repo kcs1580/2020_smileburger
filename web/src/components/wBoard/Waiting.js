@@ -63,14 +63,16 @@ const Waiting = () => {
       return (
         <Grid item xs={4} key={idx}>
           <Paper className={classes.paper}>
-            <span className={classes.papercontent}>{nu2}</span>
+            <span className={classes.papercontent} style={{ fontSize: "80px" }}>
+              {nu2}
+            </span>
           </Paper>
         </Grid>
       );
     });
 
   const list = useMemo(() => getList(), [li]);
-  socket.emit();
+  // socket.emit();
 
   return (
     <div className={classes.root}>

@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import socketio from "socket.io-client";
 import Axios from "axios";
+import sound from "./sounds/sound.mp3";
 
 // let num = 1;
 const useStyles = makeStyles(theme => ({
@@ -69,12 +70,13 @@ const Done = () => {
               {nu2}
             </span>
           </Paper>
+          <audio src={sound} controls autoPlay />
         </Grid>
       );
     });
 
   const list = useMemo(() => getList(), [li]);
-  socket.emit();
+  // socket.emit();
 
   return (
     <div className={classes.root}>

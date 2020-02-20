@@ -13,8 +13,10 @@ const connection = mysql.createConnection({
 mybatisMapper.createMapper(["./sql/base/base.xml"]);
 ////////////////////////////////////////////////////////////////////
 
-app.get("/", async function(req, res) {});
-
+app.get("/async", async function(req, res) {});
+app.get("/", function(req, res) {
+  res.send("Hello Vote On~");
+});
 app.get("/test/", function(req, res) {
   var data = req.query.data;
   const jsondata = [];
@@ -183,7 +185,7 @@ app.get("/getLastOrderLists", (req, res) => {
     if (error) {
       res.send(error);
     } else {
-      console.log(results)
+      console.log(results);
       res.send(results);
     }
   });
