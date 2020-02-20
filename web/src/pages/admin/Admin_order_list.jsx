@@ -8,6 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import TableBody from '@material-ui/core/TableBody';
 
 function Admin_order_list() {
 
@@ -96,19 +98,18 @@ function Admin_order_list() {
                         <br></br>
                         <Table size="small" align="center">
                             <tbody>
-                                <tr>
+                                <TableRow>
                                     <TableCell width="70">번호</TableCell>
                                     <TableCell width="80">포장여부</TableCell>
                                     <TableCell width="500">주문건</TableCell>
                                     <TableCell width="100">총 금액</TableCell>
                                     <TableCell width="200">구매 시각</TableCell>
-                                </tr>
+                                </TableRow>
                                 {
                                     state.boards.map(row =>
                                         (<BoardItem key={row.brdno} row={row} onRemove={handleRemove} onSelectRow={handleSelectRow} />)
                                     )
                                 }
-
                             </tbody>
                         </Table>
                     </Paper>
