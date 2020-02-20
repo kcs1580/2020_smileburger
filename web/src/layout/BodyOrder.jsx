@@ -4,9 +4,10 @@ import LastOrderLists from "../components/original_kiosk/LastOrderLists";
 import BurgerList from "../components/original_kiosk/BurgerList";
 import SideList from "../components/original_kiosk/SideList";
 import BeverageList from "../components/original_kiosk/BeverageList";
-import { makeStyles, AppBar, Toolbar, Grid, Paper } from "@material-ui/core";
+import { makeStyles, AppBar, Toolbar, Paper, Fab } from "@material-ui/core";
 import { purple } from "@material-ui/core/colors";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -27,7 +28,8 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: "#f50057",
     backgroundColor: purple[900],
     width: "200px",
-    height: 72
+    height: 75,
+    borderRadius: 10
   },
   paper0: {
     textAlign: "center",
@@ -37,12 +39,21 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: "#f50057",
     backgroundColor: purple[900],
     width: "200px",
-    height: 72,
-    paddingTop: 5
+    height: 75,
+    paddingTop: 7,
+    borderRadius: 10
   },
   menuContext: {
     marginTop: "240px",
     height: "1060px"
+  },
+  menuButton: {
+    marginLeft: theme.spacing(5),
+    height: "80px",
+    width: "80px",
+    fontSize: "25px",
+    backgroundColor: purple[900],
+    color: "white"
   }
 }));
 
@@ -78,7 +89,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setBurgers(res.data);
       })
       .catch(err => console.log(err));
@@ -90,7 +100,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setSides(res.data);
       })
       .catch(err => console.log(err));
@@ -102,7 +111,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setBeverages(res.data);
       })
       .catch(err => console.log(err));
@@ -114,7 +122,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setBurgerSets(res.data);
       })
       .catch(err => console.log(err));
@@ -125,7 +132,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setRequests(res.data);
       })
       .catch(err => console.log(err));
@@ -138,8 +144,6 @@ const BodyOrder = () => {
       .get("http://localhost:3001/getLatestOrder")
       .then(res => {
         if (res.data.length !== 0) {
-          console.log(res.data.length);
-          console.log(res.data);
           setWaitingNum(res.data[0].owaitingNum + 1);
         }
       })
@@ -246,17 +250,14 @@ const BodyOrder = () => {
     }
   };
 
-  const menuList = menus.map(menu => {
+  const menuList = menus.map((menu, idx) => {
     // MyPage 는 인증된 사용자만 보여준다.
     if (menu.id === 0) {
       if (registered) {
         return (
           <Paper
-            style={{
-              marginLeft: 25,
-              marginRight: 25,
-              justifyContent: "center"
-            }}
+            key={idx}
+            style={{ marginLeft: 10, marginRight: 10 }}
             className={classes.paper0}
             onClick={() => {
               setList(menu.id);
@@ -269,7 +270,8 @@ const BodyOrder = () => {
     } else {
       return (
         <Paper
-          style={{ marginLeft: 25, marginRight: 25 }}
+          key={idx}
+          style={{ marginLeft: 10, marginRight: 10 }}
           className={classes.paper}
           onClick={() => {
             setList(menu.id);
@@ -281,10 +283,20 @@ const BodyOrder = () => {
     }
   });
 
+  function reset() {
+    localStorage.clear();
+  }
   return (
     <Fragment>
       <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#f50057" }}>
-        <Toolbar style={{ height: "120px", placeContent: "center" }}>{menuList}</Toolbar>
+        <Toolbar style={{ height: "120px", placeContent: "center" }}>
+          {menuList}
+          <Link to="/Auth" style={{ textDecoration: "none" }}>
+            <Fab onClick={reset} className={classes.menuButton}>
+              첫화면
+            </Fab>
+          </Link>
+        </Toolbar>
       </AppBar>
       <div className={classes.menuContext}>
         <BodyControl></BodyControl>

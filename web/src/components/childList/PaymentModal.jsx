@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitle: {
     backgroundColor: "red",
-    width: "840px",
+    // width: "840px",
     height: 69,
     color: "white",
     padding: 0
@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
   },
   tableHeadCell: {
     textAlign: "center",
-    fontSize: 25
+    fontSize: 35
   },
   btnWhere: {
     background: grey[300],
@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     color: "black",
     margin: 20,
-    fontSize: 25
+    fontSize: 35
   }
 }));
 
@@ -196,7 +196,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
             <Table>
               <TableHead>
                 <TableRow style={{ background: red[100] }}>
-                  <TableCell style={{ minWidth: 390, fontSize: 25 }}>제품명</TableCell>
+                  <TableCell style={{ minWidth: 390, fontSize: 35 }}>제품명</TableCell>
                   <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
                     수량
                   </TableCell>
@@ -209,7 +209,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
                 {orderList.map(order => {
                   return (
                     <TableRow key={order.id}>
-                      <TableCell>
+                      <TableCell style={{ fontSize: 35 }}>
                         {order.contents.map((content, idx) => {
                           if (idx === order.contents.length - 1) {
                             return content;
@@ -218,8 +218,12 @@ const PaymentModal = ({ orderList, waitingNum }) => {
                           }
                         })}
                       </TableCell>
-                      <TableCell style={{ textAlign: "center" }}>{order.cnt}</TableCell>
-                      <TableCell style={{ textAlign: "center" }}>{order.price}</TableCell>
+                      <TableCell style={{ textAlign: "center", fontSize: 35 }}>
+                        {order.cnt}
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center", fontSize: 35 }}>
+                        {order.price}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
