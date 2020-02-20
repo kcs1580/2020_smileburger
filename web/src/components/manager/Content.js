@@ -11,7 +11,6 @@ import Pagination from "material-ui-flat-pagination";
 import socketio from "socket.io-client";
 import axios from "axios";
 import Badge from "@material-ui/core/Badge";
-
 const StyledBadge = withStyles(theme => ({
   badge: {
     right: 0,
@@ -24,16 +23,13 @@ const StyledBadge = withStyles(theme => ({
     fontSize: 20
   }
 }))(Badge);
-
-const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
-// const socket = socketio.connect("http://localhost:3001");
-
+// const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
+const socket = socketio.connect("http://13.124.177.255:3001");
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
   console.log("manager hi");
   // console.log("h2");
 })();
-
 const useStyles = makeStyles(theme => ({
   paper: {
     maxWidth: "100%",
@@ -43,12 +39,11 @@ const useStyles = makeStyles(theme => ({
   block: {
     display: "block"
   },
-
   Cardcomplete: {
     height: 360,
     width: 270,
     margin: "15px 0px",
-    background: "linear-gradient(60deg, #43a012, #66FF66 )",
+    background: "linear-gradient(60deg, #43A012, #66FF66 )",
     color: "white"
   },
   Cardready: {
@@ -67,22 +62,20 @@ const useStyles = makeStyles(theme => ({
     fontSize: "20px"
   }
 }));
-
 const Content = () => {
   const classes = useStyles();
   const [pageidx, setPageidx] = useState(0);
   const [orders, setOrder] = useState([]);
-
   socket.on("recMsg", data => {
-    const tempCntList = [];
-    const tempOrderDetailList = [];
     const ord = [];
     axios
-      .get("http://localhost:3001/getinOrders")
+      .get("http://13.124.177.255:3001/getinOrders")
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         res.data.map(order => {
-          console.log(order);
+          const tempCntList = [];
+          const tempOrderDetailList = [];
+          // console.log(order);
           const id = order.oid;
           // console.log(order)
           let totalCnt = [];
@@ -94,14 +87,12 @@ const Content = () => {
           });
           tempCntList.push(totalCnt);
           // console.log(tempCntList);
-
           // 주문내용
           let eachOrderDetail = [];
           const tempList = order.ocontent.split("contents");
           tempList.map((el, idx) => {
             if (idx !== 0) {
               const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
-
               let tempOrderDetail = [];
               tempString.map((string, sIdx) => {
                 if (sIdx % 2 === 1) {
@@ -111,10 +102,9 @@ const Content = () => {
               eachOrderDetail.push(tempOrderDetail);
             }
           });
-
+          // console.log(eachOrderDetail);
           tempOrderDetailList.push(eachOrderDetail);
           // console.log(tempOrderDetailList);
-
           for (var i = 0; i < tempOrderDetailList.length; i++) {
             const tempMenuList = [];
             for (var j = 0; j < tempOrderDetailList[i].length; j++) {
@@ -123,7 +113,6 @@ const Content = () => {
                 cnt: tempCntList[i][j]
               });
             }
-
             ord.push({
               oid: order.oid,
               orderNum: order.owaitingNum,
@@ -133,24 +122,22 @@ const Content = () => {
             });
           }
         });
-
+        console.log(ord);
         setOrder(ord);
       })
       .catch(err => {
         console.log(err);
       });
-
     // console.log(ord)
   });
-
   const readychange = order => {
     if (order.isready === "0") {
       order.isready = "1";
       axios
-        .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
-        // .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
+        // .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
+        .get("http://13.124.177.255:3001/ready2complete", { params: { oid: order.oid } })
         .then(res => {
-          socket.emit("joinRoom", { data: "data" });
+          socket.emit("joinRoom", { roomName: "myroom" });
           //socket.emit("recMsg", { data: "data" });
           // console.log("update success")
           // console.log(res);
@@ -158,19 +145,17 @@ const Content = () => {
     } else if (order.isready === "1") {
       order.isready = "2";
       axios
-        .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
-        // .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
+        // .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
+        .get("http://13.124.177.255:3001/complete2out", { params: { oid: order.oid } })
         .then(res => {
-          socket.emit("joinRoom", { data: "data" });
+          socket.emit("joinRoom", { roomName: "myroom" });
           // socket.emit("recMsg", { data: "data" });
           // console.log(res);
         });
     }
-
     // console.log(order);
     // console.log(order.oid);
   };
-
   let temporder = [0, 0, 0, 0, 0, 0, 0, 0];
   const arrmake = () => {
     for (let i = 1; i < orders.length / 8; i++) {
@@ -193,7 +178,6 @@ const Content = () => {
           </h5>
         );
       });
-
       if (order.isready === "1") {
         if (order.type == "포장") {
           return (
@@ -305,7 +289,6 @@ const Content = () => {
       </>
     );
   };
-
   const pageClick = isForward => {
     if (isForward) {
       if (pageidx + 1 < parseInt(orderCard.length / 8)) {
@@ -321,7 +304,6 @@ const Content = () => {
       }
     }
   };
-
   return (
     <Fragment>
       <Grid container>
@@ -361,5 +343,4 @@ const Content = () => {
     </Fragment>
   );
 };
-
 export default Content;

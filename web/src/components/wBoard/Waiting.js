@@ -4,7 +4,6 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import socketio from "socket.io-client";
 import Axios from "axios";
-
 // let num = 1;
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,29 +18,24 @@ const useStyles = makeStyles(theme => ({
     borderBottom: "solid"
   }
 }));
-const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
-// const socket = socketio.connect("http://localhost:3001");
-
+// const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
+const socket = socketio.connect("http://13.124.177.255:3001");
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
-  console.log("hi");
+  console.log("joingroom waiting");
 })();
-
 const Waiting = () => {
   const classes = useStyles();
   const [li, setLi] = useState([]);
-  const [num, setNum] = useState(0);
   // const list = li.map(nu2 => <div>{nu2}</div>)
   // ---------------
-
   // useEffect(() => {   const list = li.map(nu2 => <div>{nu2}</div>)}, [li])
   // ----------------
   // const list = li.map(nu2 => {   return <div>{nu2}</div>; });
-
   socket.on("recMsg", data => {
     console.log("메세지 받았따");
-    Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
-      // Axios.get("http://localhost:3001/getpreNumbers")
+    // Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
+    Axios.get("http://13.124.177.255:3001/getpreNumbers")
       .then(res => {
         console.log(res.data);
         const li2 = [];
@@ -57,8 +51,7 @@ const Waiting = () => {
         console.log(err);
       });
   });
-
-  const getList = () =>
+  const GetList = () =>
     li.map((nu2, idx) => {
       return (
         <Grid item xs={4} key={idx}>
@@ -70,17 +63,13 @@ const Waiting = () => {
         </Grid>
       );
     });
-
-  const list = useMemo(() => getList(), [li]);
   // socket.emit();
-
   return (
     <div className={classes.root}>
       <Grid container spacing={5}>
-        {list}
+        <GetList />
       </Grid>
     </div>
   );
 };
-
 export default Waiting;
