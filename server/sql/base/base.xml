@@ -132,6 +132,20 @@
 		SELECT * FROM order_pro
 	</select>
 
+	<select id="adminOrderList">
+		SELECT * FROM orders
+		<!--SELECT 
+			oid,
+			owaitingNum,
+			odate,
+			ocontent,
+			otype
+		FROM
+			orders
+		WHERE
+			REGEXP(ocontent,'[가-힣]')-->
+	</select>
+
     <select id="getProducts">
         SELECT
             pid, pname, pcategory, pprice, pdesc, pimgurl
@@ -140,7 +154,6 @@
         WHERE
             pcategory = #{pcategory}
     </select>
-
 	<select id="getLastOrderLists">
 		 SELECT * FROM orders
 		 WHERE faceid=#{faceid}
@@ -173,4 +186,5 @@
 		SET isready='2'
 		WHERE oid=#{oid}
 	</update>
+
 </mapper>
