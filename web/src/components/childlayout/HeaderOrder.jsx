@@ -38,7 +38,7 @@ const HeaderOrder = props => {
           Head-Order
         </Typography>
         <Link
-          to="/"
+          to="/auth"
           style={{
             textDecoration: "none"
           }}
