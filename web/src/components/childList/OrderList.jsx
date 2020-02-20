@@ -109,13 +109,13 @@ const OrderList = ({ orderList, setOrderList }) => {
             <TableHead>
               <TableRow style={{ background: grey[400] }}>
                 <TableCell style={{ minWidth: 390 }} className={classes.tableHeadCell}>
-                  제품명
+                  <Typography variant="h3"> 제품명</Typography>
                 </TableCell>
                 <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
-                  수량
+                  <Typography variant="h3"> 수량</Typography>
                 </TableCell>
                 <TableCell style={{ minWidth: 200 }} className={classes.tableHeadCell}>
-                  금액
+                  <Typography variant="h3"> 금액</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -126,12 +126,12 @@ const OrderList = ({ orderList, setOrderList }) => {
                 return (
                   <TableRow key={order.id}>
                     {/* 제품목록 보여주는 cell */}
-                    <TableCell>
+                    <TableCell style={{ textAlign: "center" }}>
                       {order.contents.map((content, idx) => {
                         if (idx === order.contents.length - 1) {
-                          return content;
+                          return <Typography variant="h3">{content}</Typography>;
                         } else {
-                          return content + ", ";
+                          return <Typography variant="h3">{content}</Typography>;
                         }
                       })}
                     </TableCell>
@@ -141,12 +141,14 @@ const OrderList = ({ orderList, setOrderList }) => {
                         style={{ color: "red" }}
                         onClick={() => decCnt(order.id)}
                       />
-                      {order.cnt}
+                      <Typography variant="h3"> {order.cnt}</Typography>
+
                       <AddBox style={{ color: "red" }} onClick={() => incCnt(order.id)} />
                     </TableCell>
                     {/* 제품가격 보여주는 cell */}
                     <TableCell style={{ textAlign: "center" }}>
-                      {order.price}
+                      <Typography variant="h3"> {order.price}</Typography>
+
                       <Close style={{ color: "red" }} onClick={() => deleteList(order.id)} />
                     </TableCell>
                   </TableRow>
