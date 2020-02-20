@@ -48,7 +48,7 @@ const useStyles = makeStyles({
   },
   eachRequestGroup: {
     margin: 0,
-    width: 900,
+    // width: 900,
     padding: 20,
     height: 340,
     overflow: "auto"
@@ -362,10 +362,10 @@ const BurgerModalSetRequests = props => {
                 title={props.burgerSetName}
               />
               <CardContent>
-                <Typography gutterBottom variant="h3" component="h2">
+                <Typography gutterBottom variant="h4" component="h2">
                   {props.burgerSetName}
                 </Typography>
-                <Typography variant="h3" color="textSecondary" component="p">
+                <Typography variant="h4" color="textSecondary" component="p">
                   {props.burgerSetDesc}
                 </Typography>
               </CardContent>
@@ -375,7 +375,9 @@ const BurgerModalSetRequests = props => {
         <Grid container item xs={6}>
           <Grid item xs={1} style={{ background: red[500] }}></Grid>
           <Grid item xs={11} style={{ background: red[100] }}>
-            사이드
+            <Typography gutterBottom variant="h4">
+              사이드
+            </Typography>
           </Grid>
 
           <Grid container className={classes.eachRequestGroup}>
@@ -386,7 +388,9 @@ const BurgerModalSetRequests = props => {
         <Grid container item xs={6}>
           <Grid item xs={1} style={{ background: red[500] }}></Grid>
           <Grid item xs={11} style={{ background: red[100] }}>
-            음료
+            <Typography gutterBottom variant="h4">
+              음료
+            </Typography>
           </Grid>
 
           <Grid container className={classes.eachRequestGroup}>
@@ -397,7 +401,9 @@ const BurgerModalSetRequests = props => {
         <Grid container item xs={6}>
           <Grid item xs={1} style={{ background: red[500] }}></Grid>
           <Grid item xs={11} style={{ background: red[100] }}>
-            요청사항
+            <Typography gutterBottom variant="h4">
+              요청사항
+            </Typography>
           </Grid>
 
           <Grid container className={classes.eachRequestGroup}>

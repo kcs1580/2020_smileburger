@@ -4,26 +4,56 @@ import LastOrderLists from "../components/original_kiosk/LastOrderLists";
 import BurgerList from "../components/original_kiosk/BurgerList";
 import SideList from "../components/original_kiosk/SideList";
 import BeverageList from "../components/original_kiosk/BeverageList";
-import { makeStyles, AppBar, Toolbar, Grid, Paper } from "@material-ui/core";
+import { makeStyles, AppBar, Toolbar, Paper, Fab } from "@material-ui/core";
+import { purple } from "@material-ui/core/colors";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   appBar: {
     marginTop: "120px",
-    height: "120px"
+    height: "100px"
   },
   menuButton: {
-    marginLeft: theme.spacing(2),
+    // marginLeft: 100,
+    // marginRight: 100,
     height: "80px",
     width: "80px"
   },
   paper: {
     textAlign: "center",
-    fontSize: "50px"
+    fontSize: "50px",
+    color: "white",
+    marginRight: "50px",
+    // backgroundColor: "#f50057",
+    backgroundColor: purple[900],
+    width: "200px",
+    height: 75,
+    borderRadius: 10
+  },
+  paper0: {
+    textAlign: "center",
+    fontSize: "40px",
+    color: "white",
+    marginRight: "50px",
+    // backgroundColor: "#f50057",
+    backgroundColor: purple[900],
+    width: "200px",
+    height: 75,
+    paddingTop: 7,
+    borderRadius: 10
   },
   menuContext: {
     marginTop: "240px",
     height: "1060px"
+  },
+  menuButton: {
+    marginLeft: theme.spacing(5),
+    height: "80px",
+    width: "80px",
+    fontSize: "25px",
+    backgroundColor: purple[900],
+    color: "white"
   }
 }));
 
@@ -59,7 +89,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setBurgers(res.data);
       })
       .catch(err => console.log(err));
@@ -71,7 +100,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setSides(res.data);
       })
       .catch(err => console.log(err));
@@ -83,7 +111,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setBeverages(res.data);
       })
       .catch(err => console.log(err));
@@ -95,7 +122,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setBurgerSets(res.data);
       })
       .catch(err => console.log(err));
@@ -106,7 +132,6 @@ const BodyOrder = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
         setRequests(res.data);
       })
       .catch(err => console.log(err));
@@ -119,8 +144,6 @@ const BodyOrder = () => {
       .get("http://localhost:3001/getLatestOrder")
       .then(res => {
         if (res.data.length !== 0) {
-          console.log(res.data.length);
-          console.log(res.data);
           setWaitingNum(res.data[0].owaitingNum + 1);
         }
       })
@@ -227,46 +250,52 @@ const BodyOrder = () => {
     }
   };
 
-  const menuList = menus.map(menu => {
+  const menuList = menus.map((menu, idx) => {
     // MyPage 는 인증된 사용자만 보여준다.
     if (menu.id === 0) {
       if (registered) {
         return (
-          <Grid item xs={2} key={menu.id}>
-            <Paper
-              className={classes.paper}
-              onClick={() => {
-                setList(menu.id);
-              }}
-            >
-              {menu.text}
-            </Paper>
-          </Grid>
-        );
-      }
-    } else {
-      return (
-        <Grid item xs={2} key={menu.id}>
           <Paper
-            className={classes.paper}
+            key={idx}
+            style={{ marginLeft: 10, marginRight: 10 }}
+            className={classes.paper0}
             onClick={() => {
               setList(menu.id);
             }}
           >
             {menu.text}
           </Paper>
-        </Grid>
+        );
+      }
+    } else {
+      return (
+        <Paper
+          key={idx}
+          style={{ marginLeft: 10, marginRight: 10 }}
+          className={classes.paper}
+          onClick={() => {
+            setList(menu.id);
+          }}
+        >
+          {menu.text}
+        </Paper>
       );
     }
   });
 
+  function reset() {
+    localStorage.clear();
+  }
   return (
     <Fragment>
-      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "yellow" }}>
-        <Toolbar style={{ height: "120px" }}>
-          <Grid container spacing={4} justify="center">
-            {menuList}
-          </Grid>
+      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: "#f50057" }}>
+        <Toolbar style={{ height: "120px", placeContent: "center" }}>
+          {menuList}
+          <Link to="/Auth" style={{ textDecoration: "none" }}>
+            <Fab onClick={reset} className={classes.menuButton}>
+              첫화면
+            </Fab>
+          </Link>
         </Toolbar>
       </AppBar>
       <div className={classes.menuContext}>

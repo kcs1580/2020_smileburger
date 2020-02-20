@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitle2: {
     backgroundColor: "red",
-    width: "900px",
+    // width: "900px",
     height: 69,
     color: "white",
     padding: 0
@@ -176,7 +176,7 @@ const BurgerMoal = ({
         </DialogTitle>
         <DialogContent className={classes.dialogBody1}>
           <img src={burger.pimgurl} alt={burger.pname} className={classes.img} />
-          <Typography component="h6" variant="h3" className={classes.details}>
+          <Typography component="h6" variant="h4" className={classes.details}>
             {/* <p>조리시간: {burger.cooking_time}분</p> */}
             {burger.pdesc}
           </Typography>
@@ -188,12 +188,12 @@ const BurgerMoal = ({
               variant="contained"
               onClick={handleClickOpenSingle}
             >
-              <Typography variant="h3">단품: {burger.pprice}</Typography>
+              <Typography variant="h4">단품: {burger.pprice}</Typography>
             </Button>
           </Grid>
           <Grid item xs={6} className={classes.btnPosition}>
             <Button className={classes.btnSet} variant="contained" onClick={handleClickOpenSet}>
-              <Typography variant="h3">세트: {burgerSetPrice}</Typography>
+              <Typography variant="h4">세트: {burgerSetPrice}</Typography>
             </Button>
           </Grid>
         </Grid>
@@ -220,10 +220,8 @@ const BurgerMoal = ({
         </DialogTitle>
         <DialogContent dividers className={classes.dialogBody2}>
           <img src={burger.pimgurl} alt={burger.pname} className={classes.img} />
-          <Typography component="h3" variant="h3" className={classes.details}>
-            {/* <p>조리시간: {burger.cooking_time}분</p> */}
-            <p>{burger.pdesc}</p>
-            <p></p>
+          <Typography component="h4" variant="h3" className={classes.details}>
+            {burger.pdesc}
           </Typography>
         </DialogContent>
         <Grid container>

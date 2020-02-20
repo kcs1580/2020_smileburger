@@ -13,10 +13,13 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Webcam from "react-webcam";
 import Order from "../../pages/customer/kiosk-order";
+import gif from "./cuty_burger.gif";
+
 var AWS = require("aws-sdk");
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -36,7 +39,7 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: url(https://ssafy-kiosk-menu-images.s3.ap-northeast-2.amazonaws.com/main/mainImage.jpg);
+  background: url(https://ssafy-kiosk-menu-images.s3.ap-northeast-2.amazonaws.com/main/mainImage_opacity50.jpg.png);
   background-size: cover;
 `;
 const videoConstraints = {
@@ -85,6 +88,7 @@ const AuthPage = props => {
   const [backdrop, setBackdrop] = React.useState(false);
   const [gotoOrder, setGotoOrder] = React.useState(false);
   const [gotoMain, setGotoMain] = React.useState(false);
+  const [isGrandParents, setIsGrandParents] = React.useState(false);
   var curImg;
   function handleGotoMainPage() {
     setGotoMain(true);
@@ -273,13 +277,17 @@ const AuthPage = props => {
         console.log(err);
       } else {
         // console.log(data.FaceDetails[0].Smile);
-        var smile = data.FaceDetails[0].Smile;
+        //var smile = data.FaceDetails[0].Smile;
         // console.log(smile.Value);
         console.log("인식된 얼굴 전부 출력");
         console.log(data.FaceDetails);
         //반복문 전부 돌면서 한명이라도 웃고 있으면 이제 faceSearchByImage.
         data.FaceDetails.some(p => {
-          if (p.Smile.Value === true) {
+          if (p.AgeRange.High >= 50) {
+            console.log("할아버지 오셨어요 ㅠㅠ");
+            setIsGrandParents(true);
+            return true;
+          } else if (p.Smile.Value === true) {
             setIssmile(true);
             onTimeout();
             return p.Smile.Value === true;
@@ -312,7 +320,9 @@ const AuthPage = props => {
       setNewFace(true);
     }
   }, [isMatched]);
-
+  if (isGrandParents) {
+    return <Redirect to="/Childkiosk" />;
+  }
   if (isMatched || gotoOrder) {
     return <Redirect to="/order" />;
   }
@@ -323,17 +333,20 @@ const AuthPage = props => {
   return (
     <Container>
       <Layout>
-        <Webcam
-          audio={false}
-          // height={400}
-          ref={webcamRef}
-          screenshotFormat="image/jpeg"
-          width={"100%"}
-          videoConstraints={videoConstraints}
-          onClick={capture}
-        />
+        <Paper style={{ backgroundColor: "#333333" }}>
+          <Webcam
+            style={{ marginTop: 200, marginBottom: 40 }}
+            audio={false}
+            // height={400}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            width={"91%"}
+            videoConstraints={videoConstraints}
+            onClick={capture}
+          />
+        </Paper>
         <br></br>
-
+        <img src={gif} alt="웃어 주세요 gif 파일" style={{ marginTop: 100 }} />
         <Backdrop className={classes.backdrop} open={backdrop} onClick={handleCloseBackdrop}>
           <CircularProgress color="inherit" />
         </Backdrop>

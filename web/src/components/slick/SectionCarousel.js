@@ -18,7 +18,7 @@ import styles from "./carouselStyle.js";
 
 const useStyles = makeStyles(theme => ({
   section: {
-    marginTop: 900
+    marginTop: 90
   }
 }));
 
@@ -35,7 +35,7 @@ export default function SectionCarousel() {
     autoplaySpeed: 2000
   };
   return (
-    <Carousel {...settings} style={{ marginTop: 950 }}>
+    <Carousel {...settings} className={classes.section}>
       <div>
         <img src={image1} alt="First slide" className="slick-image" />
       </div>

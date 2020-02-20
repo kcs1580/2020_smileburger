@@ -49,27 +49,38 @@ const Payment = ({ orderList, setOrderList, waitingNum, setState }) => {
   };
 
   return (
-    <Grid item xs={3} style={{ height: 600, padding: 20 }}>
-      <Typography>주문수량</Typography>
-      <Paper className={classes.paper}>{totalCnt}</Paper>
-      <Typography>주문금액</Typography>
-      <Paper className={classes.paper}>{totalPrice}</Paper>
-      <div>
+    <Grid item xs={3} style={{ height: 500, padding: 20 }}>
+      <Typography variant="h4" style={{ margin: 20 }}>
+        주문수량
+      </Typography>
+      <Paper className={classes.paper}>
+        <Typography variant="h3" style={{ margin: 10 }}>
+          {totalCnt}
+        </Typography>
+      </Paper>
+      <Typography variant="h4" style={{ margin: 20 }}>
+        주문금액
+      </Typography>
+
+      <Paper className={classes.paper}>
+        <Typography variant="h3" style={{ margin: 10 }}>
+          {" "}
+          {totalPrice}
+        </Typography>
+      </Paper>
+      <div style={{ marginTop: 20, marginBottom: 20 }}>
         <Button className={classes.btnCancel} onClick={cancelAll}>
-          전체취소
+          <Typography variant="h4" style={{ margin: 10 }}>
+            전체취소
+          </Typography>
         </Button>
+
+        <PaymentModal
+          className={classes.btnPayment}
+          orderList={orderList}
+          waitingNum={waitingNum}
+        />
       </div>
-      <PaymentModal className={classes.btnPayment} orderList={orderList} waitingNum={waitingNum} />
-      <Grid contatiner="contatiner" style={{ marginTop: 10, fontSize: 40 }}>
-        <Grid item xs={12}>
-          장바구니
-          <br />
-          닫기
-        </Grid>
-        <Grid item xs={12}>
-          <Icon onClick={() => { setState({ bottom: false }) }} style={{ top: 0, fontSize: 100 }}>cancel</Icon>
-        </Grid>
-      </Grid>
     </Grid>
   );
 };

@@ -31,13 +31,12 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitle: {
     backgroundColor: "#f50057",
-    width: "840px",
     height: 69,
     color: "white",
     padding: 0
   },
   dialogBody: {
-    width: "840px"
+    // width: "840px"
   },
   titleCss: {
     position: "absolute",
@@ -206,7 +205,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
                 {orderList.map(order => {
                   return (
                     <TableRow key={order.id}>
-                      <TableCell>
+                      <TableCell style={{ fontSize: 25 }}>
                         {order.contents.map((content, idx) => {
                           if (idx === order.contents.length - 1) {
                             return content;
@@ -215,8 +214,12 @@ const PaymentModal = ({ orderList, waitingNum }) => {
                           }
                         })}
                       </TableCell>
-                      <TableCell style={{ textAlign: "center" }}>{order.cnt}</TableCell>
-                      <TableCell style={{ textAlign: "center" }}>{order.price}</TableCell>
+                      <TableCell style={{ textAlign: "center", fontSize: 25 }}>
+                        {order.cnt}
+                      </TableCell>
+                      <TableCell style={{ textAlign: "center", fontSize: 25 }}>
+                        {order.price}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -263,7 +266,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
         maxWidth="xl"
       >
         <DialogContent>
-          <Typography variant="h3">대기번호: {waitingNum}</Typography>
+          <Typography variant="h2">대기번호: {waitingNum}</Typography>
         </DialogContent>
       </Dialog>
     </div>

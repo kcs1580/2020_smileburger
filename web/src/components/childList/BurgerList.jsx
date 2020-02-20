@@ -5,7 +5,7 @@ import BurgerModal from "./BurgerModal";
 
 const useStyles = makeStyles(theme => ({
   cardGrid: {
-    paddingTop: theme.spacing(8),
+    paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(8)
   },
 
@@ -51,7 +51,7 @@ const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages, requests 
       className={classes.cardGrid}
       maxWidth="md"
       style={{
-        height: "1400px",
+        height: "1062px",
         overflow: "auto"
       }}
     >

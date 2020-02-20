@@ -30,7 +30,7 @@ const socket = socketio.connect("http://localhost:3001");
 
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
-  socket.emit("Front2Back", { data: "data" });
+  console.log("manager hi");
   // console.log("h2");
 })();
 
@@ -73,64 +73,73 @@ const Content = () => {
   const [pageidx, setPageidx] = useState(0);
   const [orders, setOrder] = useState([]);
 
-  socket.on("Back2Front", data => {
+  socket.on("recMsg", data => {
     const tempCntList = [];
     const tempOrderDetailList = [];
-
-    data.map(order => {
-      // console.log(order)
-      let totalCnt = [];
-      // 주문 수량
-      order.ocontent.split("cnt").map((el, idx) => {
-        if (idx !== 0) {
-          totalCnt.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf(","))));
-        }
-      });
-      tempCntList.push(totalCnt);
-      // console.log(tempCntList)
-
-      // 주문내용
-      let eachOrderDetail = [];
-      const tempList = order.ocontent.split("contents");
-      tempList.map((el, idx) => {
-        if (idx !== 0) {
-          const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
-
-          let tempOrderDetail = [];
-          tempString.map((string, sIdx) => {
-            if (sIdx % 2 === 1) {
-              tempOrderDetail.push(string);
+    const ord = [];
+    axios
+      .get("http://localhost:3001/getinOrders")
+      .then(res => {
+        // console.log(res.data);
+        res.data.map(order => {
+          console.log(order);
+          const id = order.oid;
+          // console.log(order)
+          let totalCnt = [];
+          // 주문 수량
+          order.ocontent.split("cnt").map((el, idx) => {
+            if (idx !== 0) {
+              totalCnt.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf(","))));
             }
           });
-          eachOrderDetail.push(tempOrderDetail);
-        }
-      });
+          tempCntList.push(totalCnt);
+          // console.log(tempCntList);
 
-      tempOrderDetailList.push(eachOrderDetail);
-    });
+          // 주문내용
+          let eachOrderDetail = [];
+          const tempList = order.ocontent.split("contents");
+          tempList.map((el, idx) => {
+            if (idx !== 0) {
+              const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
 
-    // console.log(tempCntList)
-    // console.log(tempOrderDetailList)
+              let tempOrderDetail = [];
+              tempString.map((string, sIdx) => {
+                if (sIdx % 2 === 1) {
+                  tempOrderDetail.push(string);
+                }
+              });
+              eachOrderDetail.push(tempOrderDetail);
+            }
+          });
 
-    const ord = [];
-    for (var i = 0; i < tempOrderDetailList.length; i++) {
-      const tempMenuList = [];
-      for (var j = 0; j < tempOrderDetailList[i].length; j++) {
-        tempMenuList.push({
-          menu: tempOrderDetailList[i][j].join(" / "),
-          cnt: tempCntList[i][j]
+          tempOrderDetailList.push(eachOrderDetail);
+          // console.log(tempOrderDetailList);
+
+          for (var i = 0; i < tempOrderDetailList.length; i++) {
+            const tempMenuList = [];
+            for (var j = 0; j < tempOrderDetailList[i].length; j++) {
+              tempMenuList.push({
+                menu: tempOrderDetailList[i][j].join(" / "),
+                cnt: tempCntList[i][j]
+              });
+            }
+
+            ord.push({
+              oid: order.oid,
+              orderNum: order.owaitingNum,
+              contents: tempMenuList,
+              isready: order.isready,
+              type: order.otype
+            });
+          }
         });
-      }
-      // console.log(data[i].owaitingNum)
-      ord.push({
-        oid: data[i].oid,
-        orderNum: data[i].owaitingNum,
-        contents: tempMenuList,
-        isready: data[i].isready,
-        type: data[i].otype
+
+        setOrder(ord);
+      })
+      .catch(err => {
+        console.log(err);
       });
-    }
-    setOrder(ord);
+
     // console.log(ord)
   });
 
@@ -141,8 +150,8 @@ const Content = () => {
         // .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
         .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
         .then(res => {
-          socket.emit("Front2Back", { data: "data" });
-          socket.emit("recMsg", { data: "data" });
+          socket.emit("joinRoom", { data: "data" });
+          //socket.emit("recMsg", { data: "data" });
           // console.log("update success")
           // console.log(res);
         });
@@ -152,8 +161,8 @@ const Content = () => {
         // .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
         .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
         .then(res => {
-          socket.emit("Front2Back", { data: "data" });
-          socket.emit("recMsg", { data: "data" });
+          socket.emit("joinRoom", { data: "data" });
+          // socket.emit("recMsg", { data: "data" });
           // console.log(res);
         });
     }

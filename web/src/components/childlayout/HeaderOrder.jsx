@@ -11,7 +11,9 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     height: "6rem",
     width: "6rem",
-    fontSize: "30px"
+    fontSize: "30px",
+    color: "#3f51b5",
+    backgroundColor: "whitesmoke"
   },
   title: {
     flexGrow: 1
@@ -29,13 +31,13 @@ const HeaderOrder = props => {
         }}
       >
         <Typography
-          variant="h6"
+          variant="h3"
           className={classes.title}
           style={{
             textAlign: "center"
           }}
         >
-          Head-Order
+          안녕하세요 스마일 버거 입니다.
         </Typography>
         <Link
           to="/auth"
