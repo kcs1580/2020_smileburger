@@ -126,7 +126,7 @@ const OrderList = ({ orderList, setOrderList }) => {
                 return (
                   <TableRow key={order.id}>
                     {/* 제품목록 보여주는 cell */}
-                    <TableCell>
+                    <TableCell style={{ fontSize: 25 }}>
                       {order.contents.map((content, idx) => {
                         if (idx === order.contents.length - 1) {
                           return content;
@@ -136,7 +136,7 @@ const OrderList = ({ orderList, setOrderList }) => {
                       })}
                     </TableCell>
                     {/* 제품수량 보여주는 cell */}
-                    <TableCell style={{ textAlign: "center" }}>
+                    <TableCell style={{ textAlign: "center", fontSize: 25 }}>
                       <IndeterminateCheckBox
                         style={{ color: "red" }}
                         onClick={() => decCnt(order.id)}
@@ -145,7 +145,7 @@ const OrderList = ({ orderList, setOrderList }) => {
                       <AddBox style={{ color: "red" }} onClick={() => incCnt(order.id)} />
                     </TableCell>
                     {/* 제품가격 보여주는 cell */}
-                    <TableCell style={{ textAlign: "center" }}>
+                    <TableCell style={{ textAlign: "center", fontSize: 25 }}>
                       {order.price}
                       <Close style={{ color: "red" }} onClick={() => deleteList(order.id)} />
                     </TableCell>
