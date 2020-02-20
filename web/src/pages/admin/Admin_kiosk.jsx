@@ -21,11 +21,11 @@ function createData(id, date, name, shipTo, paymentMethod, amount) {
 
 
 const rows = [
-    createData(0, '16 Mar, 2020', '강민준점', '서울 아이동', '3475-3945', 312.44),
-    createData(1, '26 Mar, 2019', '김상돈점', '광주 오이동', '2346-2574', 866.99),
-    createData(2, '08 Mar, 2017', '김태환점', '부산 우이동', '3453-2456', 100.81),
-    createData(3, '16 Mar, 2012', '방준영점', '대구 오에동', '1152-5343', 654.39),
-    createData(4, '15 Mar, 2010', '김창수점', '대전 이아동', '3456-3544', 212.79),
+    createData(0, '16 Mar, 2020', '강민준점', '서울 아이동', '3475-3945'),
+    createData(1, '26 Mar, 2019', '김상돈점', '광주 오이동', '2346-2574'),
+    createData(2, '08 Mar, 2017', '김태환점', '부산 우이동', '3453-2456'),
+    createData(3, '16 Mar, 2012', '방준영점', '대구 오에동', '1152-5343'),
+    createData(4, '15 Mar, 2010', '김창수점', '대전 이아동', '3456-3544'),
 ];
 
 function preventDefault(event) {
@@ -84,7 +84,6 @@ export default function Orders() {
                                         <TableCell>매장명</TableCell>
                                         <TableCell>위치</TableCell>
                                         <TableCell>모델번호</TableCell>
-                                        <TableCell align="right">총매출</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -94,7 +93,6 @@ export default function Orders() {
                                             <TableCell>{row.name}</TableCell>
                                             <TableCell>{row.shipTo}</TableCell>
                                             <TableCell>{row.paymentMethod}</TableCell>
-                                            <TableCell align="right">{row.amount}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

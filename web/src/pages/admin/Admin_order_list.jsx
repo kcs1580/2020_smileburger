@@ -86,8 +86,6 @@ function Admin_order_list() {
             />
             <h1 align="center">주문 목록</h1>
             <br></br>
-            <BoardForm selectedBoard={state.selectedBoard} onSaveData={handleSaveData} />
-            <br></br>
             <table border="2" align="center">
                 <tbody>
                     <tr>

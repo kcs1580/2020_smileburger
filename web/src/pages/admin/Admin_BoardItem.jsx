@@ -31,8 +31,8 @@ function BoardRow(props) {
             .catch(err => console.log(err + "\n Admin_BoardItem의 useEffect에서 에러가 나는군"))
         console.log("**#@Admin_BoardItem에서 useEffect가 작동했어!@#**");
     }, [refresh]);
-    const tempOrderDetailList = [];
 
+    const tempOrderDetailList = [];
     // 주문내용
     for (var i = 0; i < orderListUnit.length; i++) {
         let eachOrderDetail = [];
@@ -51,7 +51,20 @@ function BoardRow(props) {
             }
         });
         tempOrderDetailList.push(eachOrderDetail);
-        // console.log(tempOrderDetailList)
+    }
+
+    const tempOrderDetaiPrice = [];
+    // 가격
+    for (var i = 0; i < orderListUnit.length; i++) {
+        let AllPrice = 0;
+        const tempList = orderListUnit[i].ocontent.split("contents");
+        tempList.map((el, idx) => {
+            if (idx !== 0) {
+                const tempString = el.slice(el.indexOf("price\":") + 7, el.indexOf("}"));
+                AllPrice += Number(tempString);
+            }
+        });
+        tempOrderDetaiPrice.push(AllPrice);
     }
 
     const Tablelist = orderListUnit.map((order, idx) => {
@@ -60,7 +73,7 @@ function BoardRow(props) {
                 <td width="60">{order.oid}</td>
                 <td width="60">{order.otype}</td>
                 <td width="500">{tempOrderDetailList[idx].join(' / ')}</td>
-                <td width="100">{order.price}</td>
+                <td width="100">{tempOrderDetaiPrice[idx]}</td>
                 <td width="200">{order.odate}</td>
             </tr>
         )
@@ -70,24 +83,6 @@ function BoardRow(props) {
         <>
             {Tablelist}
         </>
-        // <div>
-        //     {
-        //         orderListUnit.map(order => ({
-
-        //         }
-        //             <tr>
-        //                 <tb>
-        //                     {order.oid}
-        //                 </tb>
-        //             </tr>
-        //             <tr>
-        //                 <tb>
-        //                     {order.otype}
-        //                 </tb>
-        //             </tr>
-        //         ))
-        //     }
-        // </div>
     );
 };
 
