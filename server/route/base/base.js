@@ -39,7 +39,9 @@ app.get("/adminOrderList", async (req, res) => {
 });
 /////////////////////////////////e
 
-app.get("/", async function(req, res) {});
+app.get("/", function(req, res) {
+  res.send("Hello Vote On~");
+});
 
 app.get("/test/", function(req, res) {
   var data = req.query.data;

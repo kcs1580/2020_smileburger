@@ -70,14 +70,14 @@ const Content = () => {
   const socket = socketio.connect("http://13.124.177.255:3001");
 
   // const socket = socketio.connect("http://13.124.177.255:3001");
-
   useEffect(() => {
     socket.emit("joinRoom", { roomName: "myroom" });
     console.log("joinroom done");
-  }, []);
+  }, [orders]);
 
   socket.on("recMsg", data => {
     const ord = [];
+
     axios
       .get("http://13.124.177.255:3001/getinOrders")
       .then(res => {

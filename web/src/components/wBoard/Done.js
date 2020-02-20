@@ -29,14 +29,14 @@ const useStyles = makeStyles(theme => ({
 
 const Done = () => {
   const socket = socketio.connect("http://13.124.177.255:3001");
+  const [li, setLi] = useState([]);
 
   useEffect(() => {
     socket.emit("joinRoom", { roomName: "myroom" });
     console.log("joinroom done");
-  }, []);
+  }, [li]);
   const classes = useStyles();
 
-  const [li, setLi] = useState([]);
   // const list = li.map(nu2 => <div>{nu2}</div>)
   // ---------------
 
