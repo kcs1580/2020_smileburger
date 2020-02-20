@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -20,19 +20,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
-// const socket = socketio.connect("http://localhost:3001");
+// const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 
-(() => {
-  socket.emit("joinRoom", { roomName: "myroom" });
-  console.log("hi");
-})();
+// (() => {
+//   socket.emit("joinRoom", { roomName: "myroom" });
+//   console.log("joinroom done");
+// })();
 
 const Done = () => {
+  const socket = socketio.connect("http://13.124.177.255:3001");
+
+  useEffect(() => {
+    socket.emit("joinRoom", { roomName: "myroom" });
+    console.log("joinroom done");
+  }, []);
   const classes = useStyles();
 
   const [li, setLi] = useState([]);
-  const [num, setNum] = useState(0);
   // const list = li.map(nu2 => <div>{nu2}</div>)
   // ---------------
 
@@ -42,8 +46,8 @@ const Done = () => {
 
   socket.on("recMsg", data => {
     console.log("메세지 받았따");
-    Axios.get("http://i02c103.p.ssafy.io:3001/getredNumbers")
-      // Axios.get("http://localhost:3001/getredNumbers")
+    // Axios.get("http://i02c103.p.ssafy.io:3001/getredNumbers")
+    Axios.get("http://13.124.177.255:3001/getredNumbers")
       .then(res => {
         console.log(res.data);
         const li2 = [];
@@ -60,7 +64,7 @@ const Done = () => {
       });
   });
 
-  const getList = () =>
+  const GetList = () =>
     li.map((nu2, idx) => {
       return (
         <Grid item xs={6} key={idx}>
@@ -73,13 +77,12 @@ const Done = () => {
       );
     });
 
-  const list = useMemo(() => getList(), [li]);
-  socket.emit();
+  // socket.emit();
 
   return (
     <div className={classes.root}>
       <Grid container spacing={5}>
-        {list}
+        <GetList />
       </Grid>
     </div>
   );

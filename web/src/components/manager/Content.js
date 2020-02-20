@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
@@ -25,14 +25,9 @@ const StyledBadge = withStyles(theme => ({
   }
 }))(Badge);
 
-const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
-// const socket = socketio.connect("http://localhost:3001");
-
-(() => {
-  socket.emit("joinRoom", { roomName: "myroom" });
-  socket.emit("Front2Back", { data: "data" });
-  // console.log("h2");
-})();
+// const socket = socketio.connect("http://i02c103.p.ssafy.io:3001"); (() => {
+// socket.emit("joinRoom", { roomName: "myroom" });   console.log("manager hi");
+// console.log("h2"); })();
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -71,66 +66,81 @@ const useStyles = makeStyles(theme => ({
 const Content = () => {
   const classes = useStyles();
   const [pageidx, setPageidx] = useState(0);
-  const [orders, setOrder] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const socket = socketio.connect("http://13.124.177.255:3001");
 
-  socket.on("Back2Front", data => {
-    const tempCntList = [];
-    const tempOrderDetailList = [];
+  // const socket = socketio.connect("http://13.124.177.255:3001");
 
-    data.map(order => {
-      // console.log(order)
-      let totalCnt = [];
-      // 주문 수량
-      order.ocontent.split("cnt").map((el, idx) => {
-        if (idx !== 0) {
-          totalCnt.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf(","))));
-        }
-      });
-      tempCntList.push(totalCnt);
-      // console.log(tempCntList)
+  useEffect(() => {
+    socket.emit("joinRoom", { roomName: "myroom" });
+    console.log("joinroom done");
+  }, []);
 
-      // 주문내용
-      let eachOrderDetail = [];
-      const tempList = order.ocontent.split("contents");
-      tempList.map((el, idx) => {
-        if (idx !== 0) {
-          const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
-
-          let tempOrderDetail = [];
-          tempString.map((string, sIdx) => {
-            if (sIdx % 2 === 1) {
-              tempOrderDetail.push(string);
+  socket.on("recMsg", data => {
+    const ord = [];
+    axios
+      .get("http://13.124.177.255:3001/getinOrders")
+      .then(res => {
+        console.log(res.data);
+        res.data.map(order => {
+          const tempCntList = [];
+          const tempOrderDetailList = [];
+          // console.log(order);
+          const id = order.oid;
+          // console.log(order)
+          let totalCnt = [];
+          // 주문 수량
+          order.ocontent.split("cnt").map((el, idx) => {
+            if (idx !== 0) {
+              totalCnt.push(Number(el.slice(el.indexOf(":") + 1, el.indexOf(","))));
             }
           });
-          eachOrderDetail.push(tempOrderDetail);
-        }
-      });
+          tempCntList.push(totalCnt);
+          // console.log(tempCntList); 주문내용
+          let eachOrderDetail = [];
+          const tempList = order.ocontent.split("contents");
+          tempList.map((el, idx) => {
+            if (idx !== 0) {
+              const tempString = el.slice(el.indexOf("[") + 1, el.indexOf("]")).split('"');
 
-      tempOrderDetailList.push(eachOrderDetail);
-    });
+              let tempOrderDetail = [];
+              tempString.map((string, sIdx) => {
+                if (sIdx % 2 === 1) {
+                  tempOrderDetail.push(string);
+                }
+              });
+              eachOrderDetail.push(tempOrderDetail);
+            }
+          });
+          // console.log(eachOrderDetail);
+          tempOrderDetailList.push(eachOrderDetail);
+          // console.log(tempOrderDetailList);
 
-    // console.log(tempCntList)
-    // console.log(tempOrderDetailList)
+          for (var i = 0; i < tempOrderDetailList.length; i++) {
+            const tempMenuList = [];
+            for (var j = 0; j < tempOrderDetailList[i].length; j++) {
+              tempMenuList.push({
+                menu: tempOrderDetailList[i][j].join(" / "),
+                cnt: tempCntList[i][j]
+              });
+            }
 
-    const ord = [];
-    for (var i = 0; i < tempOrderDetailList.length; i++) {
-      const tempMenuList = [];
-      for (var j = 0; j < tempOrderDetailList[i].length; j++) {
-        tempMenuList.push({
-          menu: tempOrderDetailList[i][j].join(" / "),
-          cnt: tempCntList[i][j]
+            ord.push({
+              oid: order.oid,
+              orderNum: order.owaitingNum,
+              contents: tempMenuList,
+              isready: order.isready,
+              type: order.otype
+            });
+          }
         });
-      }
-      // console.log(data[i].owaitingNum)
-      ord.push({
-        oid: data[i].oid,
-        orderNum: data[i].owaitingNum,
-        contents: tempMenuList,
-        isready: data[i].isready,
-        type: data[i].otype
+        console.log(ord);
+        setOrders(ord);
+      })
+      .catch(err => {
+        console.log(err);
       });
-    }
-    setOrder(ord);
+
     // console.log(ord)
   });
 
@@ -138,28 +148,35 @@ const Content = () => {
     if (order.isready === "0") {
       order.isready = "1";
       axios
-        .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
-        // .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
+        // .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid:
+        // order.oid } })
+        .get("http://13.124.177.255:3001/ready2complete", {
+          params: {
+            oid: order.oid
+          }
+        })
         .then(res => {
-          socket.emit("Front2Back", { data: "data" });
-          socket.emit("recMsg", { data: "data" });
-          // console.log("update success")
+          socket.emit("joinRoom", { roomName: "myroom" });
+          // socket.emit("recMsg", { data: "data" }); console.log("update success")
           // console.log(res);
         });
     } else if (order.isready === "1") {
       order.isready = "2";
       axios
-        .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
-        // .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
+        // .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid:
+        // order.oid } })
+        .get("http://13.124.177.255:3001/complete2out", {
+          params: {
+            oid: order.oid
+          }
+        })
         .then(res => {
-          socket.emit("Front2Back", { data: "data" });
-          socket.emit("recMsg", { data: "data" });
-          // console.log(res);
+          socket.emit("joinRoom", { roomName: "myroom" });
+          // socket.emit("recMsg", { data: "data" }); console.log(res);
         });
     }
 
-    // console.log(order);
-    // console.log(order.oid);
+    // console.log(order); console.log(order.oid);
   };
 
   let temporder = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -180,7 +197,7 @@ const Content = () => {
       const MenuHTML = order.contents.map((menuidx, idx) => {
         return (
           <h5 key={idx}>
-            {menuidx.menu} X {menuidx.cnt}
+            {menuidx.menu}X {menuidx.cnt}
           </h5>
         );
       });
@@ -201,8 +218,7 @@ const Content = () => {
                   <Typography variant="h2" color="textSecondary" align="center">
                     {order.orderNum}
                   </Typography>
-                  <hr />
-                  {MenuHTML}
+                  <hr /> {MenuHTML}
                   {/* <h3>{order.itemList.menu}</h3> */}
                   {/* <h4>{order.itemList.ea}</h4> */}
                 </CardContent>
@@ -224,8 +240,7 @@ const Content = () => {
                 <Typography variant="h2" color="textSecondary" align="center">
                   {order.orderNum}
                 </Typography>
-                <hr />
-                {MenuHTML}
+                <hr /> {MenuHTML}
                 {/* <h3>{order.itemList.menu}</h3> */}
                 {/* <h4>{order.itemList.ea}</h4> */}
               </CardContent>
@@ -248,8 +263,7 @@ const Content = () => {
                   <Typography variant="h2" color="textSecondary" align="center">
                     {order.orderNum}
                   </Typography>
-                  <hr />
-                  {MenuHTML}
+                  <hr /> {MenuHTML}
                   {/* <h3>{order.itemList.menu}</h3> */}
                   {/* <h4>{order.itemList.ea}</h4> */}
                 </CardContent>
@@ -271,8 +285,7 @@ const Content = () => {
                 <Typography variant="h2" color="textSecondary" align="center">
                   {order.orderNum}
                 </Typography>
-                <hr />
-                {MenuHTML}
+                <hr /> {MenuHTML}
                 {/* <h3>{order.itemList.menu}</h3> */}
                 {/* <h4>{order.itemList.ea}</h4> */}
               </CardContent>
@@ -286,11 +299,13 @@ const Content = () => {
   const orderList = idx => {
     return (
       <>
+        {" "}
         <Grid container justify="space-between">
-          {orderCard.slice((idx - 1) * 8 + 0, (idx - 1) * 8 + 4)}
+          {" "}
+          {orderCard.slice((idx - 1) * 8 + 0, (idx - 1) * 8 + 4)}{" "}
         </Grid>
-        <br />
-        <Grid container justify="space-between">
+        <br />{" "}
+        <Grid container="container" justify="space-between">
           {orderCard.slice((idx - 1) * 8 + 4, (idx - 1) * 8 + 8)}
         </Grid>
       </>
@@ -315,8 +330,8 @@ const Content = () => {
 
   return (
     <Fragment>
-      <Grid container>
-        <Grid item xs={1} container justify="center" alignItems="center">
+      <Grid container="container">
+        <Grid item="item" xs={1} container="container" justify="center" alignItems="center">
           <Button
             variant="contained"
             onClick={() => {
@@ -326,10 +341,10 @@ const Content = () => {
             <ArrowBackIcon />
           </Button>
         </Grid>
-        <Grid item xs={10}>
+        <Grid item="item" xs={10}>
           {orderList(pageidx + 1)}
         </Grid>
-        <Grid item xs={1} container justify="center" alignItems="center">
+        <Grid item="item" xs={1} container="container" justify="center" alignItems="center">
           <Button
             variant="contained"
             onClick={() => {
@@ -340,7 +355,7 @@ const Content = () => {
           </Button>
         </Grid>
       </Grid>
-      <Grid container justify="center">
+      <Grid container="container" justify="center">
         {/* <Button variant="contained" onClick={() => { testinput() }}> 데이터 삽입</Button> */}
         <Pagination
           limit={1}

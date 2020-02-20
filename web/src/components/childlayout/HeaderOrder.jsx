@@ -40,7 +40,7 @@ const HeaderOrder = props => {
           안녕하세요 스마일 버거 입니다.
         </Typography>
         <Link
-          to="/"
+          to="/auth"
           style={{
             textDecoration: "none"
           }}

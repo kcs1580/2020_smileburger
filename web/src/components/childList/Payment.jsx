@@ -49,7 +49,7 @@ const Payment = ({ orderList, setOrderList, waitingNum, setState }) => {
   };
 
   return (
-    <Grid item xs={3} style={{ height: 600, padding: 20 }}>
+    <Grid item xs={3} style={{ height: 500, padding: 20 }}>
       <Typography variant="h4" style={{ margin: 20 }}>
         주문수량
       </Typography>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -19,18 +19,17 @@ const useStyles = makeStyles(theme => ({
     borderBottom: "solid"
   }
 }));
-const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
-// const socket = socketio.connect("http://localhost:3001");
-
-(() => {
-  socket.emit("joinRoom", { roomName: "myroom" });
-  console.log("hi");
-})();
+// const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
 
 const Waiting = () => {
+  const socket = socketio.connect("http://13.124.177.255:3001");
+  useEffect(() => {
+    socket.emit("joinRoom", { roomName: "myroom" });
+    console.log("joinroom done");
+  }, []);
+
   const classes = useStyles();
   const [li, setLi] = useState([]);
-  const [num, setNum] = useState(0);
   // const list = li.map(nu2 => <div>{nu2}</div>)
   // ---------------
 
@@ -40,8 +39,8 @@ const Waiting = () => {
 
   socket.on("recMsg", data => {
     console.log("메세지 받았따");
-    Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
-      // Axios.get("http://localhost:3001/getpreNumbers")
+    // Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
+    Axios.get("http://13.124.177.255:3001/getpreNumbers")
       .then(res => {
         console.log(res.data);
         const li2 = [];
@@ -58,24 +57,25 @@ const Waiting = () => {
       });
   });
 
-  const getList = () =>
+  const GetList = () =>
     li.map((nu2, idx) => {
       return (
         <Grid item xs={4} key={idx}>
           <Paper className={classes.paper}>
-            <span className={classes.papercontent}>{nu2}</span>
+            <span className={classes.papercontent} style={{ fontSize: "80px" }}>
+              {nu2}
+            </span>
           </Paper>
         </Grid>
       );
     });
 
-  const list = useMemo(() => getList(), [li]);
-  socket.emit();
+  // socket.emit();
 
   return (
     <div className={classes.root}>
       <Grid container spacing={5}>
-        {list}
+        <GetList />
       </Grid>
     </div>
   );
