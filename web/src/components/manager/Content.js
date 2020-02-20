@@ -25,8 +25,8 @@ const StyledBadge = withStyles(theme => ({
   }
 }))(Badge);
 
-// const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
-const socket = socketio.connect("http://localhost:3001");
+const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
+// const socket = socketio.connect("http://localhost:3001");
 
 (() => {
   socket.emit("joinRoom", { roomName: "myroom" });
@@ -138,8 +138,8 @@ const Content = () => {
     if (order.isready === "0") {
       order.isready = "1";
       axios
-        // .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
-        .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
+        .get("http://i02c103.p.ssafy.io:3001/ready2complete", { params: { oid: order.oid } })
+        // .get("http://localhost:3001/ready2complete", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
           socket.emit("recMsg", { data: "data" });
@@ -149,8 +149,8 @@ const Content = () => {
     } else if (order.isready === "1") {
       order.isready = "2";
       axios
-        // .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
-        .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
+        .get("http://i02c103.p.ssafy.io:3001/complete2out", { params: { oid: order.oid } })
+        // .get("http://localhost:3001/complete2out", { params: { oid: order.oid } })
         .then(res => {
           socket.emit("Front2Back", { data: "data" });
           socket.emit("recMsg", { data: "data" });
