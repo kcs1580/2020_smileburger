@@ -51,7 +51,7 @@ const BurgerList = ({ setOrder, burgers, burgerSets, sides, beverages, requests 
       className={classes.cardGrid}
       maxWidth="md"
       style={{
-        height: "1400px",
+        height: "1100px",
         overflow: "auto"
       }}
     >

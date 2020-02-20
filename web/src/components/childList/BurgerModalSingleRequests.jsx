@@ -143,7 +143,7 @@ const BurgerModalSingleRequests = props => {
       <Grid container>
         <Grid item xs={1} style={{ background: red[500] }}></Grid>
         <Grid item xs={11} style={{ background: red[100] }}>
-          요청사항
+          <Typography variant="h4">요청사항</Typography>
         </Grid>
       </Grid>
       <Grid container style={{ margin: 0, width: 900, padding: 20 }}>
