@@ -163,7 +163,7 @@ const ProductModal = ({ product, setOrder }) => {
         </DialogTitle>
         <DialogContent className={classes.dialogBody1}>
           <img src={product.pimgurl} alt={product.pname} className={classes.img} />
-          <Typography component="h3" variant="h3" className={classes.details}>
+          <Typography component="h3" variant="h4" className={classes.details}>
             {product.pdesc}
           </Typography>
         </DialogContent>

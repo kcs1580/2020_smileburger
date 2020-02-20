@@ -71,7 +71,6 @@ const App = () => {
             <Route path="/not-found" component={NotFound} />
             <Route path="/ManagerMain" component={ManagerMain} />
             <Route path="/Admin" component={Admin_order_list} />
-            {/* <Route path="/sockettest" component={sockettest} /> */}
             <Route path="/ManagerMain" component={ManagerMain} />
             <Route path="/Childkiosk" component={Childkiosk} />
             <Redirect to="/not-found" />
