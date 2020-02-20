@@ -1,9 +1,13 @@
 import React, { useState, useCallback } from 'react';
-import BoardForm from './Admin_BoardForm';
 import BoardItem from './Admin_BoardItem';
 import Admin_menu from './Admin_menu'
 import CheeseburgerMenu from 'cheeseburger-menu'
 import HamburgerMenu from 'react-hamburger-menu'
+import Title from './Admin_order_title';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableCell from '@material-ui/core/TableCell';
 
 function Admin_order_list() {
 
@@ -76,33 +80,40 @@ function Admin_order_list() {
             <HamburgerMenu
                 isOpen={menuOpen}
                 menuClicked={openMenu}
-                width={50}
-                height={50}
-                strokeWidth={10}
+                width={70}
+                height={70}
+                strokeWidth={15}
                 rotate={0}
-                color='blue'
+                color='#444444'
                 borderRadius={0}
                 animationDuration={0.5}
             />
-            <h1 align="center">주문 목록</h1>
-            <br></br>
-            <table border="2" align="center">
-                <tbody>
-                    <tr>
-                        <td width="60">번호</td>
-                        <td width="80">포장여부</td>
-                        <td width="500">주문건</td>
-                        <td width="100">총 금액</td>
-                        <td width="200">구매 시각</td>
-                    </tr>
-                    {
-                        state.boards.map(row =>
-                            (<BoardItem key={row.brdno} row={row} onRemove={handleRemove} onSelectRow={handleSelectRow} />)
-                        )
-                    }
+            <div align="center">
+                <Grid item xs={7} align="center">
+                    <Paper align="center">
+                        <br></br>
+                        <Title>주문 목록</Title>
+                        <br></br>
+                        <Table size="small" align="center">
+                            <tbody>
+                                <tr>
+                                    <TableCell width="70">번호</TableCell>
+                                    <TableCell width="80">포장여부</TableCell>
+                                    <TableCell width="500">주문건</TableCell>
+                                    <TableCell width="100">총 금액</TableCell>
+                                    <TableCell width="200">구매 시각</TableCell>
+                                </tr>
+                                {
+                                    state.boards.map(row =>
+                                        (<BoardItem key={row.brdno} row={row} onRemove={handleRemove} onSelectRow={handleSelectRow} />)
+                                    )
+                                }
 
-                </tbody>
-            </table>
+                            </tbody>
+                        </Table>
+                    </Paper>
+                </Grid>
+            </div>
         </div>
     );
 };

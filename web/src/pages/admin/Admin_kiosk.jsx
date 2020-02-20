@@ -63,11 +63,11 @@ export default function Orders() {
             <HamburgerMenu
                 isOpen={menuOpen}
                 menuClicked={openMenu}
-                width={50}
-                height={50}
-                strokeWidth={10}
+                width={70}
+                height={70}
+                strokeWidth={15}
                 rotate={0}
-                color='blue'
+                color='#444444'
                 borderRadius={0}
                 animationDuration={0.5}
             />

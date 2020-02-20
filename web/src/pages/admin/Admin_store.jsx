@@ -18,8 +18,6 @@ function createData(id, date, name, shipTo, paymentMethod, amount) {
     return { id, date, name, shipTo, paymentMethod, amount };
 }
 
-
-
 const rows = [
     createData(0, '16 Mar, 2020', '강민준', '서울 아이동', '010-1234-1234', 512.44),
     createData(1, '26 Mar, 2019', '김상돈', '광주 오이동', '010-1234-1234', 866.99),
@@ -63,11 +61,11 @@ export default function Orders() {
             <HamburgerMenu
                 isOpen={menuOpen}
                 menuClicked={openMenu}
-                width={50}
-                height={50}
-                strokeWidth={10}
+                width={70}
+                height={70}
+                strokeWidth={15}
                 rotate={0}
-                color='blue'
+                color='#444444'
                 borderRadius={0}
                 animationDuration={0.5}
             />

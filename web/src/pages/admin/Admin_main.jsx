@@ -37,7 +37,7 @@ const Admin_main = () => {
                     height={70}
                     strokeWidth={15}
                     rotate={0}
-                    color='blue'
+                    color='#444444'
                     borderRadius={0}
                     animationDuration={0.5}
                 />
