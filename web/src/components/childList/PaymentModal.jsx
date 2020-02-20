@@ -124,6 +124,7 @@ const PaymentModal = ({ orderList, waitingNum }) => {
     console.log(orderList);
     axios
       .get("http://i02c103.p.ssafy.io:3001/insertOrder", {
+        // .get("http://localhost:3001/insertOrder", {
         params: {
           waitingNum: waitingNum,
           faceID: faceID,
