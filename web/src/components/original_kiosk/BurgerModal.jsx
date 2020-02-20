@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
   details: {
     display: "flex",
     flexDirection: "column",
-    paddingRight: 20
+    paddingRight: 20,
+    paddingTop: 20
   },
   img: {
     marginLeft: 20,
