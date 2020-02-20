@@ -18,6 +18,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Webcam from "react-webcam";
 import Order from "../../pages/customer/kiosk-order";
+import gif from "./cuty_burger.gif";
+
 var AWS = require("aws-sdk");
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -37,7 +39,7 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: url(https://ssafy-kiosk-menu-images.s3.ap-northeast-2.amazonaws.com/main/mainImage.jpg);
+  background: url(https://ssafy-kiosk-menu-images.s3.ap-northeast-2.amazonaws.com/main/mainImage_opacity50.jpg.png);
   background-size: cover;
 `;
 const videoConstraints = {
@@ -337,7 +339,7 @@ const AuthPage = props => {
           />
         </Paper>
         <br></br>
-
+        <img src={gif} alt="웃어 주세요 gif 파일" style={{ marginTop: 100 }} />
         <Backdrop className={classes.backdrop} open={backdrop} onClick={handleCloseBackdrop}>
           <CircularProgress color="inherit" />
         </Backdrop>
