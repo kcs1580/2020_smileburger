@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import socketio from "socket.io-client";
 import Axios from "axios";
+
 // let num = 1;
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,19 +20,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 // const socket = socketio.connect("http://i02c103.p.ssafy.io:3001");
-const socket = socketio.connect("http://13.124.177.255:3001");
-(() => {
-  socket.emit("joinRoom", { roomName: "myroom" });
-  console.log("joingroom waiting");
-})();
+
 const Waiting = () => {
+  const socket = socketio.connect("http://13.124.177.255:3001");
+  useEffect(() => {
+    socket.emit("joinRoom", { roomName: "myroom" });
+    console.log("joinroom done");
+  }, []);
+
   const classes = useStyles();
   const [li, setLi] = useState([]);
   // const list = li.map(nu2 => <div>{nu2}</div>)
   // ---------------
+
   // useEffect(() => {   const list = li.map(nu2 => <div>{nu2}</div>)}, [li])
   // ----------------
   // const list = li.map(nu2 => {   return <div>{nu2}</div>; });
+
   socket.on("recMsg", data => {
     console.log("메세지 받았따");
     // Axios.get("http://i02c103.p.ssafy.io:3001/getpreNumbers")
@@ -51,6 +56,7 @@ const Waiting = () => {
         console.log(err);
       });
   });
+
   const GetList = () =>
     li.map((nu2, idx) => {
       return (
@@ -63,7 +69,9 @@ const Waiting = () => {
         </Grid>
       );
     });
+
   // socket.emit();
+
   return (
     <div className={classes.root}>
       <Grid container spacing={5}>
@@ -72,4 +80,5 @@ const Waiting = () => {
     </div>
   );
 };
+
 export default Waiting;
