@@ -48,7 +48,7 @@ const useStyles = makeStyles({
   },
   eachRequestGroup: {
     margin: 0,
-    width: 900,
+    // width: 900,
     padding: 20,
     height: 340,
     overflow: "auto"

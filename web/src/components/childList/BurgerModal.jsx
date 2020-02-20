@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitle2: {
     backgroundColor: "red",
-    width: "900px",
+    // width: "900px",
     height: 69,
     color: "white",
     padding: 0
