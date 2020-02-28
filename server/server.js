@@ -68,8 +68,5 @@ io.on("connection", function(socket) {
     // io.sockets.in(roomName).emit("recMsg", { orderNum: data.orderNum, isReady: data.isReady });
   });
 });
-app.get("/", function(req, res) {
-  res.send("Hello Vote On~");
-});
 
 module.exports = app;
